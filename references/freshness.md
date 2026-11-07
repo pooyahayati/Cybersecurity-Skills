@@ -1,6 +1,9 @@
 # Current-version and integrity contract
 
-This is the required M1 behavior, not an implemented updater in the foundation.
+M1 implements this contract for public GitHub components and one official Docker
+runtime channel. Read [the operator guide](../docs/M1-OPERATIONS.md) for supported
+schemas, explicit trust assumptions and commands. Other source/backend adapters
+remain unimplemented; this policy does not grant them an execution bypass.
 
 ## Resolution
 
@@ -53,7 +56,9 @@ silently use a previous version and call it current. A retained previous artifac
 may support recovery of the tool installation, but cannot meet the current-version
 gate. Continue independent safe planning with an explicit coverage gap.
 
-Do not let unsigned agent-written success flags authorize execution. M1 must define
-the trusted producer and verifier for receipts and enforce policy in the execution
-component. If the host cannot enforce isolation or permissions, disclose that fact
-and do not claim host-enforced protection.
+Do not let unsigned agent-written success flags authorize execution. The M1
+controller signs private state with a local HMAC key and verifies it before use.
+The controller, operator and OS account are trusted; an actor controlling the key
+or host can forge or roll back state. Explicit revocation is implemented; automatic
+advisory discovery is not. If the host cannot enforce isolation or permissions,
+block affected execution and do not claim host-enforced protection.

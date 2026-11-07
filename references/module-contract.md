@@ -39,6 +39,6 @@ unsupported required checks remain blocked. Never simulate a specialist result.
 Keep unresolved findings distinct from rejected false positives. Independent
 verification requires an actually separate review, not a renamed self-review.
 
-The foundation source catalog deliberately has no executable command or enabled
+The assessment source catalog deliberately has no executable command or enabled
 adapter. Candidate metadata is research input only. Adding an operational adapter
 requires code, safety tests, behavioral evidence and an explicit capability change.

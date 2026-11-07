@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate this development foundation, without executing or fetching resources.
+"""Validate this development package, without executing or fetching resources.
 
 This intentionally narrow validator is not a security scanner, freshness verifier,
 general schema validator, or a defense against concurrent filesystem replacement.
@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import posixpath
 import re
 from pathlib import Path, PurePosixPath
 from urllib.parse import unquote, urlsplit
@@ -28,7 +29,7 @@ REQUIRED_FILES = (
     "docs/SOURCE_REVIEW.md", "references/freshness.md",
     "references/module-contract.md", "references/scope-and-safety.md",
     "references/evidence.md", "templates/assessment-report.md",
-    "templates/assessment-scope.md",
+    "templates/assessment-scope.md", "docs/M1-CONTROL-PLANE.md", "docs/M1-OPERATIONS.md",
 )
 
 
@@ -122,9 +123,9 @@ def validate(root: Path) -> dict:
     require(project["name"] == "cybersecurity-skills", "unexpected skill identity")
     require(isinstance(project["version"], str)
             and re.fullmatch(r"0\.\d+\.\d+-dev", project["version"]) is not None,
-            "foundation requires a development version")
-    require(project["maturity"] == "foundation" and project["operational"] is False,
-            "foundation cannot declare operational readiness")
+            "package requires a development version")
+    require(project["maturity"] == "control-plane" and project["operational"] is False,
+            "M1 cannot declare operational assessment readiness")
     require(project["entrypoint"] == "SKILL.md"
             and project["modules_catalog"] == "config/modules.json"
             and project["sources_catalog"] == "config/sources.json",
@@ -204,10 +205,16 @@ def validate(root: Path) -> dict:
                 require(not parsed.scheme and not parsed.netloc,
                         "unsupported documentation link scheme")
                 if parsed.path:
-                    relative = str(PurePosixPath(name).parent / unquote(parsed.path))
+                    relative = posixpath.normpath(str(PurePosixPath(name).parent / unquote(parsed.path)))
                     reader.read(relative)
 
-    return {"result": "foundation_valid", "scope": "repository_structure_only",
+    from security_runtime.controller import HEAD_RESOURCES
+    from security_runtime.sources import source_spec
+    head = source_spec(reader.json("config/head-source.json"))
+    require(head["id"] == "head" and head["kind"] == "head"
+            and sorted(head["include"]) == sorted(HEAD_RESOURCES), "invalid head resource contract")
+
+    return {"result": "structure_valid", "scope": "repository_structure_only",
             "operational_assessment": False, "freshness_verified": False,
             "version": project["version"], "modules": len(identifiers),
             "candidate_sources": len(source_ids), "files_checked": len(reader.contents),
@@ -224,7 +231,7 @@ def main() -> int:
             RecursionError, ValueError) as exc:
         # Do not echo arbitrary JSON values or file content into public CI logs.
         message = str(exc) if isinstance(exc, ValidationError) else "unreadable or malformed input"
-        print(json.dumps({"result": "invalid_foundation", "error": message,
+        print(json.dumps({"result": "invalid_structure", "error": message,
                           "operational_assessment": False}))
         return 1
     print(json.dumps(result, indent=2))

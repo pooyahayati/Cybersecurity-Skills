@@ -40,7 +40,7 @@ class FoundationTests(unittest.TestCase):
         after = {p.relative_to(self.root): p.read_bytes()
                  for p in self.root.rglob("*") if p.is_file()}
         self.assertEqual(before, after)
-        self.assertEqual(result["result"], "foundation_valid")
+        self.assertEqual(result["result"], "structure_valid")
         self.assertFalse(result["operational_assessment"])
         self.assertFalse(result["freshness_verified"])
 
@@ -58,7 +58,7 @@ class FoundationTests(unittest.TestCase):
 
     def test_catalog_flag_cannot_promote_foundation_to_operational(self):
         self.edit("config/project.json", lambda d: d.update(operational=True))
-        self.invalid("operational readiness")
+        self.invalid("operational assessment readiness")
 
     def test_module_cannot_claim_implemented_execution(self):
         self.edit("config/modules.json", lambda d: d["modules"][0].update(state="implemented"))
@@ -80,6 +80,13 @@ class FoundationTests(unittest.TestCase):
     def test_traversal_reference_is_rejected(self):
         (Path(self.temp.name) / "outside.md").write_text("private", encoding="utf-8")
         self.edit("config/modules.json", lambda d: d["modules"][0].update(entrypoint="../outside.md"))
+        self.invalid("contained relative path")
+
+    def test_relative_document_links_remain_inside_package(self):
+        path = self.root / "docs/ARCHITECTURE.md"
+        path.write_text("[Readme](../README.md)\n", encoding="utf-8")
+        self.assertEqual(validate(self.root)["result"], "structure_valid")
+        path.write_text("[Escape](../../outside.md)\n", encoding="utf-8")
         self.invalid("contained relative path")
 
     def test_nonstring_file_reference_fails_cleanly(self):
@@ -113,7 +120,7 @@ class FoundationTests(unittest.TestCase):
         self.invalid("missing or unreadable")
 
     def test_mismatched_skill_version_fails(self):
-        self.edit("config/project.json", lambda d: d.update(version="0.2.0-dev"))
+        self.edit("config/project.json", lambda d: d.update(version="0.999.0-dev"))
         self.invalid("versions differ")
 
     def test_noncanonical_source_cannot_masquerade_as_github(self):
@@ -138,7 +145,7 @@ class FoundationTests(unittest.TestCase):
             capture_output=True, text=True, timeout=15, check=False)
         self.assertEqual(result.returncode, 1)
         self.assertNotIn("SENSITIVE_CANARY", result.stdout + result.stderr)
-        self.assertEqual(json.loads(result.stdout)["result"], "invalid_foundation")
+        self.assertEqual(json.loads(result.stdout)["result"], "invalid_structure")
 
 
 if __name__ == "__main__":

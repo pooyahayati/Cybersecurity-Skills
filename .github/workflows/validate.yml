@@ -1,4 +1,4 @@
-name: Foundation validation
+name: Package and M1 validation
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: foundation-${{ github.workflow }}-${{ github.ref }}
+  group: validation-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -32,9 +32,24 @@ jobs:
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: ${{ matrix.python }}
-      - name: Validate foundation structure
+      - name: Validate package structure
         run: python scripts/validate_project.py
-      - name: Run foundation regression tests
-        run: python -m unittest discover -s tests -v
+      - name: Run structural and M1 regression tests
+        run: python -B -m unittest discover -s tests -v
       - name: Check whitespace
         run: git show --format= --check HEAD
+  isolation:
+    name: Real Docker isolation (Linux)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out the exact revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.x'
+      - name: Exercise real protected-state and interruption boundaries
+        run: python -B tests/docker_integration.py --docker /usr/bin/docker

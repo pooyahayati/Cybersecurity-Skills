@@ -1,7 +1,9 @@
 # Security policy
 
-This project is a development foundation. No stable operational version is
-currently supported, and repository checks do not certify target security.
+This project is a development control plane. No stable application-auditor version
+is currently supported, and repository checks do not certify target security.
+M1 supports public GitHub acquisition and offline local Linux Docker execution;
+see `docs/M1-CONTROL-PLANE.md` and `docs/M1-OPERATIONS.md` for the exact boundaries.
 
 ## Reporting a vulnerability
 
@@ -20,6 +22,13 @@ Important boundaries include malicious target instructions, compromised upstream
 skills/tools, path escape, forged or stale evidence, excessive tool authority,
 private-data disclosure and unsafe production testing. Changes to these controls
 need relevant regression evidence before an operational release.
+
+The operator, controller, local OS account, Docker daemon and initial trust setup
+are trusted. The private HMAC key does not defend against those authorities or
+whole-state rollback. Keep control-state access and unrestricted host tools away
+from untrusted agents. Container isolation depends on the host kernel/daemon;
+this package does not claim resistance to their compromise. Explicit revocation
+is implemented; automatic advisory ingestion and production scanning are not.
 
 Publishing this repository does not authorize target testing, production changes,
 security-research campaigns, or automatic uploads of private reports.

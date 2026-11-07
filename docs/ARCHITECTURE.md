@@ -16,7 +16,7 @@ access without pretending that unavailable surfaces were assessed.
 | Domain module | Scoped methods, findings, counterevidence, verification requirements | Global workflow, expanded access, release approval |
 | Platform adapter | Version-appropriate behavior for an observed platform | A mandatory platform or automatic application upgrade |
 | Tool adapter | Bounded execution, version/data identity, normalized observations | Truth of a finding or permission to test |
-| Execution controller, planned | Enforced scope, limits, cancellation, activation and receipts | Product decisions or permission inferred from target text |
+| Execution controller, M1 | Reviewed activation, offline Docker scope/limits, cancellation and authenticated records | Product decisions or permission inferred from target text |
 
 `SKILL.md` is the compact entrypoint. `config/modules.json` catalogs original
 domain guidance; `config/sources.json` lists disabled external candidates.
@@ -27,11 +27,13 @@ review. There is no mandatory outside head skill and no wholesale plugin import.
 
 1. **Independent runtime.** Vibe is a development method only. The runtime catalog
    must not depend on Vibe or the excluded Persian-writing skill.
-2. **Stdlib foundation.** Python 3.11+ is sufficient for deterministic repository
-   checks. No service, database, container stack or dependency manager is needed
-   for the initial package. Add one only for a demonstrated implementation need.
+2. **Stdlib controller.** Python 3.11+ and SQLite from its standard library provide
+   parsing, authenticated atomic state and controller logic. M1 uses an existing
+   local Linux Docker engine for enforced execution; no Python dependency manager
+   or always-running controller service is required.
 3. **Policy versus enforcement.** Written requirements are not an enforcement
-   engine. M1 must implement and test executable controls before operational use.
+   engine. M1 implements the bounded controls described in
+   [its design](M1-CONTROL-PLANE.md); an application auditor remains later work.
 4. **Current but reproducible.** Resolve the current official stable candidate,
    verify it, then freeze exact identities for one bounded run. Never silently
    fall back to stale components. An unavailable optional module does not stop
