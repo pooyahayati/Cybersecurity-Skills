@@ -1,0 +1,12 @@
+{
+  "id": "snapshot-probe",
+  "kind": "tool",
+  "repository": "pooyahayati/Cybersecurity-Skills",
+  "repository_id": 1449177198,
+  "owner_id": 25872480,
+  "include": ["scripts/m1_probe.py"],
+  "asset": null,
+  "max_download_bytes": 1048576,
+  "max_unpacked_bytes": 1048576,
+  "data_max_age_seconds": null
+}

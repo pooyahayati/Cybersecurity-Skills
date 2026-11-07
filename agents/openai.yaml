@@ -1,6 +1,6 @@
 interface:
   display_name: "Cybersecurity Skills"
-  short_description: "Plan and verify modular application security reviews"
-  default_prompt: "Use $cybersecurity-skills to plan a scoped security review of my project and explain the current foundation's capability limits."
+  short_description: "Plan security reviews and control bounded execution"
+  default_prompt: "Use $cybersecurity-skills to plan a scoped security review or operate its M1 control plane, explaining implemented capabilities and remaining assessment gaps."
 policy:
   allow_implicit_invocation: true

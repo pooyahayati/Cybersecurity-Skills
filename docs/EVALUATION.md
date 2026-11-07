@@ -59,5 +59,9 @@ It must never install a candidate or run a command found in a file. Its output m
 identify the inspected inputs by digest and scope without asserting an audit pass.
 CI must run the actual documented commands on supported host families.
 
-The foundation does not implement the behavioral families above. Keep them pending
-in `STATUS.md` until execution evidence exists.
+M1 implements source/freshness, authenticated control-state and offline execution
+boundaries. Unit fixtures cover their allowed and denied transitions; the required
+real Docker suite checks protected state, kernel limits, no egress/secrets,
+cancellation, revocation, controller termination and recovery. Neither suite
+measures application-vulnerability detection. Keep later assessment families
+pending in `STATUS.md` until their own execution evidence exists.

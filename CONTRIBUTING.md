@@ -6,18 +6,25 @@ change that closes an acceptance criterion over adding speculative features.
 
 ## Local checks
 
-Use an existing Python 3.11+ interpreter. The foundation uses only the standard
+Use an existing Python 3.11+ interpreter. The controller uses only the standard
 library; there is no dependency installation step.
 
 ```bash
 python scripts/validate_project.py
 python -m unittest discover -s tests -v
+python -B tests/docker_integration.py --docker /absolute/path/to/docker
 git diff --check
 ```
 
 On Windows, use the full path to an actual interpreter if `python` resolves to a
 nonfunctional application alias. Tests create temporary fixture copies in the OS
 temporary directory and do not modify the checked-out project or access a target.
+The real Docker suite requires a running local Linux daemon and registry access;
+it fails rather than skips if isolation is unavailable. It creates synthetic
+snapshots and only its own labeled containers. Unit tests do not need Docker or
+network access. Run hard-link/symlink tests in a host context that permits their
+creation; Linux CI must exercise them without a skip. Windows may need Developer
+Mode or appropriate symlink privileges for the existing symlink fixture.
 
 The validator checks this project's intentionally limited metadata format and
 relative file references. It is not a general YAML/JSON Schema validator, a

@@ -1,0 +1,12 @@
+{
+  "id": "head",
+  "kind": "head",
+  "repository": "pooyahayati/Cybersecurity-Skills",
+  "repository_id": 1449177198,
+  "owner_id": 25872480,
+  "include": ["SKILL.md", "README.md", "AGENTS.md", "ROADMAP.md", "STATUS.md", "CHANGELOG.md", "CONTRIBUTING.md", "SECURITY.md", "THIRD_PARTY_NOTICES.md", "LICENSE", "scripts", "references", "config", "agents", "docs", "templates"],
+  "asset": null,
+  "max_download_bytes": 8388608,
+  "max_unpacked_bytes": 8388608,
+  "data_max_age_seconds": null
+}

@@ -14,9 +14,15 @@ templates; repository validator; regression checks; GitHub integration.
 foundation limits are explicit; private artifacts are excluded; reviewed changes
 are integrated and CI results are observed. No operational assessment claim.
 
-## M1 — Freshness and controlled execution (next)
+## M1 — Freshness and controlled execution
 
 **Depends on:** M0.
+
+Implemented scope and operator contracts are in
+[M1 control-plane design](docs/M1-CONTROL-PLANE.md) and
+[M1 operations](docs/M1-OPERATIONS.md). See `STATUS.md` for verified delivery state.
+The first backend is offline local Linux Docker, with public GitHub acquisition;
+network-enabled and other execution backends require separate future work.
 
 - Resolve current stable releases from explicit official sources. Use the latest
   authoritative default-branch commit only when a project has no stable release.
