@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "modules": [
+    {
+      "id": "architecture",
+      "title": "Architecture and threat model",
+      "entrypoint": "references/modules/architecture.md",
+      "state": "guidance",
+      "activation": "Architecture and trust boundaries are always relevant to assessment planning.",
+      "inputs": [
+        "available source or system description",
+        "target and environment scope"
+      ],
+      "outputs": [
+        "scoped findings and counterevidence",
+        "coverage and limitations",
+        "fix and verification requirements"
+      ]
+    },
+    {
+      "id": "identity",
+      "title": "Identity, authorization and sessions",
+      "entrypoint": "references/modules/identity.md",
+      "state": "guidance",
+      "activation": "Authentication, user roles, accounts, tenant boundaries, or their presence is unknown.",
+      "inputs": [
+        "role and ownership model",
+        "session and account-recovery flows"
+      ],
+      "outputs": [
+        "scoped findings and counterevidence",
+        "coverage and limitations",
+        "fix and verification requirements"
+      ]
+    },
+    {
+      "id": "data-protection",
+      "title": "Sensitive data and privacy",
+      "entrypoint": "references/modules/data-protection.md",
+      "state": "guidance",
+      "activation": "The system collects, stores, transports, exports or may expose customer or secret data.",
+      "inputs": [
+        "data inventory and purposes",
+        "storage, logging, retention and sharing paths"
+      ],
+      "outputs": [
+        "scoped findings and counterevidence",
+        "coverage and limitations",
+        "fix and verification requirements"
+      ]
+    },
+    {
+      "id": "application",
+      "title": "Application code and input boundaries",
+      "entrypoint": "references/modules/application.md",
+      "state": "guidance",
+      "activation": "Source, APIs, files, user input or external integrations cross a trust boundary.",
+      "inputs": [
+        "actual languages and frameworks",
+        "entrypoints and reachable operations"
+      ],
+      "outputs": [
+        "scoped findings and counterevidence",
+        "coverage and limitations",
+        "fix and verification requirements"
+      ]
+    },
+    {
+      "id": "business-logic",
+      "title": "Business logic and concurrent integrity",
+      "entrypoint": "references/modules/business-logic.md",
+      "state": "guidance",
+      "activation": "Transactions, payments, entitlements, reservations or ordered workflows affect valuable state.",
+      "inputs": [
+        "business invariants",
+        "actor, state and retry/concurrency behavior"
+      ],
+      "outputs": [
+        "scoped findings and counterevidence",
+        "coverage and limitations",
+        "fix and verification requirements"
+      ]
+    },
+    {
+      "id": "supply-chain",
+      "title": "Dependencies, secrets and supply chain",
+      "entrypoint": "references/modules/supply-chain.md",
+      "state": "guidance",
+      "activation": "Packages, build tools, credentials, images or third-party components are used.",
+      "inputs": [
+        "manifests and lockfiles when available",
+        "artifact and secret-handling paths"
+      ],
+      "outputs": [
+        "scoped findings and counterevidence",
+        "coverage and limitations",
+        "fix and verification requirements"
+      ]
+    },
+    {
+      "id": "infrastructure",
+      "title": "Infrastructure and configuration",
+      "entrypoint": "references/modules/infrastructure.md",
+      "state": "guidance",
+      "activation": "Host, network, cloud, container, database or storage controls are in scope.",
+      "inputs": [
+        "available configuration and access",
+        "resource ownership and environment identity"
+      ],
+      "outputs": [
+        "scoped findings and counterevidence",
+        "coverage and limitations",
+        "fix and verification requirements"
+      ]
+    },
+    {
+      "id": "delivery",
+      "title": "CI/CD and release verification",
+      "entrypoint": "references/modules/delivery.md",
+      "state": "guidance",
+      "activation": "Build, release, deployment, environment separation or post-release checks are in scope.",
+      "inputs": [
+        "pipeline and artifact identity",
+        "release, rollback and environment controls"
+      ],
+      "outputs": [
+        "scoped findings and counterevidence",
+        "coverage and limitations",
+        "fix and verification requirements"
+      ]
+    },
+    {
+      "id": "deployed-web",
+      "title": "Deployed web and API assessment",
+      "entrypoint": "references/modules/deployed-web.md",
+      "state": "guidance",
+      "activation": "A scoped web/API target and permission for the intended requests are available.",
+      "inputs": [
+        "exact hosts and allowed effects",
+        "test accounts, request budgets and stop conditions"
+      ],
+      "outputs": [
+        "scoped findings and counterevidence",
+        "coverage and limitations",
+        "fix and verification requirements"
+      ]
+    },
+    {
+      "id": "resilience",
+      "title": "Capacity, availability and recovery",
+      "entrypoint": "references/modules/resilience.md",
+      "state": "guidance",
+      "activation": "Capacity, concurrency, recovery, incidents or operational readiness are in scope.",
+      "inputs": [
+        "representative workloads and data",
+        "budgets, stop conditions and recovery objectives"
+      ],
+      "outputs": [
+        "scoped findings and counterevidence",
+        "coverage and limitations",
+        "fix and verification requirements"
+      ]
+    },
+    {
+      "id": "ai-security",
+      "title": "AI application and agent security",
+      "entrypoint": "references/modules/ai-security.md",
+      "state": "guidance",
+      "activation": "The target uses models, retrieval, tools, agent memory or model-driven actions.",
+      "inputs": [
+        "model and tool trust boundaries",
+        "data flows, permissions and action budgets"
+      ],
+      "outputs": [
+        "scoped findings and counterevidence",
+        "coverage and limitations",
+        "fix and verification requirements"
+      ]
+    }
+  ]
+}

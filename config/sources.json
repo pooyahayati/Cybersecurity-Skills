@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "strategy": "latest-stable-or-default-branch",
+    "silent_stale_fallback": false,
+    "activation": "reviewed-adapter-required"
+  },
+  "sources": [
+    {
+      "id": "brii-security",
+      "kind": "skill",
+      "repository": "https://github.com/briiirussell/cybersecurity-skills",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Broad security assessment and triage candidate."
+    },
+    {
+      "id": "trailofbits",
+      "kind": "skill",
+      "repository": "https://github.com/trailofbits/skills",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Deep source and post-patch verification candidates."
+    },
+    {
+      "id": "cloudflare-audit",
+      "kind": "skill",
+      "repository": "https://github.com/cloudflare/security-audit-skill",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Source audit evidence and refutation methods."
+    },
+    {
+      "id": "addy-hardening",
+      "kind": "skill",
+      "repository": "https://github.com/addyosmani/agent-skills",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Focused secure-development guidance."
+    },
+    {
+      "id": "wordpress",
+      "kind": "skill",
+      "repository": "https://github.com/WordPress/agent-skills",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Conditional WordPress and WooCommerce platform guidance."
+    },
+    {
+      "id": "openai-security",
+      "kind": "skill",
+      "repository": "https://github.com/openai/skills",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Selected threat-model and supported-language guidance."
+    },
+    {
+      "id": "trivy",
+      "kind": "tool",
+      "repository": "https://github.com/aquasecurity/trivy",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Supported artifact, secret, dependency and configuration scanning."
+    },
+    {
+      "id": "k6",
+      "kind": "tool",
+      "repository": "https://github.com/grafana/k6",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Measured load and capacity scenarios."
+    },
+    {
+      "id": "semgrep",
+      "kind": "tool",
+      "repository": "https://github.com/semgrep/semgrep",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Supported source analysis; inspect edition and license requirements."
+    },
+    {
+      "id": "zap",
+      "kind": "tool",
+      "repository": "https://github.com/zaproxy/zaproxy",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Scoped dynamic web/API assessment."
+    }
+  ]
+}
