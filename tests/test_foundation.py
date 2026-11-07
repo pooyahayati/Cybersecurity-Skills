@@ -100,6 +100,8 @@ class FoundationTests(unittest.TestCase):
         try:
             entry.symlink_to(target)
         except OSError as exc:
+            if sys.platform != "win32":
+                raise  # Linux CI must exercise this boundary, not silently skip it.
             self.skipTest(f"host cannot create a symlink: {exc.errno}")
         self.invalid("escapes project root")
 
