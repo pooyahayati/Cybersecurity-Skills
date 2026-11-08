@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.0-dev — 2026-11-08
+
+- Add bounded selected-file discovery and passive source/URL/combined intake;
+  distinguish declarations, captured bytes, deployed artifacts and unknowns.
+- Add module planning routes and twelve partial versioned control templates;
+  preserve unavailable surfaces and require evidence-backed review/exclusions.
+- Add a private authenticated assessment ledger, exact context and M1 producer
+  bindings, all-input dependency checks, expiry and selective invalidation.
+- Record findings, counterevidence, scoped root-cause groups and attack-chain
+  relationships without automatic security or remediation-success claims.
+- Generate redacted JSON and standalone Markdown with actionable evidence,
+  customer impact, fix guidance and retest requirements; preserve protocol keys.
+- Add behavioral/privacy regressions, an actual CLI workflow and a real Docker
+  producer bridge; expand English operator documentation and README tables.
+- Keep M3-M6, external assessment adapters and all live testing unimplemented.
+
 ## 0.2.0-dev — 2026-11-07
 
 - Implement public GitHub current-source resolution, enrolled publisher identity,

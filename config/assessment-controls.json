@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "catalog_version": "1.0",
+  "coverage": "partial planning inventory; not standards certification",
+  "reference_snapshot": {
+    "standard": "OWASP ASVS",
+    "edition": "5.0.0",
+    "release": "https://github.com/OWASP/ASVS/releases/tag/v5.0.0_release",
+    "checked_on": "2026-11-08",
+    "selection": "Numbered published edition; the rolling latest artifact is labeled Bleeding Edge. Edition references are historical mappings, not automatic current-version assertions."
+  },
+  "controls": [
+    {"id":"architecture","module":"architecture","title":"Map assets and trust boundaries","surfaces":["context"],"actor_specific":false,"methods":["design_review"],"asvs_chapter":"V15","next_step":"Confirm assets, actors, data flows and trust boundaries with the owner."},
+    {"id":"identity","module":"identity","title":"Review account and session boundaries","surfaces":["source","deployment"],"actor_specific":true,"methods":["source_reasoning","configuration_inspection","controlled_reproduction","deployed_observation"],"asvs_chapter":"V6","next_step":"Trace login, recovery and session controls, then test allowed and denied roles."},
+    {"id":"authorization","module":"identity","title":"Review ownership and tenant isolation","surfaces":["source","deployment"],"actor_specific":true,"methods":["source_reasoning","controlled_reproduction","deployed_observation"],"asvs_chapter":"V8","next_step":"Check owner, non-owner and cross-tenant access to the same protected resource."},
+    {"id":"data","module":"data-protection","title":"Review sensitive data handling","surfaces":["source","deployment"],"actor_specific":true,"methods":["source_reasoning","configuration_inspection","controlled_reproduction","deployed_observation"],"asvs_chapter":"V14","next_step":"Locate sensitive data, access paths, logs, retention and deletion behavior."},
+    {"id":"application","module":"application","title":"Review input and output boundaries","surfaces":["source","deployment"],"actor_specific":false,"methods":["source_reasoning","controlled_reproduction","deployed_observation"],"asvs_chapter":"V1","next_step":"Trace untrusted input to queries, files, requests and rendered output."},
+    {"id":"business","module":"business-logic","title":"Review business-state invariants","surfaces":["source","deployment"],"actor_specific":true,"methods":["source_reasoning","controlled_reproduction","deployed_observation"],"asvs_chapter":"V2","next_step":"Define legitimate state transitions and check retries, ordering and abuse cases."},
+    {"id":"dependencies","module":"supply-chain","title":"Review dependency and secret boundaries","surfaces":["source"],"actor_specific":false,"methods":["source_reasoning","configuration_inspection","controlled_reproduction"],"asvs_chapter":"V15","next_step":"Verify the actual lockfiles, dependency identities and credential handling."},
+    {"id":"infrastructure","module":"infrastructure","title":"Review infrastructure permissions and exposure","surfaces":["deployment"],"actor_specific":false,"methods":["configuration_inspection","deployed_observation"],"asvs_chapter":"V13","next_step":"Obtain scoped configuration evidence for storage, host and cloud access."},
+    {"id":"delivery","module":"delivery","title":"Verify artifact and environment correspondence","surfaces":["deployment"],"actor_specific":false,"methods":["configuration_inspection","deployed_observation"],"asvs_chapter":null,"next_step":"Independently identify the deployed artifact; a local commit is insufficient."},
+    {"id":"web","module":"deployed-web","title":"Review deployed web and API exposure","surfaces":["deployment"],"actor_specific":false,"methods":["deployed_observation"],"asvs_chapter":"V12","next_step":"Plan explicitly scoped runtime checks; a URL alone is not execution permission."},
+    {"id":"resilience","module":"resilience","title":"Verify capacity and recovery evidence","surfaces":["deployment"],"actor_specific":false,"methods":["configuration_inspection","deployed_observation"],"asvs_chapter":null,"next_step":"Define workload and recovery expectations before separately authorized tests."},
+    {"id":"ai","module":"ai-security","title":"Review model, data and tool trust boundaries","surfaces":["source","deployment"],"actor_specific":false,"methods":["source_reasoning","controlled_reproduction","deployed_observation"],"asvs_chapter":null,"next_step":"Confirm actual AI use; inspect sensitive context, retrieval and tool permissions."}
+  ]
+}

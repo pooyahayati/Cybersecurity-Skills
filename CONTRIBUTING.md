@@ -12,6 +12,7 @@ library; there is no dependency installation step.
 ```bash
 python scripts/validate_project.py
 python -m unittest discover -s tests -v
+python -B tests/m2_workflow.py
 python -B tests/docker_integration.py --docker /absolute/path/to/docker
 git diff --check
 ```
@@ -25,6 +26,13 @@ snapshots and only its own labeled containers. Unit tests do not need Docker or
 network access. Run hard-link/symlink tests in a host context that permits their
 creation; Linux CI must exercise them without a skip. Windows may need Developer
 Mode or appropriate symlink privileges for the existing symlink fixture.
+
+The M2 CLI workflow tests source-only, URL-only and combined intake, reporting,
+unchanged target bytes, secret canaries and invalidation. The real Docker suite
+also imports an actual M1 operation into M2 and rejects invented provenance.
+Neither measures application vulnerability-detection accuracy. Keep new catalog,
+evidence-binding and redaction checks behavioral: verify the prohibited effect
+and a relevant legitimate path, not merely a helper's internal representation.
 
 The validator checks this project's intentionally limited metadata format and
 relative file references. It is not a general YAML/JSON Schema validator, a

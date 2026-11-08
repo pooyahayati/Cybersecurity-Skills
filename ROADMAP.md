@@ -47,6 +47,10 @@ can continue with a precise blocked-module explanation.
 
 **Depends on:** M1 for operational execution.
 
+Implemented design and operator contracts are in
+[M2 discovery and evidence](docs/M2-DISCOVERY-EVIDENCE.md) and
+[M2 operations](docs/M2-OPERATIONS.md). Current verified results are in `STATUS.md`.
+
 - Discover source-only, URL-only and combined target capabilities; retain unknowns.
 - Map actors, assets, data flows, stack versions and environment identities.
 - Route modules from corroborated facts. Inventory applicable controls with

@@ -33,7 +33,7 @@ related variants, owner, prerequisites and rollback/recovery where relevant.
 For rejected mutations verify protected state remains unchanged. For reads verify
 the sensitive content is not disclosed, not merely that the status code changed.
 
-Use separate states: `open`, `fix_proposed`, `fixed_in_source`, `verified_local`,
+The later remediation implementation must use separate states: `open`, `fix_proposed`, `fixed_in_source`, `verified_local`,
 `verified_staging`, `verified_production`, and `reopened`. Attach evidence to each
 claimed transition. A source patch does not imply a new artifact was deployed.
 Record valid risk acceptance separately with owner, reason, scope and review date;
@@ -45,7 +45,17 @@ Bind evidence to source/configuration inputs, artifact, environment, identity/ro
 workload/dataset where relevant, tool/rule/data identities and observation time.
 Changes to relevant inputs invalidate that claim. Reuse still-valid unrelated
 evidence. A copied timestamp or user-written success flag does not authenticate an
-execution; the future controller must verify the actual producer and bindings.
+execution. M2 resolves authenticated M1 producer records, verifies their output
+digest and all mounted input dependencies, and rejects caller-supplied verification
+flags. M2 operator observations retain that weaker provenance. Role identity and
+deployed artifact declarations are not independently authenticated by M2.
+
+M2 checks validity when evidence is used and when a report is generated. Refresh
+invalidates affected claims while preserving unrelated ones; expiry and explicit
+invalidation remain effective. Engine/catalog changes require a new assessment.
+The implemented ledger always reports remediation as `not_verified`; later
+remediation states above are requirements, not currently accepted transitions.
+See [the operator contract](../docs/M2-OPERATIONS.md).
 
 ## Delivery
 
