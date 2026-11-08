@@ -30,6 +30,7 @@ REQUIRED_FILES = (
     "references/module-contract.md", "references/scope-and-safety.md",
     "references/evidence.md", "templates/assessment-report.md",
     "templates/assessment-scope.md", "docs/M1-CONTROL-PLANE.md", "docs/M1-OPERATIONS.md",
+    "docs/M2-DISCOVERY-EVIDENCE.md", "docs/M2-OPERATIONS.md", "config/assessment-controls.json",
 )
 
 
@@ -124,8 +125,8 @@ def validate(root: Path) -> dict:
     require(isinstance(project["version"], str)
             and re.fullmatch(r"0\.\d+\.\d+-dev", project["version"]) is not None,
             "package requires a development version")
-    require(project["maturity"] == "control-plane" and project["operational"] is False,
-            "M1 cannot declare operational assessment readiness")
+    require(project["maturity"] == "assessment-records" and project["operational"] is False,
+            "M2 cannot declare operational assessment readiness")
     require(project["entrypoint"] == "SKILL.md"
             and project["modules_catalog"] == "config/modules.json"
             and project["sources_catalog"] == "config/sources.json",
@@ -213,11 +214,17 @@ def validate(root: Path) -> dict:
     head = source_spec(reader.json("config/head-source.json"))
     require(head["id"] == "head" and head["kind"] == "head"
             and sorted(head["include"]) == sorted(HEAD_RESOURCES), "invalid head resource contract")
+    from security_assessment.service import load_catalog
+    try:
+        controls = load_catalog(reader.root)
+    except (ValueError, KeyError, TypeError) as exc:
+        raise ValidationError("invalid assessment control catalog") from exc
 
     return {"result": "structure_valid", "scope": "repository_structure_only",
             "operational_assessment": False, "freshness_verified": False,
             "version": project["version"], "modules": len(identifiers),
             "candidate_sources": len(source_ids), "files_checked": len(reader.contents),
+            "assessment_control_templates": len(controls["controls"]),
             "inputs_sha256": reader.fingerprint()}
 
 

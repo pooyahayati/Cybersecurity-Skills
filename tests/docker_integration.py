@@ -152,6 +152,34 @@ def run_suite(executable):
         require(b'"isolation": "passed"' in output and b"synthetic-ambient-value" not in output,
                 "isolation assertions did not complete")
         outcomes.append("readonly targets, no egress/secrets, nonroot/caps/seccomp prerequisites, kernel and scratch limits")
+        # M2 consumes a real successful M1 operation without interpreting a
+        # completed process as a completed security review.
+        from security_assessment.service import Assessment
+        from m2_support import model
+        assessment = Assessment(fixture.store, Path(__file__).resolve().parents[1])
+        assessment.create({"schema_version": 1, "id": "real-producer", "source": {
+            "root": str(fixture.target), "files": ["customer.txt"], "revision": None},
+            "deployments": [], "model": model(), "redact_values": []})
+        control_id = next(c["id"] for c in assessment.report("real-producer")["controls"]
+                          if c["catalog_id"] == "application" and c["surface"] == "source")
+        observed = fixture.store.get("operation", result["operation"])["finished_at"]
+        observation = {"schema_version": 1, "id": "isolated-probe", "control": control_id,
+                       "method": "controlled_reproduction", "actor": None, "files": ["customer.txt"], "context_refs": [],
+                       "summary": "Synthetic isolation assertions; no target vulnerability assessment.",
+                       "observed_at": observed, "expires_at": observed + 600, "operation": result["operation"]}
+        try:
+            assessment.record("real-producer", dict(observation, operation="op-" + "0" * 32), controller=True)
+        except Blocked:
+            pass
+        else:
+            raise AssertionError("invented execution provenance was accepted")
+        assessment.record("real-producer", observation, controller=True)
+        report = assessment.report("real-producer")
+        require(report["evidence"][0]["valid"] and report["evidence"][0]["origin"] == "m1_controller"
+                and report["coverage"]["reviewed"] == 0 and report["security_verdict"] == "not_established",
+                "M2 bridge lost provenance or promoted a process exit into security success")
+        preserved()
+        outcomes.append("M2 real producer provenance, forged operation rejection and no automatic security success")
         try:
             control.execute(control.begin("legitimate")["run"], "check")
         except Blocked:

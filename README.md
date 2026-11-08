@@ -5,8 +5,8 @@ can go wrong, what customer data is at risk, how to fix a confirmed weakness, an
 how to verify the result. It works independently of the person, framework or
 coding assistant that created a project. It does not require another head skill.
 
-**Development version: `0.2.0-dev`. M1 implements the freshness and restricted
-execution control plane.** Automated vulnerability discovery, scanner adapters,
+**Development version: `0.3.0-dev`. M2 implements bounded discovery, scoped evidence
+and redacted reports on the M1 freshness/execution foundation.** Vulnerability discovery, scanner adapters,
 remediation and live website/load testing remain later milestones. This is not
 a stable security-auditor release and does not establish that an application is secure.
 
@@ -25,10 +25,40 @@ The skill must retain those unknowns, distinguish staging from production, and
 explain next steps in plain language. Detection accuracy and remediation quality
 will be measured in the [evaluation protocol](docs/EVALUATION.md), not assumed.
 
-Today the package provides eleven domain guidance modules, planning/report
-templates, and an executable foundation for acquiring and running reviewed
-components. Use the domain material for planning; use the M1 controller for its
-documented operations. Neither is a completed customer audit.
+Today the package provides eleven domain guidance modules, a bounded intake and
+assessment ledger, useful private reports, and a foundation for acquiring and
+running reviewed components. These records help an agent organize and justify a
+review. They do not automatically find application vulnerabilities.
+
+## Implemented M2 assessment records
+
+- Accept source-only, URL-only and combined scope. Read only explicitly selected
+  regular files; do not run project code, installation hooks or website requests.
+- Discover file-language and structured dependency/version declarations. Keep
+  installed versions unknown. Corroborate WordPress hints with a package declaration
+  and source-version marker; treat AI dependencies as planning hints.
+- Retain declared actors, assets, flows and capabilities with explicit provenance.
+  Separate selected source digests from declared deployed artifacts and environments.
+- Route planning across the eleven modules using observed declarations and known
+  scope. Unknown capability or an unsupported claim of absence cannot hide a gap.
+- Inventory twelve partial control templates, expanded by surface, environment
+  and actor. Keep applicability, progress and outcome separate. Standard references
+  name a historical edition/chapter; this is not comprehensive ASVS certification.
+- Bind evidence to relevant files, model facts and environments. Authenticate M1
+  operation records and all producer-mounted inputs; reject fake flags, wrong targets,
+  changed output, revoked authority and stale data. Recheck validity on use/export.
+- Preserve findings, severity/confidence rationales, counterevidence and rejected
+  claims. Group explicit shared root causes without deleting conflicting members.
+  Validate attack-chain links without treating a relationship as a working exploit.
+- Generate private JSON and Markdown with priority, customer impact, location,
+  evidence, fix guidance, legitimate behavior to preserve and retest instructions.
+  Redact declared sensitive values and common credential/personal-data patterns;
+  escape untrusted Markdown. Review remaining sensitive prose before sharing.
+
+M2 records observations; they are not an automated verdict. Manual judgments remain
+labeled as such, process completion does not mark a control reviewed, and every
+report keeps `security_verdict: not_established`. Missing access stays visible.
+See [M2 operations](docs/M2-OPERATIONS.md) for exact commands, limits and contracts.
 
 ## Implemented M1 controls
 
@@ -61,7 +91,7 @@ See [the control-plane design](docs/M1-CONTROL-PLANE.md) for the trust model and
 
 ## Auxiliary skills and tools
 
-**No third-party assessment skill is automatically active in M1.** The controller
+**No third-party assessment skill is automatically active in M2.** The controller
 can acquire explicitly enrolled resources, but a catalog entry does not provide
 a reviewed assessment adapter or permission to invoke it. This table distinguishes
 development use from planned runtime composition.
@@ -71,6 +101,7 @@ development use from planned runtime composition.
 | `vibe-coding-skill` | Development workflow, evidence and delivery controls | Used to develop this repository; no product runtime dependency |
 | `skill-creator` | Skill packaging and independent behavioral evaluation | Development only |
 | `security-and-hardening` | Review of material security boundaries | Development specialist; not a product assessment adapter |
+| `api-and-interface-design` | Review of scope, evidence and report contracts | Development specialist; no product runtime dependency |
 | [briiirussell cybersecurity skills](https://github.com/briiirussell/cybersecurity-skills) | Broad security methods and triage | Disabled candidate; select individual resources after review |
 | [Trail of Bits skills](https://github.com/trailofbits/skills) | Deep source review and post-fix verification | Disabled candidate |
 | [Cloudflare security audit skill](https://github.com/cloudflare/security-audit-skill) | Source evidence and refutation methods | Disabled candidate |
@@ -97,7 +128,8 @@ must not be reported as performed merely because they appear in this table.
 |---|---|---|---|
 | Component supply chain | Current source, publisher identity, content integrity, review and activation | Implemented M1 controls | Exact accepted resources only |
 | Execution safety | Immutable snapshots, no egress, resource budgets, cancellation, recovery | Implemented M1 controls | Local Linux Docker; offline only |
-| Architecture | Assets, trust boundaries, data flows, attack chains and insecure design | Guidance | Discovery/evidence in M2; assessment in M3 |
+| Intake and coverage | Selected-file discovery, passive URL scope, actors/assets/flows, module routing and explicit unknowns | Implemented M2 records | No target execution, crawling or network probe |
+| Architecture | Assets, trust boundaries, data flows, attack chains and insecure design | M2 records plus guidance | Insecure-design assessment remains M3 |
 | Identity and access | Authentication, sessions, recovery, roles, ownership and tenant separation | Guidance | M3 |
 | Sensitive/customer data | Secrets, leakage, storage, encryption, logs, retention and deletion | Guidance | M3; privacy requirements need project context |
 | Application and API code | Injection, XSS, SSRF, uploads, traversal, unsafe deserialization and API controls | Guidance | M3/M4 |
@@ -108,8 +140,9 @@ must not be reported as performed merely because they appear in this table.
 | Post-release web/API | Scoped production verification, authenticated role comparisons and exposure checks | Guidance | M4; explicit target scope required |
 | Capacity and concurrency | Concurrent users versus RPS, load/stress/spike/soak, latency, errors and persisted state | Planned, with guidance | M5; heavy testing normally uses staging |
 | Recovery and incidents | Backup restoration, recovery objectives, alerts and evidence-preserving triage | Guidance | M5 |
-| AI features | Prompt injection, tool authority, sensitive context, output handling and tenant isolation | Guidance | Routed on actual AI functionality in M2/M3 |
-| Findings and fixes | Counterevidence, deduplication, prioritization, understandable fixes and retesting | Templates/guidance | Operational reporting in M2; remediation in M3 |
+| AI features | Prompt injection, tool authority, sensitive context, output handling and tenant isolation | M2 planning routes plus guidance | Actual functionality requires corroboration; assessment in M3 |
+| Findings and fixes | Counterevidence, scoped root-cause groups, prioritization, fix guidance and retest requirements | Implemented M2 ledger/reports | No automated diagnosis, patch or remediation-verification transition |
+| Evidence privacy and validity | Redaction, provenance, actor/environment/source bindings, selective invalidation | Implemented M2 controls | Private state; redaction cannot recognize arbitrary sensitive prose |
 
 ## Getting started
 
@@ -119,6 +152,7 @@ For local repository checks, use an existing Python 3.11+ interpreter:
 ```bash
 python -B scripts/validate_project.py
 python -B -m unittest discover -s tests -v
+python -B tests/m2_workflow.py
 ```
 
 No third-party Python packages are needed. These commands inspect this repository
@@ -131,6 +165,13 @@ state outside this package and every target; a trusted local Docker CLI; a Linux
 daemon with cgroup v2 and required resource/seccomp controls; and network access
 to GitHub and Docker's official registry for acquisition/preflight. Target code
 has no external network access. There is no unrestricted native fallback.
+
+For M2, follow [the intake and evidence guide](docs/M2-OPERATIONS.md). The offline
+ledger itself needs only Python and private state; it does not certify that its
+components are current. An agent should prepare scope/observation records from
+available evidence and explain missing access. Every actual tool execution still
+requires M1 current-version preflight and authorization. No external assessment
+skill is downloaded or installed merely to create a plan or report.
 
 The controller is an operator interface, not a one-command automatic audit. It
 requires concrete source and execution contracts. An authorized operator can reuse

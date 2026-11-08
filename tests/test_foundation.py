@@ -64,6 +64,17 @@ class FoundationTests(unittest.TestCase):
         self.edit("config/modules.json", lambda d: d["modules"][0].update(state="implemented"))
         self.invalid("remain guidance")
 
+    def test_assessment_catalog_rejects_invalid_module_methods_and_mapping(self):
+        path = self.root / "config/assessment-controls.json"
+        original = path.read_text(encoding="utf-8")
+        for change in (lambda d: d["controls"][0].update(module="missing"),
+                       lambda d: d["controls"][0].update(methods=["design_review", "design_review"]),
+                       lambda d: d["controls"][0].update(asvs_chapter="V999"),
+                       lambda d: d["reference_snapshot"].update(edition="latest")):
+            path.write_text(original, encoding="utf-8")
+            self.edit("config/assessment-controls.json", change)
+            self.invalid("assessment control catalog")
+
     def test_duplicate_module_identity_is_rejected(self):
         self.edit("config/modules.json", lambda d: d["modules"].append(d["modules"][0]))
         self.invalid("duplicate module ID")

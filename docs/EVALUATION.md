@@ -65,3 +65,11 @@ real Docker suite checks protected state, kernel limits, no egress/secrets,
 cancellation, revocation, controller termination and recovery. Neither suite
 measures application-vulnerability detection. Keep later assessment families
 pending in `STATUS.md` until their own execution evidence exists.
+
+M2 qualification adds synthetic source/URL/combined CLI workflows, context and
+producer binding tests, changed/expired/revoked evidence, counterevidence and
+conflicting root-cause members, report privacy and actionable standalone output.
+Independent reviewers must exercise realistic workflows before seeing suspected
+defects, retain their initial findings, and recheck required fixes against the final
+source. These evaluations establish ledger behavior only; M3-M6 detection and
+remediation effectiveness still require their own baselines and measurements.

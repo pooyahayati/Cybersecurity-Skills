@@ -1,4 +1,4 @@
-name: Package and M1 validation
+name: Package and control validation
 
 on:
   push:
@@ -34,8 +34,10 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Validate package structure
         run: python scripts/validate_project.py
-      - name: Run structural and M1 regression tests
+      - name: Run structural and control regression tests
         run: python -B -m unittest discover -s tests -v
+      - name: Exercise the M2 operator workflow
+        run: python -B tests/m2_workflow.py
       - name: Check whitespace
         run: git show --format= --check HEAD
   isolation:
