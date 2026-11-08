@@ -4,10 +4,42 @@ Updated: 2026-11-08
 
 ## Current stage
 
-M3 bounded source review and remediation, version `0.4.0-dev`. Implementation
-and local acceptance checks are complete. GitHub delivery is gated on the exact revision's
+M4 bounded runtime, infrastructure and delivery review, version `0.5.0-dev`.
+Bounded implementation and local behavioral checks are complete. GitHub delivery is gated on the exact revision's
 [validation workflow](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml).
 This is not a qualified whole-application auditor or stable security release.
+
+## M4 implementation and verification
+
+- Separate exact GET/HEAD authority, pinned destinations, verified TLS, complete
+  response predicates, per-hop persistent budgets and single-use intents.
+- Same-resource positive/denied role comparisons with recent authenticated
+  identity observations, distinct credentials and protected-body leak rejection.
+- M1-isolated finite infrastructure leads and a current reviewed Trivy binary
+  adapter using only the selected release's embedded secret/configuration rules.
+- Exact local-container/image observations and bounded pre/post-release declared
+  correspondence. Build provenance, URL routing and other replicas stay unverified.
+- Typed M4 evidence, dependent revalidation/retraction and private readable reports;
+  no target mutation, arbitrary active scan, production approval or M5 work.
+
+| Check | Observed result | Boundary |
+|---|---|---|
+| Windows, Python 3.14 | 162 discovered; 159 passed, 3 skipped | Host cannot create the three symlink fixtures; Linux covers them |
+| Non-root offline Linux, current official Python runtime | All 162 passed; no skips | Byte-verified local copy from a read-only mount; owned loopback fixtures only |
+| Real M4 scanner/runtime workflow | 24 expected CLI outcomes, 2 isolated scanner operations and 10 HTTP requests passed | Actual current official Trivy/Docker; synthetic publisher only for unmerged checkout code; target configuration/ignore traps, real container/image match and mismatch, cleanup and original-file preservation |
+| M1/M2/M3 regressions | M1 ten real isolation groups, M2 fifteen CLI outcomes, M3 sixty CLI outcomes and 26 actual M1 operations passed | Existing offline/provenance/remediation controls retained; no live customer targets |
+| Independent security and interface reviews | Three distinct required comparison/coverage defects corrected and independently rechecked | Same resource, protected-body denial and typed web evidence; initial failures retained |
+| Transport and private credential effects | TLS failures send no HTTP credentials; approved redirects work; cross-target sends, active methods, uncertain replay and out-of-state credential files blocked | Independent listener counts, in-flight cancellation and controller-death deadline observations; no full internet/network qualification |
+
+The real scanner fixture initially exposed target-configuration inheritance in
+the version query. It failed closed; explicit configuration isolation corrected
+that query and the real workflow passed. A later upstream availability failure
+also blocked rather than using a cached success. These failures remain private.
+The final unit suites include 34 new M4 tests without removing earlier tests.
+Private reports retain actionable locations and corrections, never raw response,
+credential or scanner secret matches. Final integration additionally requires a
+native scan of the exact exported source and all five hosted jobs; those checks
+do not qualify this development package as a general security auditor.
 
 ## M3 implementation
 
@@ -84,16 +116,17 @@ and a compatible adapter. See [M3 contracts](docs/M3-SOURCE-REMEDIATION.md).
 
 ## Not implemented
 
-Automatic whole-project/live target discovery, general-purpose scanner integrations,
-automatic source overwrite, production/network/load testing, actual database-state
+Automatic whole-project/live target discovery, general-purpose active scanning,
+automatic source overwrite, workload/load testing, remote cloud/host inspection, actual database-state
 verification, automatic installed-skill replacement, advisory subscriptions and
 scheduled monitoring. Full-skill detection performance has not been established.
-Original domain modules remain guidance; M3 adds the bounded paths described above.
+Original domain modules remain guidance; M3/M4 add the bounded paths described above.
 
 ## Next bounded task
 
-After M3 delivery, M4 runtime, infrastructure and delivery adapters require the next user task; this roadmap
-does not authorize live scans or later milestones automatically.
+M5 capacity/recovery work requires a subsequent user task after M4 delivery; this
+roadmap does not authorize live customer scans, production changes or later
+milestones automatically.
 
 ## Historical M2 verification record
 

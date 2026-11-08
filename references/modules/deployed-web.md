@@ -1,5 +1,10 @@
 # Deployed web and API assessment
 
+M4 implements the bounded subset in [runtime contracts](../../docs/M4-RUNTIME-SECURITY.md)
+and [operations](../../docs/M4-OPERATIONS.md): exact authorized GET/HEAD, complete
+identity/resource predicates and same-resource role comparisons. The remaining
+methods below are guidance, not automatically implemented checks.
+
 Bind exact targets, environment, routes, accounts, allowed effects and request
 budgets before requests. Passive analysis and crawling still contact a service.
 Follow only in-scope redirects and resources; do not expand to linked hosts.

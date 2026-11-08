@@ -97,3 +97,31 @@ live identity, persistent database effects, load/concurrency and production test
 remain M4–M6. A target can falsify the shared-interpreter serialized probe model;
 oracle review and the explicit claim boundary are required, not a substitute for
 a separately isolated collector when stronger assurance is needed.
+
+## M4 bounded evaluation
+
+Compare against M3's source-only behavior: M4 adds independently observed owned
+HTTP/TLS requests, finite configuration leads and local artifact observations.
+This capability baseline is not a model-level accuracy or full-skill benchmark.
+Exercise legitimate reads and redirects, wrong/cross-origin destinations, complete
+body/identity predicates, positive and denied actors, protected content returned
+with a denial status, unrelated-resource comparisons, TLS failures, persistent
+concurrent budgets, cancellation, controller death and uncertain-intent replay.
+Independent server counters establish actual effects rather than only CLI errors.
+
+Run `tests/m4_workflow.py` with the current official reviewed Trivy release and
+real M1 Docker workers, target configuration/ignore traps, a disposable exact
+container/image and public M4 CLI reads/reports. Bind current upstream identities
+separately from the explicit synthetic publisher used for unmerged checkout code.
+Retain original bytes and failures, verify cleanup and ensure output contains no
+response/credential/secret excerpts. Missing external prerequisites fail this
+workflow rather than substituting synthetic scanner success.
+
+Reviewers retain their original findings and independently rerun prohibited and
+legitimate effects after fixes on an immutable source snapshot. Required negative
+checks include invalid producer/output/candidate, revoked identity, stale artifact,
+failed role comparison, and imported web evidence that must not satisfy coverage
+when its predicate fails. URL-only cases retain inaccessible source/infra gaps.
+Exact-hash body predicates detect only the declared content contract; partial or
+transformed leakage, real customer sessions, broad cloud posture, build/routing
+attestation and all-replica assurance need additional supported evidence.

@@ -338,6 +338,10 @@ class Assessment:
             result.append(item)
         return result
 
+    def _supports_satisfied(self, case, item, tx):
+        """Typed producer eligibility, separate from the reviewer's conclusion."""
+        return item["producer"] is None or item["producer"]["exit_code"] == 0
+
     def coverage(self, key, value):
         fields(value, {"schema_version", "control", "state", "outcome", "reason", "evidence"})
         contract.version(value["schema_version"])
@@ -355,8 +359,8 @@ class Assessment:
                 require(control["accessible"], "missing access cannot establish an exclusion or completed review")
                 require(value["outcome"] in ({"not_applicable"} if value["state"] == "not_applicable" else {"satisfied", "failed", "inconclusive"}),
                         "coverage progress and outcome disagree")
-                require(value["outcome"] != "satisfied" or all(o["producer"] is None or o["producer"]["exit_code"] == 0 for o in observations),
-                        "failed execution cannot establish a satisfied control")
+                require(value["outcome"] != "satisfied" or all(self._supports_satisfied(case, o, tx) for o in observations),
+                        "failed execution or mismatched observation cannot establish a satisfied control")
             else:
                 require(value["outcome"] == "unverified" and not value["evidence"], "unfinished coverage cannot claim an outcome")
             control.update({name: copy.deepcopy(value[name]) for name in ("state", "outcome", "reason", "evidence")})

@@ -1,5 +1,10 @@
 # CI/CD, release and post-release verification
 
+M4 implements [limited declared artifact correspondence](../../docs/M4-RUNTIME-SECURITY.md)
+and [bounded read checks](../../docs/M4-OPERATIONS.md). Source-to-image provenance,
+URL routing, other replicas, rollback and deployment approval remain unverified.
+The wider release practices below are guidance rather than executable guarantees.
+
 Trace source revision through build, dependency resolution, artifact creation,
 storage and deployment. Record immutable artifact identity and observed deployed
 revision; a merged patch is not evidence that production uses it.

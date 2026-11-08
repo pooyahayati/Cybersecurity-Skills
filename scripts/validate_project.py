@@ -32,6 +32,7 @@ REQUIRED_FILES = (
     "templates/assessment-scope.md", "docs/M1-CONTROL-PLANE.md", "docs/M1-OPERATIONS.md",
     "docs/M2-DISCOVERY-EVIDENCE.md", "docs/M2-OPERATIONS.md", "config/assessment-controls.json",
     "docs/M3-SOURCE-REMEDIATION.md", "docs/M3-OPERATIONS.md", "scripts/m3_review.py", "scripts/m3_worker.py",
+    "docs/M4-RUNTIME-SECURITY.md", "docs/M4-OPERATIONS.md", "scripts/m4_review.py", "scripts/m4_worker.py",
 )
 
 
@@ -126,8 +127,8 @@ def validate(root: Path) -> dict:
     require(isinstance(project["version"], str)
             and re.fullmatch(r"0\.\d+\.\d+-dev", project["version"]) is not None,
             "package requires a development version")
-    require(project["maturity"] == "bounded-source-review" and project["operational"] is False,
-            "bounded source review cannot declare operational assessment readiness")
+    require(project["maturity"] == "bounded-runtime-review" and project["operational"] is False,
+            "bounded runtime review cannot declare operational assessment readiness")
     require(project["entrypoint"] == "SKILL.md"
             and project["modules_catalog"] == "config/modules.json"
             and project["sources_catalog"] == "config/sources.json",
