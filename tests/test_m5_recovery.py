@@ -12,7 +12,9 @@ from security_runtime.common import Blocked, sha256
 class RecoveryTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory(prefix="m5-sqlite-");self.addCleanup(self.temp.cleanup)
-        self.root=Path(self.temp.name);self.rows=[("one",100),("two",200)]
+        # Windows runners may expose TEMP through an 8.3 alias. The owned fixture
+        # must use its canonical path, just like authorized M1 input roots.
+        self.root=Path(self.temp.name).resolve(strict=True);self.rows=[("one",100),("two",200)]
         make_database(self.root/"backup.sqlite3",self.rows)
         make_database(self.root/"rollback.sqlite3",self.rows)
 
