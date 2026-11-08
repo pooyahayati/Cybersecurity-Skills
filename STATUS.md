@@ -4,12 +4,56 @@ Updated: 2026-11-08
 
 ## Current stage
 
-M2 discovery and evidence records, version `0.3.0-dev`. Implementation and local acceptance checks
-are complete. GitHub delivery is gated on the exact revision's
+M3 bounded source review and remediation, version `0.4.0-dev`. Implementation
+and local acceptance checks are complete. GitHub delivery is gated on the exact revision's
 [validation workflow](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml).
-This is not an operational application-auditor or stable security release.
+This is not a qualified whole-application auditor or stable security release.
 
-## Implemented
+## M3 implementation
+
+- M1-isolated finite Python AST and JS/TS/PHP lexical security leads, with explicit
+  unsupported/parser states and no automatic vulnerability confirmation.
+- Seven structured source-review paths and an optional current, reviewed Addy
+  hardening resource adapter. No external skill is required, installed or vendored.
+- Exact locked dependency/advisory review, including npm, Composer, uv and Poetry
+  inventory; installed versions and advisory interpretation remain bounded claims.
+- Private exact-hash patch candidates tied to confirmed source findings; originals
+  remain unchanged. Frozen legitimate/denied/variant contracts and original/candidate
+  M1 operation imports gate reviewer acceptance for a declared serialized model.
+- Current source/context, candidate, producer, supporting-finding and revocation
+  checks; private actionable reports and correction/retraction CLI routes.
+
+## M3 verification record
+
+| Check | Observed result | Boundary |
+|---|---|---|
+| Repository and skill structure | Passed | Packaging/reference checks, not an application audit |
+| Windows, Python 3.14 | 128 discovered; 125 passed, 3 skipped | This host cannot create the three symlink fixtures |
+| Non-root Linux, current official Python runtime | All 128 passed; no skips | Exact byte-verified copy from a read-only host mount into an offline bounded container test workspace |
+| Source-rule fixtures | All 12 vulnerable/safe pairs distinguished | Finite documented forms, not whole-program precision/recall |
+| Real M1/M3 CLI workflow | All 60 expected command outcomes; 26 actual isolated operations | Partial, deny-all and deny-after-write candidates rejected; complete synthetic owner/tenant model accepted; supporting-evidence revocation reopened acceptance |
+| M1 real Docker regression | All 10 scenario groups passed | Original read-only, no-egress, resource, cancellation, recovery and M2 producer checks retained |
+| M2 CLI regression | All 15 expected outcomes passed | Source-only, URL-only and combined ledger paths retained |
+| Independent contract and security reviews | Five required issues corrected and independently rechecked | Finding/evidence correction routes, immutable context, actionable provenance, concrete dependency identity and mandatory retained producer records |
+
+An independent security reviewer also ran a different synthetic fixture through
+nine real M1 operations and 24 CLI commands, observing the original unauthorized
+effects, candidate legitimate/denied behavior and cleanup. Contract review used
+synthetic producer outcomes and is not presented as real runtime evidence.
+
+Private receipts retain actual inputs, operations and failures. Earlier fixture
+newline/message mismatches and the Windows-mounted Linux I/O timeout remain in
+history; final checks passed with corrected fixtures/messages and a byte-verified
+container-local test workspace. Final integration additionally requires a native
+secret/configuration scan of the exact exported source and all five hosted jobs.
+
+The probe model shares an interpreter with target Python and can be spoofed by
+malicious subject code. Its accepted result never verifies a real database, actual
+session identity, deployed artifact or production protection. Specialized
+WordPress/WooCommerce execution remains blocked without installed-version evidence
+and a compatible adapter. See [M3 contracts](docs/M3-SOURCE-REMEDIATION.md).
+
+## Implemented M1/M2 foundation
 
 - Independent skill entrypoint and eleven domain guidance modules.
 - Architecture, module, freshness, authorization and evidence contracts.
@@ -40,18 +84,18 @@ This is not an operational application-auditor or stable security release.
 
 ## Not implemented
 
-Automatic whole-project or live target discovery, vulnerability assessment/scanner adapters, patch
-execution, production/network/load testing, automatic installed-skill replacement,
-advisory subscriptions and scheduled monitoring. Behavioral vulnerability-detection
-performance has not been established. Original domain modules remain guidance.
+Automatic whole-project/live target discovery, general-purpose scanner integrations,
+automatic source overwrite, production/network/load testing, actual database-state
+verification, automatic installed-skill replacement, advisory subscriptions and
+scheduled monitoring. Full-skill detection performance has not been established.
+Original domain modules remain guidance; M3 adds the bounded paths described above.
 
 ## Next bounded task
 
-After M2 delivery, M3 implements source, identity, data and remediation assessment
-paths and their vulnerable/safe behavioral fixtures. It requires the next user
-task; this roadmap does not authorize live scans or later milestones automatically.
+After M3 delivery, M4 runtime, infrastructure and delivery adapters require the next user task; this roadmap
+does not authorize live scans or later milestones automatically.
 
-## Verification record
+## Historical M2 verification record
 
 The following results cover the final local M2 source, including review fixes.
 Private execution receipts retain the actual input hashes, commands and results;

@@ -1,5 +1,10 @@
 # Architecture and accepted decisions
 
+M3 extends the M2 ledger through `SourceReview`, reusing M1 operation provenance
+and private immutable snapshots. Static leads, attributed source traces and finite
+serialized-model remediation have separate acceptance semantics; none establishes
+deployed security. See [M3 contracts](M3-SOURCE-REMEDIATION.md) for exact boundaries.
+
 ## Product contract
 
 A novice developer should be able to request a security review without selecting

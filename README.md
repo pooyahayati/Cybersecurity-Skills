@@ -5,9 +5,9 @@ can go wrong, what customer data is at risk, how to fix a confirmed weakness, an
 how to verify the result. It works independently of the person, framework or
 coding assistant that created a project. It does not require another head skill.
 
-**Development version: `0.3.0-dev`. M2 implements bounded discovery, scoped evidence
-and redacted reports on the M1 freshness/execution foundation.** Vulnerability discovery, scanner adapters,
-remediation and live website/load testing remain later milestones. This is not
+**Development version: `0.4.0-dev`. M3 adds bounded source leads, modular source
+reviews, private patch candidates and finite behavioral retesting on M1/M2.**
+General-purpose scanner integrations and live website/load testing remain later milestones. This is not
 a stable security-auditor release and does not establish that an application is secure.
 
 ## What this skill is for
@@ -27,8 +27,38 @@ will be measured in the [evaluation protocol](docs/EVALUATION.md), not assumed.
 
 Today the package provides eleven domain guidance modules, a bounded intake and
 assessment ledger, useful private reports, and a foundation for acquiring and
-running reviewed components. These records help an agent organize and justify a
-review. They do not automatically find application vulnerabilities.
+running reviewed components. M3 now adds finite syntax-based security leads and
+evidence-bound remediation workflows. These help an agent investigate and justify
+a review; they do not automatically establish application security.
+
+## Implemented M3 source review and fixes
+
+- Inspect selected Python syntax trees and JS/TS/PHP tokens inside M1 isolation.
+  Six limited rule families flag direct dynamic execution, object deserialization,
+  selected constructed queries, literal credentials, weakened cookies and sensitive
+  logging. The [support matrix](docs/M3-SOURCE-REMEDIATION.md) lists exact language
+  forms and omissions. Comments, safe near-matches and failed parsing are tested.
+- Review architecture, identity/session, application, data lifecycle, business,
+  dependency and secret boundaries through attributed source traces. Bind actors,
+  assets, concrete locations, guards, effects, abuse cases and counterevidence.
+- Optionally use the reviewed current Addy hardening resource through M1. No
+  external skill is required or installed automatically. Dependency traces need
+  exact inventory and a current reviewed advisory-data component; matching remains
+  reviewer judgment. Installed WordPress/WooCommerce versions remain unverified.
+- Propose exact-hash replacements only for selected files and export a separate
+  private candidate. Original source is preserved. Review and apply that candidate
+  through the project's authorized development process.
+- Run frozen legitimate, denied and related-variant cases on original/candidate
+  Python probe entrypoints. Compare actual response and entire serialized state;
+  missing cases, deny-everyone fixes, deny-after-write and partial fixes fail.
+- Require reviewer assessment before accepting a fix for its declared serialized
+  model. Changed source/candidates, revoked evidence and stale dependencies reopen
+  the result. Reports omit raw source and test payloads and retain unsupported gaps.
+
+The probe deliberately executes target Python only in M1 isolation. Its finite
+response/state model can be falsified by malicious subject code, so it does not
+verify actual database state, installed identity or production protection. No
+overall security pass is generated. See [M3 operations](docs/M3-OPERATIONS.md).
 
 ## Implemented M2 assessment records
 
@@ -91,21 +121,21 @@ See [the control-plane design](docs/M1-CONTROL-PLANE.md) for the trust model and
 
 ## Auxiliary skills and tools
 
-**No third-party assessment skill is automatically active in M2.** The controller
+**No third-party assessment skill is automatically active in M3.** The controller
 can acquire explicitly enrolled resources, but a catalog entry does not provide
 a reviewed assessment adapter or permission to invoke it. This table distinguishes
-development use from planned runtime composition.
+development use, implemented opt-in adapters and planned runtime composition.
 
 | Skill or tool | Purpose | Current use/status |
 |---|---|---|
 | `vibe-coding-skill` | Development workflow, evidence and delivery controls | Used to develop this repository; no product runtime dependency |
 | `skill-creator` | Skill packaging and independent behavioral evaluation | Development only |
-| `security-and-hardening` | Review of material security boundaries | Development specialist; not a product assessment adapter |
+| `security-and-hardening` | Review of material security boundaries | Development specialist; optional product source-review adapter through M1 |
 | `api-and-interface-design` | Review of scope, evidence and report contracts | Development specialist; no product runtime dependency |
 | [briiirussell cybersecurity skills](https://github.com/briiirussell/cybersecurity-skills) | Broad security methods and triage | Disabled candidate; select individual resources after review |
 | [Trail of Bits skills](https://github.com/trailofbits/skills) | Deep source review and post-fix verification | Disabled candidate |
 | [Cloudflare security audit skill](https://github.com/cloudflare/security-audit-skill) | Source evidence and refutation methods | Disabled candidate |
-| [Addy Osmani agent skills](https://github.com/addyosmani/agent-skills) | Focused secure-development guidance | Disabled candidate |
+| [Addy Osmani agent skills](https://github.com/addyosmani/agent-skills) | Focused secure-development guidance | M3 supports selected hardening guidance after current enrollment/review; disabled by default |
 | [WordPress agent skills](https://github.com/WordPress/agent-skills) | Platform-specific WordPress/WooCommerce methods | Disabled candidate; relevant only on platform evidence |
 | [OpenAI skills](https://github.com/openai/skills) | Selected threat-model and language-specific guidance | Disabled candidate |
 | [Trivy](https://github.com/aquasecurity/trivy) | Artifact, secret, dependency and configuration analysis | Repository delivery checks; product adapter remains a candidate |
@@ -129,19 +159,19 @@ must not be reported as performed merely because they appear in this table.
 | Component supply chain | Current source, publisher identity, content integrity, review and activation | Implemented M1 controls | Exact accepted resources only |
 | Execution safety | Immutable snapshots, no egress, resource budgets, cancellation, recovery | Implemented M1 controls | Local Linux Docker; offline only |
 | Intake and coverage | Selected-file discovery, passive URL scope, actors/assets/flows, module routing and explicit unknowns | Implemented M2 records | No target execution, crawling or network probe |
-| Architecture | Assets, trust boundaries, data flows, attack chains and insecure design | M2 records plus guidance | Insecure-design assessment remains M3 |
-| Identity and access | Authentication, sessions, recovery, roles, ownership and tenant separation | Guidance | M3 |
-| Sensitive/customer data | Secrets, leakage, storage, encryption, logs, retention and deletion | Guidance | M3; privacy requirements need project context |
-| Application and API code | Injection, XSS, SSRF, uploads, traversal, unsafe deserialization and API controls | Guidance | M3/M4 |
-| Business logic | Abuse cases, authorization order, payments, race conditions and idempotency | Guidance | M3; capacity/state tests in M5 |
-| Dependencies and artifacts | Vulnerabilities, malicious packages, install hooks, containers and provenance | Guidance plus M1 acquisition controls | Assessment adapters in M3/M4 |
+| Architecture | Assets, trust boundaries, data flows, attack chains and insecure design | M2 records and M3 source traces | Attributed review of selected source/context |
+| Identity and access | Sessions, recovery, roles, ownership and tenant separation | M3 cookie leads, source traces and finite role tests | Actual authentication/session/deployed identity needs additional evidence |
+| Sensitive/customer data | Secrets, leaks, storage, logs, retention and deletion | M3 selected credential/log leads and lifecycle review | Privacy requirements and other data copies need project context |
+| Application and API code | Injection, XSS, SSRF, uploads, traversal, deserialization and API controls | M3 finite source rules plus structured review | No whole-program analysis; live behavior remains M4 |
+| Business logic | Abuse cases, authorization order, payments and idempotency | M3 source traces and finite state/variant cases | Concurrency, real payments and operational state remain unverified |
+| Dependencies and artifacts | Vulnerabilities, packages, install hooks, containers and provenance | M1 acquisition and M3 exact-version/advisory review path | Reviewer matching; automated scanner integrations remain M4 |
 | Infrastructure and DevOps | Host/cloud access, storage exposure, IaC, containers and CI/CD secrets | Guidance | M4 |
 | Pre-release and release | Artifact/environment identity, staging checks, deployment controls and rollback readiness | Guidance | M4/M5 |
 | Post-release web/API | Scoped production verification, authenticated role comparisons and exposure checks | Guidance | M4; explicit target scope required |
 | Capacity and concurrency | Concurrent users versus RPS, load/stress/spike/soak, latency, errors and persisted state | Planned, with guidance | M5; heavy testing normally uses staging |
 | Recovery and incidents | Backup restoration, recovery objectives, alerts and evidence-preserving triage | Guidance | M5 |
-| AI features | Prompt injection, tool authority, sensitive context, output handling and tenant isolation | M2 planning routes plus guidance | Actual functionality requires corroboration; assessment in M3 |
-| Findings and fixes | Counterevidence, scoped root-cause groups, prioritization, fix guidance and retest requirements | Implemented M2 ledger/reports | No automated diagnosis, patch or remediation-verification transition |
+| AI features | Prompt injection, tool authority, sensitive context, output handling and tenant isolation | M2 planning and M3 general source reasoning | Specialized AI runtime assessment remains unavailable |
+| Findings and fixes | Counterevidence, scoped causes, private candidates, before/after tests and retest guidance | M2 ledger and M3 scoped proposal/acceptance workflow | Finite declared model only; no automatic source overwrite or production claim |
 | Evidence privacy and validity | Redaction, provenance, actor/environment/source bindings, selective invalidation | Implemented M2 controls | Private state; redaction cannot recognize arbitrary sensitive prose |
 
 ## Getting started
@@ -173,6 +203,12 @@ available evidence and explain missing access. Every actual tool execution still
 requires M1 current-version preflight and authorization. No external assessment
 skill is downloaded or installed merely to create a plan or report.
 
+For M3, follow [the source review and remediation guide](docs/M3-OPERATIONS.md).
+The agent prepares the private scope, review and behavior contracts, runs the
+bounded operations and explains findings, fixes and remaining uncertainty. Use
+`m3_review.py` for new M3 cases, including their M2 observations/findings. A changed
+engine needs a new assessment rather than silently migrating historical records.
+
 The controller is an operator interface, not a one-command automatic audit. It
 requires concrete source and execution contracts. An authorized operator can reuse
 an existing scope; the package does not ask for confirmation on every bounded call.
@@ -181,6 +217,7 @@ Run the real isolation regression suite against synthetic data with:
 
 ```bash
 python -B tests/docker_integration.py --docker /absolute/path/to/docker
+python -B tests/m3_workflow.py --docker /absolute/path/to/docker
 ```
 
 It fails if isolation is unavailable and creates only its own disposable state,

@@ -66,6 +66,12 @@ secrets are not exposed in logs or reports. Validate schemas and their semantics
 
 **Depends on:** M2.
 
+The bounded implementation is documented in
+[M3 source/remediation contracts](docs/M3-SOURCE-REMEDIATION.md) and
+[M3 operations](docs/M3-OPERATIONS.md). `STATUS.md` records observed verification.
+Finite syntax leads and serialized-model retests do not establish universal
+vulnerability coverage, real database state or deployed remediation.
+
 - Implement source/architecture, identity/session, data-lifecycle, business-logic
   and dependency/secret assessment paths with selected specialist adapters.
 - Prioritize JavaScript/TypeScript, Python and PHP support; add WordPress and

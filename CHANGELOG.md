@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.4.0-dev — M3 bounded source review and remediation
+
+- Add isolated Python AST and JS/TS/PHP lexical leads across six finite rule families.
+- Add seven attributed source-review paths, optional current Addy guidance and
+  exact-lock/advisory bindings; discover uv/Poetry lock entries without execution.
+- Add scoped immutable patch candidates, explicit Python serialized-model probes,
+  original/candidate evidence comparison, protected-state/variant gates and reviewer
+  acceptance. No original overwrite, live scan or production-security claim.
+- Add private actionable reports with source/candidate/contract identities, test
+  provenance and residual limits, plus finding/evidence correction routes.
+- Add vulnerable/safe fixtures, scope/provenance regressions and the real M1/M3
+  CLI workflow to hosted Docker validation. Preserve M1/M2 regression controls.
+- Preserve immutable M3 source/context: changed input needs a new case. Target
+  code can falsify the declared probe model; real persistent-state verification
+  and installed-platform adapters remain unsupported.
+
 ## 0.3.0-dev — 2026-11-08
 
 - Add bounded selected-file discovery and passive source/URL/combined intake;
