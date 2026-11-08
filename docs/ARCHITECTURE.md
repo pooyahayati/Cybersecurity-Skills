@@ -1,5 +1,11 @@
 # Architecture and accepted decisions
 
+M5 adds `ResilienceReview`, a separate current-version `LoadController` and a
+trusted exact-route broker. Native k6 receives generated loopback tickets only;
+M1 stays offline and parses/restores selected SQLite artifacts. The private ledger
+binds recovery challenges, observed receiver acknowledgments and incident custody.
+See [M5 contracts](M5-RESILIENCE.md); no module implies whole-system approval.
+
 M4 extends `SourceReview` through a distinct `RuntimeReview` engine. A trusted
 single-request HTTP worker has separate exact network authority and producer
 records; it never grants network access to M1's untrusted execution. Configuration

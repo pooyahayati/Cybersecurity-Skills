@@ -13,3 +13,14 @@ and compatibility decision here. Inspect license scope at the adopted paths:
 repository-level metadata alone may be insufficient. Share-alike and copyleft
 material must not be represented as MIT merely because it is included in this
 project. Integration may use an adapter without redistribution where appropriate.
+
+## Optional k6 adapter
+
+The M5 adapter invokes a separately acquired current official Grafana k6 native
+binary. [k6](https://github.com/grafana/k6) is licensed under
+[AGPL-3.0](https://github.com/grafana/k6/blob/master/LICENSE.md); this repository
+includes neither its binary nor copied implementation. Generated broker scripts
+and the Python adapter are original project code. Inspect the exact acquired
+release license and distribution obligations before redistribution. The project
+MIT license does not relicense k6. Official version-matched option/scenario
+documentation informs the fixed invocation and compatibility checks.

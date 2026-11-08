@@ -140,6 +140,8 @@ def source_spec(value):
                 "asset needs explicit member paths")
         for path in asset["members"]:
             relpath(path)
+            require(path.count("{version}") <= 1 and "{" not in path.replace("{version}", "")
+                    and "}" not in path.replace("{version}", ""), "invalid member template")
         require(len(set(asset["members"])) == len(asset["members"]), "duplicate asset members")
         require(asset["format"] != "raw" or len(asset["members"]) == 1,
                 "raw assets need one output member")
@@ -274,7 +276,7 @@ class GitHub:
                 + "/releases/assets/" + str(asset["id"]), asset["size"], asset=True)
             require(status == 200 and len(content) == asset["size"]
                     and sha256(content) == asset["sha256"], "release asset integrity check failed")
-            return unpack(content, spec["asset"], spec["max_unpacked_bytes"])
+            return unpack(content, spec["asset"], spec["max_unpacked_bytes"], identity["label"].removeprefix("v"))
         tree = self.json(spec["repository"] + "/git/trees/" + identity["tree"] + "?recursive=1")
         require(isinstance(tree, dict) and tree.get("truncated") is False
                 and isinstance(tree.get("tree"), list), "repository tree is incomplete")
@@ -315,8 +317,12 @@ class GitHub:
             return dict(pool.map(fetch_one, selected))
 
 
-def unpack(content, selection, maximum):
-    wanted = selection["members"]
+def unpack(content, selection, maximum, version=None):
+    if any("{version}" in p for p in selection["members"]):
+        require(isinstance(version, str) and re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9.+_-]{0,127}", version), "safe resolved release version required")
+    wanted = [p.replace("{version}", version or "") for p in selection["members"]]
+    for path in wanted: relpath(path)
+    require(len({p.casefold() for p in wanted}) == len(wanted), "resolved member paths collide")
     if selection["format"] == "raw":
         require(len(content) <= maximum, "raw asset exceeds unpacked limit")
         return {wanted[0]: content}

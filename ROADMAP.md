@@ -112,6 +112,11 @@ URL-only assessments report inaccessible source/infrastructure as unverified.
 
 **Depends on:** M4.
 
+The bounded implementation is documented in [M5 contracts](docs/M5-RESILIENCE.md)
+and [M5 operations](docs/M5-OPERATIONS.md). Read workloads and SQLite artifact
+checks are distinct. Target resource saturation, deployed state linkage and
+whole-service recovery remain unverified; no broad qualification is implied.
+
 - Implement measured workloads, concurrency/RPS distinctions, latency percentiles,
   errors, saturation and persisted-state correctness. Add a reviewed k6 adapter.
 - Cover baseline/load/stress/spike/soak/breakpoint scenarios only where justified.
