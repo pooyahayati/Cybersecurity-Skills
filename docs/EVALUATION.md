@@ -73,3 +73,27 @@ Independent reviewers must exercise realistic workflows before seeing suspected
 defects, retain their initial findings, and recheck required fixes against the final
 source. These evaluations establish ledger behavior only; M3-M6 detection and
 remediation effectiveness still require their own baselines and measurements.
+
+## M3 bounded evaluation
+
+M3 adds twelve vulnerable/safe syntax-rule pairs across Python, JavaScript,
+TypeScript and PHP, with explicit comment/string near-matches and parse-failure
+gaps. The previous M2 helper supplied declaration metadata only, not automatic
+source leads or patch acceptance. This is a capability baseline, not a measured
+comparison of model-level security reasoning or full SAST precision/recall.
+
+The real M3 workflow executes a synthetic Python customer-record function through
+M1 and the public CLI. It compares the same five frozen cases on the original and
+four candidates: partial tenant fix, deny-all, deny-after-write and complete fix.
+Owner read/write, non-owner mutation, anonymous read and cross-tenant read cover
+the concrete policy. Compare complete serialized state, actual responses and
+original file bytes. Revoke supporting evidence and observe acceptance reopen.
+Record exact source, runtime, operations and command outcomes privately.
+
+Independent reviewers exercise realistic requests without intended answers and
+retain initial failures, fixes and final input hashes. Finite deterministic
+fixtures do not measure stochastic agent performance. Full skill qualification,
+live identity, persistent database effects, load/concurrency and production testing
+remain M4–M6. A target can falsify the shared-interpreter serialized probe model;
+oracle review and the explicit claim boundary are required, not a substitute for
+a separately isolated collector when stronger assurance is needed.

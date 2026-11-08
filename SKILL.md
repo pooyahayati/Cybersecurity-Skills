@@ -1,10 +1,10 @@
 ---
 name: cybersecurity-skills
-description: Plan application security reviews, inspect selected source declarations, maintain scoped evidence and redacted findings, and manage current components with bounded offline execution. Use for security intake, coverage and evidence work; vulnerability scanners, remediation and live website tests are not yet implemented.
+description: Review application source, identity, customer-data and business boundaries with bounded static leads and modular evidence-backed reasoning; propose scoped fixes and retest declared Python response/state models using current reviewed components and isolated execution. Use for source security reviews, evidence and remediation work. Live website, production, load and infrastructure assessment remain future capabilities.
 license: MIT
 metadata:
   author: Pooya Hayati
-  version: 0.3.0-dev
+  version: 0.4.0-dev
 ---
 
 # Cybersecurity Skills
@@ -17,9 +17,33 @@ M1 provides current-source resolution, reviewed activation and bounded execution
 Read [M1 operations](docs/M1-OPERATIONS.md) before using the controller. Use only
 the supported source/backend contracts; never substitute a host shell when a
 required capability is blocked. The original domain modules remain guidance.
-Automatic whole-project discovery, scanner adapters, remediation, live tests and release
-approval are not implemented. Explain these gaps using [the roadmap](ROADMAP.md).
+M3 adds bounded Python AST and JS/TS/PHP lexical leads, seven structured source
+review paths, an optional current Addy hardening adapter, private exact-hash patch
+candidates and finite Python serialized-model retests. Read [M3 contracts](docs/M3-SOURCE-REMEDIATION.md)
+and [M3 operations](docs/M3-OPERATIONS.md) before using these paths.
+Automatic whole-project discovery, general-purpose scanner integrations, actual
+deployed/database remediation, live tests and release approval are not implemented.
+Explain these gaps using [the roadmap](ROADMAP.md).
 The repository validator proves neither freshness nor application security.
+
+For M3, prepare exact source scope and current M1 head/runtime/tool components.
+Run static inspection only in M1 isolation. Review every lead's source-to-sink path
+and counterevidence; do not promote syntax matches or a zero exit code to confirmed
+vulnerabilities. Route architecture, identity/session, data lifecycle, business and
+dependency/secret reasoning through the structured trace contract. Optional upstream
+guidance remains subordinate to scope and needs current reviewed resource bindings.
+Dependency review requires exact inventory and fresh advisory data; no dependency
+or platform version is inferred as installed from a declaration.
+
+For a confirmed source finding, prepare a scoped private candidate and frozen
+legitimate/denied/variant cases. Compare actual original and candidate observations
+through M1. Verify response and entire serialized protected state, including denial
+after attempted mutation. Review the oracle and target for falsified observations:
+this Python probe shares the target interpreter and verifies only a finite declared
+model. Never claim actual database or production protection from it. Failed or
+incomplete retests stay failed. Apply candidate source only through the project's
+authorized development workflow and recheck the resulting actual source. Preserve
+unverified domains and actionable gaps in both M3 and M2 evidence reports.
 
 For each authorized control-plane operation: establish private state and source
 identity; prepare and inspect the exact candidate; record evidence for every

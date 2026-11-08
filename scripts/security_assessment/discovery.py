@@ -20,7 +20,7 @@ def discover(contents):
         suffix = PurePosixPath(path).suffix.lower()
         if suffix in LANGUAGES:
             languages.setdefault(LANGUAGES[suffix], []).append(path)
-        if name not in {"package.json", "package-lock.json", "composer.json", "composer.lock", "pyproject.toml", "version.php"}:
+        if name not in {"package.json", "package-lock.json", "composer.json", "composer.lock", "pyproject.toml", "uv.lock", "poetry.lock", "version.php"}:
             continue
         # Bound the aggregate, not just each individual manifest. Preserve room
         # for language observations and keep omitted input explicitly unknown.
@@ -35,13 +35,23 @@ def discover(contents):
                     if match:
                         facts.append({"kind": "platform-marker", "name": "WordPress", "version": match[1].decode(), "version_basis": "source-assignment", "paths": [path]})
                 continue
-            data = tomllib.loads(raw.decode("utf-8-sig")) if name.endswith(".toml") else parse(raw)
+            data = tomllib.loads(raw.decode("utf-8-sig")) if name.endswith(".toml") or name in {"uv.lock", "poetry.lock"} else parse(raw)
             if not isinstance(data, dict):
                 raise ValueError("object expected")
             declarations = {}
             lock_entries = []
             exact = False
-            if name == "package.json":
+            if name in {"uv.lock", "poetry.lock"}:
+                exact = True
+                group = data.get("package", [])
+                if not isinstance(group, list): raise ValueError("invalid Python lockfile")
+                for index, item in enumerate(group[:4096]):
+                    if isinstance(item, dict) and isinstance(item.get("name"), str):
+                        lock_entries.append((item["name"], item.get("version"), "package/" + str(index)))
+                if len(group) > 4096:
+                    truncated = True
+                    gaps.append({"path": path, "reason": "package inventory exceeds discovery limit"})
+            elif name == "package.json":
                 for section in ("dependencies", "devDependencies", "optionalDependencies"):
                     group = data.get(section, {})
                     if not isinstance(group, dict): raise ValueError("invalid package declarations")
