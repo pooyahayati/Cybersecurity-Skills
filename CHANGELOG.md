@@ -11,6 +11,8 @@
   leases. Apply SQLite equality/collation to unique keys and reserve failed capture
   storage durably. Preserve report provenance and validated outcome/event tokens
   while redacting private display text, including assessment headings.
+- Measure restore duration with a high-resolution monotonic performance clock;
+  short Windows operations cannot be rounded to zero by a coarse elapsed timer.
 - Resolve release-version archive member paths without stale permanent pins.
 - Document measured read/artifact scope and unverified service/deployment claims.
 

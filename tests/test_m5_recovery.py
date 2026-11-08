@@ -2,10 +2,12 @@ import copy
 from pathlib import Path
 import tempfile
 import sqlite3
+import time
 import unittest
+from unittest.mock import patch
 
 from m5_support import artifact_contract, make_database, oracle
-from security_assessment.resilience_data import contract, exercise
+from security_assessment.resilience_data import contract, exercise, inspect
 from security_runtime.common import Blocked, sha256
 
 
@@ -22,12 +24,23 @@ class RecoveryTests(unittest.TestCase):
 
     def test_actual_restore_and_rollback_preserve_originals(self):
         before={p.name:sha256(p.read_bytes()) for p in self.root.iterdir()}
-        result=self.run_check()
+        # Reproduce a restore shorter than an older Windows monotonic tick.
+        with patch("security_assessment.resilience_data.time.monotonic", return_value=100):
+            result=self.run_check()
         self.assertTrue(result["artifact_check_passed"])
         self.assertTrue(result["rollback"]["passed"])
         self.assertGreater(result["restore_seconds"],0)
         self.assertFalse(result["service_recovery_verified"] or result["capture_time_verified"])
         self.assertEqual(before,{p.name:sha256(p.read_bytes()) for p in self.root.iterdir() if p.is_file()})
+        spec=artifact_contract(self.rows,True);spec["objectives"]["restore_seconds"]=.005
+        def delayed_inspection(*args):
+            time.sleep(.025)
+            return inspect(*args)
+        with patch("security_assessment.resilience_data.time.monotonic", return_value=100), patch("security_assessment.resilience_data.inspect", side_effect=delayed_inspection):
+            delayed=exercise(self.root,self.root/"slow-restore",spec)
+        self.assertTrue(delayed["restored"]["passed"] and delayed["rollback"]["passed"])
+        self.assertGreater(delayed["restore_seconds"],spec["objectives"]["restore_seconds"])
+        self.assertFalse(delayed["artifact_check_passed"])
 
     def test_existing_unrestorable_backup_fails(self):
         (self.root/"backup.sqlite3").write_bytes(b"not a database")

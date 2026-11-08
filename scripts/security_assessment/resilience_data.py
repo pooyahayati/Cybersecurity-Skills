@@ -105,7 +105,9 @@ def exercise(root, workspace, value):
     contract(value)
     root, workspace = Path(root), Path(workspace)
     workspace.mkdir(mode=0o700, exist_ok=False)
-    started = time.monotonic()
+    # perf_counter is monotonic and high-resolution on every supported Python.
+    # Older Windows monotonic clocks can round a short real restore to zero.
+    started = time.perf_counter()
 
     def restore(path, target, oracles):
         # A backup is a standalone SQLite snapshot, not an open database with WAL.
@@ -121,7 +123,7 @@ def exercise(root, workspace, value):
         return {"snapshot_sha256": sha256(raw), **result}
 
     restored = restore(value["database"], "restored.sqlite3", value["oracle"])
-    elapsed = time.monotonic() - started
+    elapsed = time.perf_counter() - started
     rollback = restore(value["rollback"]["database"], "rolled-back.sqlite3", value["rollback"]["oracle"]) if value["rollback"] else None
     objectives = value["objectives"]
     return {"schema_version": 1, "adapter": "sqlite-artifact", "mode": value["mode"], "contract_sha256": digest(value),
