@@ -22,6 +22,11 @@ skip validation of new producer types. Recreate a case and reimport compatible
 evidence when its engine or immutable scope changes. No historical record is
 silently upgraded or overwritten.
 
+The original Trivy command/normalization adapter acquires no tool automatically.
+Trivy uses Apache-2.0; inspect the exact selected release's license and content
+before activation or redistribution. No binary or rule content is bundled in this
+MIT package. Its selected rules come from the current reviewed tool release.
+
 ## Network authority
 
 An M2 URL declaration is not network permission. A distinct M4 authority binds an
