@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.5.0-dev — M4 bounded runtime, infrastructure and delivery review
+
+- Add a separate trusted HTTP/TLS collector with exact read authority, destination
+  pins, bounded redirects, persistent aggregate budgets, cancellation and durable
+  single-use intents. Keep M1 target execution offline.
+- Add same-resource authenticated role comparisons, observed identity/credential
+  bindings, positive controls and denied protected-body rejection.
+- Add finite infrastructure/configuration leads, an opt-in current reviewed Trivy
+  embedded-rule adapter and minimized exact local-container/image observations.
+- Add pre/post-release declared artifact correspondence, typed M4 evidence,
+  correction/retraction routes and readable private reports. No build attestation,
+  URL routing proof, general active scan or deployment approval is claimed.
+- Add real HTTP/TLS, privacy, scope, producer and delivery fixtures plus a real
+  current Trivy/Docker workflow. Preserve prior controls and explicit unsupported
+  coverage; external tools remain disabled until enrolled and reviewed.
+
 ## 0.4.0-dev — M3 bounded source review and remediation
 
 - Add isolated Python AST and JS/TS/PHP lexical leads across six finite rule families.

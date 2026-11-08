@@ -5,9 +5,9 @@ can go wrong, what customer data is at risk, how to fix a confirmed weakness, an
 how to verify the result. It works independently of the person, framework or
 coding assistant that created a project. It does not require another head skill.
 
-**Development version: `0.4.0-dev`. M3 adds bounded source leads, modular source
-reviews, private patch candidates and finite behavioral retesting on M1/M2.**
-General-purpose scanner integrations and live website/load testing remain later milestones. This is not
+**Development version: `0.5.0-dev`. M4 adds authorized web/API reads, authenticated
+role comparisons, infrastructure leads and local artifact observations on M1–M3.**
+General active scanning, load tests and deployment approval remain unsupported. This is not
 a stable security-auditor release and does not establish that an application is secure.
 
 ## What this skill is for
@@ -27,9 +27,39 @@ will be measured in the [evaluation protocol](docs/EVALUATION.md), not assumed.
 
 Today the package provides eleven domain guidance modules, a bounded intake and
 assessment ledger, useful private reports, and a foundation for acquiring and
-running reviewed components. M3 now adds finite syntax-based security leads and
-evidence-bound remediation workflows. These help an agent investigate and justify
+running reviewed components. M3 adds finite source leads and evidence-bound fixes;
+M4 adds bounded runtime/configuration observations. These help an agent investigate and justify
 a review; they do not automatically establish application security.
+
+## Implemented M4 runtime, infrastructure and delivery checks
+
+- Collect explicit GET/HEAD observations through a separate trusted collector.
+  Bind exact routes, actors, address pins, verified TLS, approved redirects, expiry
+  and persistent request/time/body budgets. No crawling, proxy inheritance or
+  automatic retries. Unknown outcomes consume their single-use intent.
+- Compare the same protected resource for an owner, other user, other tenant or
+  anonymous actor. Authenticated actors need observed complete identity predicates
+  and distinct credential bindings. Preserve the positive control; a denial with
+  the owner's complete body fails even when its status is 403.
+- Inspect selected Terraform/Kubernetes/IAM JSON, Dockerfile and CI workflow forms
+  for finite storage, privilege, secret and permission leads. Optionally run the
+  current reviewed Trivy binary for embedded secret/misconfiguration rules inside
+  M1. No target hooks/configuration, external check cache or vulnerability DB is
+  silently used. Unsupported files and absence of reported results stay explicit.
+- Read one exact local container and its image identity, minimizing recorded
+  configuration. Compare it with the declared deployment artifact and required
+  role evidence for a pre/post-release correspondence record. Wrong or expired
+  artifacts and failed role checks block that result.
+- Revalidate evidence and retract dependent results after changes or revocation.
+  Produce private JSON and readable Markdown with locations, correction steps,
+  producer identities and remaining coverage gaps.
+
+These are observations with explicit limits. Server identity assertions are not
+independent identity attestation. Local Docker evidence does not prove which
+container served a URL, all replicas, source-to-image provenance or deployment of
+an M3 fix. Remote host/cloud administration, capacity testing and automatic target
+changes remain unavailable. Use [M4 operations](docs/M4-OPERATIONS.md) and review
+[the exact support boundaries](docs/M4-RUNTIME-SECURITY.md).
 
 ## Implemented M3 source review and fixes
 
@@ -121,7 +151,7 @@ See [the control-plane design](docs/M1-CONTROL-PLANE.md) for the trust model and
 
 ## Auxiliary skills and tools
 
-**No third-party assessment skill is automatically active in M3.** The controller
+**No third-party assessment skill is automatically active.** The controller
 can acquire explicitly enrolled resources, but a catalog entry does not provide
 a reviewed assessment adapter or permission to invoke it. This table distinguishes
 development use, implemented opt-in adapters and planned runtime composition.
@@ -138,11 +168,11 @@ development use, implemented opt-in adapters and planned runtime composition.
 | [Addy Osmani agent skills](https://github.com/addyosmani/agent-skills) | Focused secure-development guidance | M3 supports selected hardening guidance after current enrollment/review; disabled by default |
 | [WordPress agent skills](https://github.com/WordPress/agent-skills) | Platform-specific WordPress/WooCommerce methods | Disabled candidate; relevant only on platform evidence |
 | [OpenAI skills](https://github.com/openai/skills) | Selected threat-model and language-specific guidance | Disabled candidate |
-| [Trivy](https://github.com/aquasecurity/trivy) | Artifact, secret, dependency and configuration analysis | Repository delivery checks; product adapter remains a candidate |
+| [Trivy](https://github.com/aquasecurity/trivy) | Secret and configuration leads | M4 opt-in current reviewed Linux binary; release-embedded rules in offline M1; no product vulnerability DB |
 | [Semgrep](https://github.com/semgrep/semgrep) | Source analysis | Disabled candidate; edition/rule licenses require review |
-| [ZAP](https://github.com/zaproxy/zaproxy) | Scoped dynamic web/API testing | Disabled candidate; no network-enabled backend in M1 |
+| [ZAP](https://github.com/zaproxy/zaproxy) | General dynamic web/API testing | Disabled candidate; M4 uses a smaller explicit-read collector; M1 stays offline |
 | [k6](https://github.com/grafana/k6) | Load, concurrency and capacity measurements | Disabled candidate; M5 work |
-| Python standard library | Controller, source verification, signed SQLite state and tests | Implemented; host Python 3.11+ required |
+| Python standard library | Controller, source verification, signed state, bounded HTTP/TLS and tests | Implemented; host Python 3.11+ required |
 | Docker and official `python:3-slim` image | Local offline isolation | Implemented backend; image resolved to a reviewed current immutable digest |
 
 Candidate selection rationale is in [source review](docs/SOURCE_REVIEW.md).
@@ -160,14 +190,14 @@ must not be reported as performed merely because they appear in this table.
 | Execution safety | Immutable snapshots, no egress, resource budgets, cancellation, recovery | Implemented M1 controls | Local Linux Docker; offline only |
 | Intake and coverage | Selected-file discovery, passive URL scope, actors/assets/flows, module routing and explicit unknowns | Implemented M2 records | No target execution, crawling or network probe |
 | Architecture | Assets, trust boundaries, data flows, attack chains and insecure design | M2 records and M3 source traces | Attributed review of selected source/context |
-| Identity and access | Sessions, recovery, roles, ownership and tenant separation | M3 cookie leads, source traces and finite role tests | Actual authentication/session/deployed identity needs additional evidence |
+| Identity and access | Sessions, recovery, roles, ownership and tenant separation | M3 source paths; M4 observed identity predicates and same-resource role comparisons | Server assertions only; session lifecycle and real database effects need further evidence |
 | Sensitive/customer data | Secrets, leaks, storage, logs, retention and deletion | M3 selected credential/log leads and lifecycle review | Privacy requirements and other data copies need project context |
-| Application and API code | Injection, XSS, SSRF, uploads, traversal, deserialization and API controls | M3 finite source rules plus structured review | No whole-program analysis; live behavior remains M4 |
+| Application and API code | Injection, XSS, SSRF, uploads, traversal, deserialization and API controls | M3 finite source rules; M4 exact bounded reads | No whole-program analysis, crawler, form submission or arbitrary active payloads |
 | Business logic | Abuse cases, authorization order, payments and idempotency | M3 source traces and finite state/variant cases | Concurrency, real payments and operational state remain unverified |
-| Dependencies and artifacts | Vulnerabilities, packages, install hooks, containers and provenance | M1 acquisition and M3 exact-version/advisory review path | Reviewer matching; automated scanner integrations remain M4 |
-| Infrastructure and DevOps | Host/cloud access, storage exposure, IaC, containers and CI/CD secrets | Guidance | M4 |
-| Pre-release and release | Artifact/environment identity, staging checks, deployment controls and rollback readiness | Guidance | M4/M5 |
-| Post-release web/API | Scoped production verification, authenticated role comparisons and exposure checks | Guidance | M4; explicit target scope required |
+| Dependencies and artifacts | Vulnerabilities, packages, install hooks, containers and provenance | M1 acquisition, M3 exact-version/advisory review, M4 observed local image identity | Product Trivy adapter does not select vulnerability databases or build attestation |
+| Infrastructure and DevOps | Host/cloud access, storage exposure, IaC, containers and CI/CD secrets | M4 finite structured/lexical leads, Trivy adapter and local container reads | Selected forms only; no remote account discovery or infrastructure mutation |
+| Pre-release and release | Artifact/environment identity, staging checks, deployment controls and rollback readiness | M4 declared/observed local artifact correspondence and role prerequisites | URL routing/build provenance unverified; no release approval or rollback execution |
+| Post-release web/API | Scoped production verification, authenticated role comparisons and exposure checks | M4 exact authorized GET/HEAD, TLS and complete response predicates | No general scan or monitoring; explicit target scope, credentials and budgets required |
 | Capacity and concurrency | Concurrent users versus RPS, load/stress/spike/soak, latency, errors and persisted state | Planned, with guidance | M5; heavy testing normally uses staging |
 | Recovery and incidents | Backup restoration, recovery objectives, alerts and evidence-preserving triage | Guidance | M5 |
 | AI features | Prompt injection, tool authority, sensitive context, output handling and tenant isolation | M2 planning and M3 general source reasoning | Specialized AI runtime assessment remains unavailable |
@@ -209,6 +239,13 @@ bounded operations and explains findings, fixes and remaining uncertainty. Use
 `m3_review.py` for new M3 cases, including their M2 observations/findings. A changed
 engine needs a new assessment rather than silently migrating historical records.
 
+For M4, follow [the runtime and infrastructure guide](docs/M4-OPERATIONS.md).
+Use `m4_review.py` for new combined cases; it also exposes the supported M3 source
+methods. The agent prepares private scope/authority records and explains access
+gaps. HTTP collection requires a current reviewed head and explicit target
+authority; source scanners additionally require M1 Docker and reviewed tools.
+Credentials and complete response contents never belong in project files.
+
 The controller is an operator interface, not a one-command automatic audit. It
 requires concrete source and execution contracts. An authorized operator can reuse
 an existing scope; the package does not ask for confirmation on every bounded call.
@@ -218,11 +255,16 @@ Run the real isolation regression suite against synthetic data with:
 ```bash
 python -B tests/docker_integration.py --docker /absolute/path/to/docker
 python -B tests/m3_workflow.py --docker /absolute/path/to/docker
+python -B tests/m4_workflow.py --docker /absolute/path/to/docker
 ```
 
 It fails if isolation is unavailable and creates only its own disposable state,
 inputs and labeled containers. See [contribution instructions](CONTRIBUTING.md)
 for platform details and [status](STATUS.md) for observed results.
+The M4 workflow also resolves the current official Trivy release; it fails if
+freshness/acquisition is unavailable. Its network targets are owned loopback
+fixtures, not customer sites. TLS unit fixtures require an existing OpenSSL
+executable (including Git for Windows' bundled executable).
 
 ## Trust and limitations
 

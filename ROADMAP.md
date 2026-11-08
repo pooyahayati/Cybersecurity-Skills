@@ -89,6 +89,14 @@ measured results, not universal detection or protection guarantees.
 
 **Depends on:** M2; consume M3 findings for source-to-runtime correlation.
 
+The bounded implementation is documented in [M4 contracts](docs/M4-RUNTIME-SECURITY.md)
+and [M4 operations](docs/M4-OPERATIONS.md). Its dynamic adapter performs exact
+authorized reads; the selected Trivy scope is release-embedded secret/configuration
+rules. Host/cloud coverage uses selected configuration evidence and local container
+observations. General active scanning and remote administrative collectors are
+unsupported. Artifact correspondence does not establish build provenance, URL
+routing or deployment approval. `STATUS.md` records actual verification.
+
 - Implement scoped deployed web/API checks and authenticated role comparisons.
 - Add reviewed tool adapters for Trivy, source analysis and dynamic testing;
   select tools by capability and license, not by mandatory tool count.

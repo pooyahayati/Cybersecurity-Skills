@@ -57,3 +57,7 @@ jobs:
         run: python -B tests/docker_integration.py --docker /usr/bin/docker
       - name: Exercise M3 detection and remediation workflow
         run: python -B tests/m3_workflow.py --docker /usr/bin/docker
+      - name: Exercise M4 current scanners and runtime workflow
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -B tests/m4_workflow.py --docker /usr/bin/docker

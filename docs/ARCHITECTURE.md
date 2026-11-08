@@ -1,5 +1,12 @@
 # Architecture and accepted decisions
 
+M4 extends `SourceReview` through a distinct `RuntimeReview` engine. A trusted
+single-request HTTP worker has separate exact network authority and producer
+records; it never grants network access to M1's untrusted execution. Configuration
+workers remain offline in M1. Read-only local Docker observations and deployed
+reads have different provenance and do not establish URL-to-container routing.
+See [M4 contracts](M4-RUNTIME-SECURITY.md) for trust, scope and supported claims.
+
 M3 extends the M2 ledger through `SourceReview`, reusing M1 operation provenance
 and private immutable snapshots. Static leads, attributed source traces and finite
 serialized-model remediation have separate acceptance semantics; none establishes
@@ -22,6 +29,7 @@ access without pretending that unavailable surfaces were assessed.
 | Platform adapter | Version-appropriate behavior for an observed platform | A mandatory platform or automatic application upgrade |
 | Tool adapter | Bounded execution, version/data identity, normalized observations | Truth of a finding or permission to test |
 | Execution controller, M1 | Reviewed activation, offline Docker scope/limits, cancellation and authenticated records | Product decisions or permission inferred from target text |
+| Runtime collector, M4 | Exact authorized reads, TLS/address/redirect bounds, durable budgets and typed evidence | Crawling, active payloads, target mutation or image routing attestation |
 
 `SKILL.md` is the compact entrypoint. `config/modules.json` catalogs original
 domain guidance; `config/sources.json` lists disabled external candidates.

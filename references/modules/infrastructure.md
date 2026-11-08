@@ -1,5 +1,10 @@
 # Infrastructure and configuration
 
+M4 implements [selected configuration and local-container observations](../../docs/M4-RUNTIME-SECURITY.md).
+Its finite JSON/Dockerfile/workflow leads and reviewed Trivy embedded-rule adapter
+do not establish remote host/cloud account posture or actual public exposure.
+Use [M4 operations](../../docs/M4-OPERATIONS.md); broader methods below remain guidance.
+
 Map owned hosts, network exposure, cloud identities, containers, databases,
 storage/CDN resources and administrative access. Separate observed configuration
 from assumptions about the provider or managed service.
