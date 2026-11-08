@@ -15,8 +15,37 @@ PATTERNS = [
 ]
 
 
-def redact(value, literals):
+# These are validated/public protocol tokens, not private display text. Masking
+# them can turn a rejected finding into an actionable one or falsify an outcome.
+# The same words in a summary, identifier or credential are still redacted.
+PUBLIC_TOKENS = {
+    "result": {"assessment_record"}, "security_verdict": {"not_established"},
+    "disposition": {"confirmed", "needs_validation", "rejected"},
+    "recorded_disposition": {"confirmed", "needs_validation", "rejected"},
+    "remediation_state": {"not_verified"},
+    "severity": {"critical", "high", "medium", "low", "informational"},
+    "confidence": {"high", "medium", "low"},
+    "category": {"vulnerability", "hardening", "operational"},
+    "state": {"not_started", "in_progress", "reviewed", "blocked", "not_applicable", "present", "absent", "unknown"},
+    "outcome": {"unverified", "satisfied", "failed", "inconclusive", "not_applicable"},
+    "method": {"design_review", "source_reasoning", "configuration_inspection", "deployed_observation", "controlled_reproduction"},
+    "origin": {"operator_observation", "m1_controller"},
+    "surface": {"source", "deployment", "context"}, "mode": {"source_only", "url_only", "combined"},
+    "environment": {"local", "staging", "production", "unknown", "selected_source"},
+    "relevance": {"relevant", "needs_confirmation", "exclusion_needs_evidence", "unknown"},
+    "execution": {"not_activated"}, "declared_capability": {"present", "absent", "unknown"},
+    "kind": {"anonymous", "user", "administrator", "service", "unknown", "database", "file", "queue", "credential", "dataset", "package", "language", "platform-marker"},
+    "trust": {"external", "internal", "unknown"}, "direction": {"read", "write", "exchange", "unknown"},
+    "classification": {"public", "internal", "personal", "sensitive", "secret", "unknown"},
+    "version_basis": {"lockfile", "declared-constraint", "source-assignment", "selected-file-extensions"},
+    "model_provenance": {"operator_declared"}, "revision_provenance": {"operator_declared; not deployed identity"},
+}
+
+
+def redact(value, literals, field=None):
     if isinstance(value, str):
+        if value in PUBLIC_TOKENS.get(field, set()):
+            return value
         for literal in sorted(set(literals), key=len, reverse=True):
             value = value.replace(literal, "[REDACTED]")
         for pattern, replacement in PATTERNS:
@@ -24,12 +53,12 @@ def redact(value, literals):
         # Neutralize terminal controls and bidi overrides before rendering.
         return "".join(c if c in "\n\t" or ord(c) >= 32 and c not in "\x7f\u202a\u202b\u202c\u202d\u202e\u2066\u2067\u2068\u2069" else " " for c in value)
     if isinstance(value, list):
-        return [redact(item, literals) for item in value]
+        return [redact(item, literals, "disposition" if field == "dispositions" else None) for item in value]
     if isinstance(value, dict):
         # Only a closed outward projection may reach this function. Protocol
         # keys are public constants; caller-controlled identifiers are values.
         # Rewriting keys corrupts the contract and can silently merge records.
-        return {key: redact(item, literals) for key, item in value.items()}
+        return {key: redact(item, literals, key) for key, item in value.items()}
     return value
 
 

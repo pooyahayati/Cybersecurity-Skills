@@ -11,7 +11,8 @@
 - Record findings, counterevidence, scoped root-cause groups and attack-chain
   relationships without automatic security or remediation-success claims.
 - Generate redacted JSON and standalone Markdown with actionable evidence,
-  customer impact, fix guidance and retest requirements; preserve protocol keys.
+  customer impact, fix guidance and retest requirements; preserve protocol keys
+  and typed states so display masking cannot change a rejected finding's status.
 - Add behavioral/privacy regressions, an actual CLI workflow and a real Docker
   producer bridge; expand English operator documentation and README tables.
 - Keep M3-M6, external assessment adapters and all live testing unimplemented.

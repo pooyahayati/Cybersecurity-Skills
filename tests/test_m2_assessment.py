@@ -251,6 +251,26 @@ class AssessmentTests(unittest.TestCase):
                        (w.state.root / (result["report"] + ".md")).read_text()):
             for secret in secrets.values(): self.assertNotIn(secret, output)
 
+    def test_masking_display_words_cannot_change_a_rejected_finding_or_verdict(self):
+        w = self.world
+        w.spec["redact_values"] = ["rejected", "not_established", "high", "operator_observation"]
+        w.create()
+        evidence = w.observation(); evidence["summary"] = "Private display words: rejected high not_established operator_observation"
+        w.control.record("demo", evidence)
+        finding = w.finding(evidence=[], disposition="rejected", counter=["trace"])
+        w.control.add_finding("demo", finding)
+        report = w.control.report("demo")
+        self.assertEqual(report["security_verdict"], "not_established")
+        self.assertEqual(report["findings"][0]["disposition"], "rejected")
+        self.assertEqual(report["findings"][0]["severity"], "high")
+        self.assertEqual(report["evidence"][0]["origin"], "operator_observation")
+        self.assertNotIn("rejected", report["evidence"][0]["summary"])
+        result = w.control.write_report("demo")
+        rendered = (w.state.root / (result["report"] + ".md")).read_text(encoding="utf-8")
+        self.assertIn("No actionable finding is recorded", rendered)
+        self.assertIn("## Rejected findings retained", rendered)
+        self.assertNotIn("### Missing ownership check", rendered)
+
     def test_cli_errors_do_not_echo_sensitive_arguments_or_json(self):
         w = self.world
         command = [sys.executable, "-I", "-B", str(ROOT / "scripts/m2_assess.py"), "--state", str(w.state.root)]

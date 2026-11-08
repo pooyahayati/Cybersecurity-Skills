@@ -237,8 +237,11 @@ create a new assessment with the reviewed current package.
 Use pseudonyms and minimum necessary evidence. `redact_values` accepts up to 128
 literal strings of 3–4096 characters for sensitive names or values that patterns
 cannot identify. Redaction applies to outward string values, including identifiers,
-paths, summaries, findings and model context. Public schema keys stay unchanged;
-private identifiers are never used as protocol keys. Common quoted JSON credentials,
+paths, summaries, findings and model context. Public schema keys and validated
+structural tokens such as `rejected`, `high` and `not_established` stay unchanged;
+masking display text cannot change a finding's classification or security verdict.
+The same words in a summary, identifier or credential remain subject to redaction.
+Private identifiers are never used as protocol keys. Common quoted JSON credentials,
 tokens, email/number patterns, URLs and local root paths are suppressed. Markdown
 metacharacters and terminal/bidirectional control characters are neutralized.
 

@@ -60,11 +60,11 @@ they are not committed to this repository.
 | Check | Observed result | Boundary |
 |---|---|---|
 | Repository structure and control catalog | Passed | Metadata/reference/contract checks, not a security assessment |
-| Windows, Python 3.14 | 102 tests discovered; 99 passed, 3 skipped | This host cannot create the three symlink fixtures |
-| Non-root Linux, current official Python runtime | All 102 tests passed; no skips | Read-only source, no network, enforced resource/security limits |
+| Windows, Python 3.14 | 103 tests discovered; 100 passed, 3 skipped | This host cannot create the three symlink fixtures |
+| Non-root Linux, current official Python runtime | All 103 tests passed; no skips | Read-only source, no network, enforced resource/security limits |
 | Real operator CLI | All 15 commands matched expected allowed/denied outcomes | Source-only, URL-only, combined, redaction, original-byte preservation and invalidation |
 | Real Linux Docker isolation from Windows | All 10 scenario groups passed | Existing nine M1 groups plus actual M1-to-M2 evidence import, invented-producer rejection and no automatic security success |
-| Independent security and contract reviews | Four required findings fixed and independently rechecked | Quoted credential masking, complete producer dependency binding, stable report schema keys and self-contained Markdown evidence |
+| Independent security and contract reviews | Five required findings fixed and independently rechecked | Quoted credential masking, complete producer dependency binding, stable schema keys, self-contained Markdown evidence and preserved typed states during display masking |
 
 The complete suite retains M1 regression coverage. M2 tests also cover stale files,
 changed roles/assets/environments, expired/revoked evidence, cross-control and
