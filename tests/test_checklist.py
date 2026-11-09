@@ -25,7 +25,9 @@ class ChecklistTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="cyber-checklist-test-")
         self.addCleanup(self.temp.cleanup)
-        self.root = Path(self.temp.name) / "package"
+        # Hosted Windows may expose a short-name temporary parent. Resolve the
+        # owned fixture, preserving the product's noncanonical-root rejection.
+        self.root = Path(self.temp.name).resolve(strict=True) / "package"
         shutil.copytree(ROOT, self.root, ignore=shutil.ignore_patterns(".git", "__pycache__", ".venv", "dist", "build"))
         self.catalog = load_catalog(self.root)
         self.modules = {g["module"] for g in self.catalog["groups"]}

@@ -23,6 +23,12 @@ separately. Original failures and reviewer fixture/sequence errors remain privat
 The corrections preserve legitimate planning and all 36 unverified outcomes.
 These results qualify the bounded planner, not security detection accuracy.
 
+The first hosted Windows runs stopped all nine new methods during fixture setup:
+the temporary parent was not canonical. The fixture now resolves its owned parent
+before creating the package, as existing lifecycle fixtures do. Product path/link
+rejection and every assertion remain unchanged. Original hosted failures are
+retained; the corrected exact revision must pass the same hosted matrix.
+
 Exact-revision hosted checks, current native source/extracted-package scans,
 independent review acceptance and package identity are integration gates retained
 in private delivery records. They do not authorize stable publication, global
