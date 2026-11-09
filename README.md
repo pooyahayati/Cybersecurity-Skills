@@ -22,8 +22,9 @@ counterevidence, a concrete fix, and checks that preserve legitimate behavior.
 Source-only, URL-only and combined reviews have different coverage. A public URL
 does not reveal private source code, cloud permissions or backup recoverability.
 The skill must retain those unknowns, distinguish staging from production, and
-explain next steps in plain language. Detection accuracy and remediation quality
-will be measured in the [evaluation protocol](docs/EVALUATION.md), not assumed.
+explain next steps in plain language. [Measured bounded results](STATUS.md) follow
+the [evaluation protocol](docs/EVALUATION.md); full-application detection accuracy
+and remediation quality remain unestablished.
 
 Today the package provides eleven domain guidance modules, a bounded intake and
 assessment ledger, useful private reports, and a foundation for acquiring and

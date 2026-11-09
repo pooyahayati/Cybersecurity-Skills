@@ -6,6 +6,8 @@
   verification and separately supplied archive identities; execute no package hooks.
 - Disable Git replacement refs, inherited repository/configuration redirection
   and lazy object fetching; verify actual commit/tree/blob object identities.
+- Record bounded baseline/candidate static-report measurements and actual
+  installed-package/operator checks, with host/model and unsupported-surface limits.
 - Add explicit-root managed install/update/uninstall and private interruption
   recovery, preserving local edits, unrelated skills and assessment state.
 - Keep separate staging identities when restoration itself is interrupted; retain
