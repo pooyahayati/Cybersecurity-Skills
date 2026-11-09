@@ -13,6 +13,7 @@ import sys
 import time
 from urllib.request import urlopen
 
+sys.path.insert(0,str(Path(__file__).resolve().parent))
 from c26_support import ScenarioWorld,TABLES
 from runtime_support import acceptance
 from security_runtime.common import canonical,digest,parse,sha256,require

@@ -16,6 +16,7 @@ import subprocess
 import sys
 import time
 
+sys.path.insert(0,str(Path(__file__).resolve().parent))
 from m4_support import ROOT,RuntimeWorld,Server
 from runtime_support import acceptance,source
 from security_assessment.checklist_runtime import ChecklistReview
