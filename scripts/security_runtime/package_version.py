@@ -17,7 +17,8 @@ def skill_header(text):
     root, metadata = {}, {}
     nested = False
     for line in lines:
-        require(line and not any(ord(c) < 32 for c in line), "unsupported skill frontmatter syntax")
+        require(line and not any(ord(c) < 32 or 0x7f <= ord(c) <= 0x9f
+                or c in "\u2028\u2029\ufffe\uffff" for c in line), "unsupported skill frontmatter syntax")
         if line == "metadata:":
             require("metadata" not in root, "duplicate skill frontmatter key")
             root["metadata"] = metadata
@@ -32,7 +33,7 @@ def skill_header(text):
         key, separator, value = value_line.partition(": ")
         require(separator and key in allowed and key not in fields,
                 "unknown or duplicate skill frontmatter key")
-        require(value and value == value.strip() and ": " not in value and " #" not in value
+        require(value and value == value.strip() and ": " not in value and not value.endswith(":") and " #" not in value
                 and value[0] not in "!&*{}[]|>'\"%@`#?-",
                 "unsupported skill frontmatter scalar")
         fields[key] = value

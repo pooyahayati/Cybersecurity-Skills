@@ -36,7 +36,8 @@ arbitrary prerelease names and floating labels are unsupported. Archive and skil
 metadata must agree. Candidate/stable packages must include lifecycle/support
 content. The skill header accepts only its documented plain-scalar fields and
 one `metadata` mapping with one author and version; duplicate keys, YAML aliases,
-tags, quoted/block scalars and ambiguous comments are rejected. Packages must
+tags, quoted/block scalars, invalid controls/separators, trailing colons and
+ambiguous comments are rejected. Packages must
 preserve `maturity: bounded-qualification` and `operational: false`.
 The latter means general operational assessment qualification is not established;
 it does not deny the individually documented implemented controls.
@@ -105,8 +106,12 @@ The copied test harness has no checkout scripts, configuration or documentation
 beside it, so misplaced relative product-resource lookups fail. Synthetic publisher identities apply
 only to owned head/worker fixtures; actual current tool metadata is still required.
 
-`tests/host_discovery.py` checks a real host catalog in an isolated owned project
-and home, with no model invocation, credentials or global installation. Catalog
+`tests/host_discovery.py` checks candidate registration in a real host catalog
+using an owned project and private home/configuration, without copying credentials,
+invoking a model or installing globally. The observed Windows host can still
+enumerate existing user-level skill metadata outside that private home; this is
+not complete catalog isolation or an OS boundary. Only the candidate's exact
+installed path, scope and metadata establish its registration. Catalog
 registration is separate from autonomous routing, task quality and runtime
 enforcement. Host protocol/version and unsupported hosts stay explicit in results.
 The M6 static agent measurements remain historical; new operator observations

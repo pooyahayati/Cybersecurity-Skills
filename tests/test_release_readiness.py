@@ -32,14 +32,19 @@ class ReleaseTests(unittest.TestCase):
         import io
         import zipfile
         from validate_project import ValidationError, validate
-        files = payload()
+        files = versioned(payload(), "1.0.0-rc.1")
         original = files["SKILL.md"]
+        description = next(line for line in original.split(b"\n") if line.startswith(b"description: "))
         for old, replacement in [
                 (b"  version: 1.0.0-rc.1", b"  version: 1.0.0-rc.1\n  version: invalid-floating-latest"),
                 (b"name: cybersecurity-skills", b"name: cybersecurity-skills\nname: unrelated"),
                 (b"metadata:", b"metadata: {}\nmetadata:"),
                 (b"  version: 1.0.0-rc.1", b"  version: '1.0.0-rc.1'"),
-                (b"  version: 1.0.0-rc.1", b"  version: 1.0.0-rc.1 # shadow")]:
+                (b"  version: 1.0.0-rc.1", b"  version: 1.0.0-rc.1 # shadow"),
+                (description, b"description: :"), (description, b"description: ends-with-colon:"),
+                (description, b"description: hidden\x7fcontrol"),
+                (description, b"description: hidden\xc2\x85separator"),
+                (description, b"description: hidden\xe2\x80\xa8separator")]:
             changed = original.replace(old, replacement)
             self.assertNotEqual(changed, original)
             with self.subTest(replacement=replacement):
@@ -171,7 +176,7 @@ class ReleaseTests(unittest.TestCase):
         old = sha256(world.old.read_bytes())
         manager.change("install", world.old, old)
         candidate = world.root / "candidate.zip"
-        candidate.write_bytes(assemble(payload(), "c" * 40))
+        candidate.write_bytes(assemble(versioned(payload(), "1.0.0-rc.1"), "c" * 40))
         new = sha256(candidate.read_bytes())
         manager.change("update", candidate, new, old)
         self.assertEqual(diagnose(manager)["release_channel"], "release-candidate")

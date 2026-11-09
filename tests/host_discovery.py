@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Observe local Codex skill metadata without starting a model turn.
+"""Observe selected local Codex skill metadata without starting a model turn.
 
 Requires an explicitly selected trusted host executable and archive digest. Uses
 an owned private home/project, frozen empty cloud skill snapshot and only the
 initialize/skills-list protocol. No credentials are copied or global install made.
+The host may still enumerate ambient user metadata outside the private home.
 """
 
 import argparse
@@ -118,6 +119,8 @@ def run(codex, archive, identity):
                       "host_executable_sha256": hashlib.sha256(codex.read_bytes()).hexdigest(),
                       "skill_name": skill["name"], "scope": skill["scope"], "enabled": skill["enabled"],
                       "metadata_discovery": True, "model_invocation": False,
+                      "ambient_skill_metadata_may_be_visible": True,
+                      "other_catalog_entries": len(entries[0]["skills"]) - 1,
                       "autonomous_routing_verified": False, "runtime_readiness": "not_established",
                       "private_evidence": str(private)}
             (private / "result.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
