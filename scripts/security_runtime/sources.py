@@ -110,6 +110,9 @@ class Transport:
 
 
 def source_spec(value):
+    if isinstance(value, dict) and value.get("provider") == "trivy-db-oci":
+        from .advisory import source_spec as advisory_spec
+        return advisory_spec(value)
     fields(value, {"id", "kind", "repository", "repository_id", "owner_id", "include",
                    "asset", "max_download_bytes", "max_unpacked_bytes", "data_max_age_seconds"})
     identifier(value["id"])
@@ -167,6 +170,9 @@ class GitHub:
 
     def resolve(self, spec):
         spec = source_spec(spec)
+        if spec.get("provider") == "trivy-db-oci":
+            from .advisory import Advisory
+            return Advisory(clock=self.clock).resolve(spec)
         repo = spec["repository"]
         metadata = self.json(repo)
         require(isinstance(metadata, dict) and type(metadata.get("id")) is int
@@ -269,6 +275,9 @@ class GitHub:
         raise Blocked("Git reference nesting exceeds its limit")
 
     def fetch(self, spec, resolved):
+        if spec.get("provider") == "trivy-db-oci":
+            from .advisory import Advisory
+            return Advisory(clock=self.clock).fetch(spec, resolved)
         identity = resolved["identity"]
         if spec["asset"] is not None:
             asset = identity["asset"]

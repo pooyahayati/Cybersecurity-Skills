@@ -17,3 +17,11 @@ Do not claim legal compliance merely from a technical checklist.
 Use synthetic identifiers and minimum necessary evidence. Redact the auditor's
 own reports, logs and tool inputs. Verify the proposed fix covers each affected
 copy without breaking legitimate access or destroying required recoverability.
+
+## Optional checklist execution
+
+Use the [C2-C6 execution guide](../../docs/CHECKLIST-EXECUTION.md) only when its
+selected profile and explicit authority match this project. Require independent
+business expectations and actual attributed observations; preserve unsupported
+requirements and all per-item checklist outcomes. A tool lead or historical
+profile result cannot self-approve a finding, correction or deployment.

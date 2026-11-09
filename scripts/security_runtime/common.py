@@ -105,7 +105,23 @@ def regular(path):
     return info
 
 
-def read_file(root, relative, limit=8 * 1024 * 1024):
+def _read_content(stream, size, hash_only):
+    if not hash_only:
+        value = stream.read(size + 1)
+        require(len(value) == size, "input changed during capture")
+        return value
+    hasher, total = hashlib.sha256(), 0
+    while True:
+        chunk = stream.read(min(1024 * 1024, size + 1 - total))
+        if not chunk: break
+        total += len(chunk)
+        require(total <= size, "input changed during capture")
+        hasher.update(chunk)
+    require(total == size, "input changed during capture")
+    return hasher.hexdigest()
+
+
+def read_file(root, relative, limit=8 * 1024 * 1024, *, hash_only=False):
     relpath(relative)
     root = Path(root).absolute()
     require(root == root.resolve(strict=True), "input root is not canonical or contains a link")
@@ -118,7 +134,7 @@ def read_file(root, relative, limit=8 * 1024 * 1024):
     require(current.resolve(strict=True).is_relative_to(root), "path escapes allowed root")
     regular(current)
     if os.name == "nt":
-        value = _windows_read(root, relative, limit)
+        value = _windows_read(root, relative, limit, hash_only)
     else:
         # Keep traversal anchored to descriptors; never follow a swapped link.
         descriptor = os.open(root.anchor, os.O_RDONLY | os.O_DIRECTORY)
@@ -133,18 +149,17 @@ def read_file(root, relative, limit=8 * 1024 * 1024):
                 require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1,
                         "input must be a regular file without hard links")
                 require(before.st_size <= limit, "file exceeds its size limit")
-                value = stream.read(before.st_size + 1)
+                value = _read_content(stream, before.st_size, hash_only)
                 after = os.fstat(stream.fileno())
-                require(len(value) == before.st_size
-                        and (before.st_size, before.st_mtime_ns) == (after.st_size, after.st_mtime_ns),
+                require((before.st_size, before.st_mtime_ns) == (after.st_size, after.st_mtime_ns),
                         "input changed during capture")
         finally:
             os.close(descriptor)
-    require(len(value) <= limit, "file exceeds its size limit")
+    require(hash_only or len(value) <= limit, "file exceeds its size limit")
     return value
 
 
-def _windows_read(root, relative, limit):
+def _windows_read(root, relative, limit, hash_only=False):
     import ctypes as c
     from ctypes import wintypes as w
     import msvcrt
@@ -200,9 +215,7 @@ def _windows_read(root, relative, limit):
         fd = msvcrt.open_osfhandle(file_handle, os.O_RDONLY | os.O_BINARY)
         file_handle = None  # The Python file object now owns this handle.
         with os.fdopen(fd, "rb") as stream:
-            value = stream.read(size + 1)
-            require(len(value) == size, "input changed during capture")
-            return value
+            return _read_content(stream, size, hash_only)
     finally:
         if file_handle is not None:
             kernel.CloseHandle(file_handle)
@@ -243,5 +256,5 @@ def portable_tree(root, limit=512 * 1024 * 1024):
                 regular(item)
                 total += info.st_size
                 require(total <= limit and len(entries) < 4096, "object exceeds its limits")
-                entries[relative] = sha256(read_file(root, relative, limit))
+                entries[relative] = read_file(root, relative, limit, hash_only=True)
     return dict(sorted(entries.items()))

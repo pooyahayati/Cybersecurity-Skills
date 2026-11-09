@@ -36,10 +36,12 @@ def run(docker, revision, trivy_archive=None, k6_archive=None):
     harness = private / "harness/tests"
     harness.mkdir(parents=True)
     harness_hashes = {}
-    for source in sorted((ROOT / "tests").glob("*.py")):
+    for source in sorted((ROOT / "tests").rglob("*.py")):
         data = source.read_bytes()
-        (harness / source.name).write_bytes(data)
-        harness_hashes[source.name] = hashlib.sha256(data).hexdigest()
+        relative=source.relative_to(ROOT/'tests')
+        (harness/relative).parent.mkdir(parents=True,exist_ok=True)
+        (harness/relative).write_bytes(data)
+        harness_hashes[relative.as_posix()] = hashlib.sha256(data).hexdigest()
     diagnostic = diagnose(manager)
     assert diagnostic["integrity_verified"] and not diagnostic["freshness_verified"]
     environment = dict(os.environ)
@@ -52,7 +54,9 @@ def run(docker, revision, trivy_archive=None, k6_archive=None):
     suites = [("docker_integration.py", ["--docker", docker]), ("m2_workflow.py", []),
               ("m3_workflow.py", ["--docker", docker]),
               ("m4_workflow.py", ["--docker", docker] + (["--trivy-archive", trivy_archive] if trivy_archive else [])),
-              ("m5_workflow.py", ["--docker", docker] + (["--k6-archive", k6_archive] if k6_archive else []))]
+              ("m5_workflow.py", ["--docker", docker] + (["--k6-archive", k6_archive] if k6_archive else [])),
+              ("c26_docker_check.py", ["--docker",docker]),
+              ("c25_workflow.py", ["--docker",docker] + (["--trivy-archive",trivy_archive] if trivy_archive else []))]
     print(json.dumps({"private_evidence": str(private), "source_revision": revision}), flush=True)
     for script, options in suites:
         name = Path(script).stem

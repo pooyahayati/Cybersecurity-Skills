@@ -1,8 +1,9 @@
 # Bounded release contract and operator guide
 
 The release-candidate series prepares the existing bounded controls for release.
-Version `1.0.0-rc.2` adds the offline [checklist planning profile](CHECKLIST-COVERAGE.md);
-it does not add the future runtime adapters in the checklist roadmap.
+Version `1.0.0-rc.3` adds opt-in [C2-C6 execution profiles](CHECKLIST-EXECUTION.md)
+to the offline [checklist planning profile](CHECKLIST-COVERAGE.md). Their measured
+support boundaries remain separate from each target's unverified item outcomes.
 It is not a published stable release, a general vulnerability detector, a
 certification, a guarantee against compromise or permission to test a system.
 Read [observed results](../STATUS.md) before selecting a capability.
@@ -17,6 +18,7 @@ Read [observed results](../STATUS.md) before selecting a capability.
 | M4 runtime and release | Exact authorized web reads, role comparisons, selected current Trivy secret/configuration rules, local artifact observations | No broad active scanning, remote administration, full CVE coverage or deployment approval |
 | M5 resilience | Bounded read workloads, offline SQLite integrity/restoration, receiver acknowledgments and private incident chronology | No business-write load, whole-service recovery proof, automatic containment or recurring monitoring |
 | M6 package management | Exact-source archive, data-only inspection, explicit-root managed install/update/uninstall, interruption recovery | Integrity is not publisher authentication; trust the management host and exclude foreign concurrent writers |
+| C2-C6 checklist evidence | Selected current dependency data, bounded HTTP/passive leads, HTTP/SQLite scenarios, service/publisher policy and instrumented recovery | Finite profiles in the execution guide; no broad browser, cloud, SIEM or production security claim |
 
 All eleven domain modules remain guidance. Optional specialists require current
 identity and instruction review when selected; none is automatically installed or

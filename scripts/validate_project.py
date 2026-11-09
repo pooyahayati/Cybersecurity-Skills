@@ -45,6 +45,8 @@ REQUIRED_FILES = (
     "config/security-checklist.json", "scripts/security_checklist.py",
     "scripts/security_assessment/checklist.py",
     "docs/CHECKLIST-COVERAGE.md", "docs/CHECKLIST-ROADMAP.md",
+    "docs/CHECKLIST-EXECUTION.md", "scripts/c26_review.py", "scripts/c2_worker.py",
+    "scripts/c3_zap_worker.py", "scripts/c5_worker.py", "config/trivy-db-source.json", "config/cosign-source.json",
 )
 
 
@@ -241,6 +243,17 @@ def validate(root: Path) -> dict:
         for capability in checklist["capabilities"]:
             for path in capability["paths"]:
                 reader.read(path)
+        matrix = reader.read("docs/CHECKLIST-COVERAGE.md")
+        start, end = "<!-- checklist-matrix:start -->", "<!-- checklist-matrix:end -->"
+        require(matrix.count(start) == matrix.count(end) == 1,
+                "security checklist matrix markers are missing or duplicated")
+        expected = ["| Item | Required check | Existing bounded support | Remaining gap | Phase |",
+                    "|---|---|---|---|---|"]
+        expected.extend("| " + " | ".join((item["id"], item["title"],
+                        ", ".join(item["capabilities"]), item["remaining_gap"], item["phase"]))
+                        + " |" for item in checklist["controls"])
+        require(matrix.split(start, 1)[1].split(end, 1)[0].strip() == "\n".join(expected),
+                "security checklist matrix does not match the catalog")
     except (ValueError, KeyError, TypeError) as exc:
         raise ValidationError("invalid security checklist catalog") from exc
 

@@ -16,3 +16,11 @@ concurrency and request counts and inspect persisted results after the test.
 Return the violated invariant, actor, safe reproduction and affected state. Fix the
 server-side invariant rather than adding a browser-only guard. Retest duplicate and
 legitimate operations and inspect any remaining retry/reconciliation behavior.
+
+## Optional checklist execution
+
+Use the [C2-C6 execution guide](../../docs/CHECKLIST-EXECUTION.md) only when its
+selected profile and explicit authority match this project. Require independent
+business expectations and actual attributed observations; preserve unsupported
+requirements and all per-item checklist outcomes. A tool lead or historical
+profile result cannot self-approve a finding, correction or deployment.

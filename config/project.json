@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "name": "cybersecurity-skills",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "maturity": "bounded-qualification",
   "operational": false,
   "entrypoint": "SKILL.md",

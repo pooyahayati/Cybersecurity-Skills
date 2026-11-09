@@ -4,7 +4,7 @@ description: Review source, identity, customer data, selected infrastructure and
 license: MIT
 metadata:
   author: Pooya Hayati
-  version: 1.0.0-rc.2
+  version: 1.0.0-rc.3
 ---
 
 # Cybersecurity Skills
@@ -19,7 +19,20 @@ A generated plan leaves all outcomes unverified and activates no tool. Record
 actual observations through the existing evidence and execution methods; never
 close finer items merely because their broad M2 control or an ASVS chapter was
 reviewed. The [C1-C6 roadmap](docs/CHECKLIST-ROADMAP.md) distinguishes this planning
-capability from future dependency, web, scenario, infrastructure and recovery work.
+capability from separately qualified dependency, web, scenario, infrastructure and recovery profiles.
+
+For C2-C6 execution, read [the bounded execution guide](docs/CHECKLIST-EXECUTION.md)
+before choosing an adapter. Select current Trivy plus independent advisory data,
+admitted HTTP captures with offline ZAP passive analysis, actual HTTP/SQLite
+business scenarios, effective local service settings and approved-key provenance,
+or instrumented audit transport and service recovery only when the stated profile
+and access match. Prepare independent positive, prohibited and variant cases;
+bind actual source/runtime/database/actor identities; retain incomplete attempts
+and historical evidence. A profile result cannot close every child checklist item.
+Unsupported stacks, browsers, clouds, replicas and transports remain unverified.
+Explain concrete customer impact, correction and preservation/retest steps. Do not
+silently substitute a similar tool, stale data, invalid credential or a model's
+declared state for the required actual observations.
 
 M6 provides bounded qualification records and exact-source package/lifecycle
 operations. Read [M6 qualification and packaging](docs/M6-QUALIFICATION.md) when

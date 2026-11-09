@@ -39,7 +39,7 @@ def selected_tree(root, prefixes):
     return dict(sorted(result.items()))
 
 
-def write_bundle(parent, contents):
+def write_bundle(parent, contents, limit=512 * 1024**2):
     """Stage outside visible objects. No hooks, archive extraction or overwrites."""
     temporary = parent / ("stage-" + secrets.token_hex(16))
     temporary.mkdir(mode=0o700)
@@ -53,7 +53,7 @@ def write_bundle(parent, contents):
             os.fsync(stream.fileno())
         if os.name != "nt":
             path.chmod(0o555)  # Native entrypoints are allowed only by exact authorization.
-    manifest = portable_tree(temporary)
+    manifest = portable_tree(temporary, limit=limit)
     for base, dirs, _files in os.walk(temporary, topdown=False):
         # Keep the staging root writable until its cross-directory rename has
         # updated '..'. POSIX forbids that move for a non-root owner otherwise.
@@ -94,14 +94,19 @@ class Controller:
             spec = self.source(component)
             resolved = self.upstream.resolve(spec)
             contents = self.upstream.fetch(spec, resolved)
-            temporary, manifest = write_bundle(self.store.root / "quarantine", contents)
+            bundle_limit = spec["max_unpacked_bytes"] if spec.get("provider") == "trivy-db-oci" else 512 * 1024**2
+            if spec.get("provider") == "trivy-db-oci":
+                from .advisory import stage_database
+                temporary, manifest = stage_database(self.store.root / "quarantine", contents, spec, resolved, self.clock())
+            else:
+                temporary, manifest = write_bundle(self.store.root / "quarantine", contents, limit=bundle_limit)
             record = {"component": component, "kind": spec["kind"], "resolved": resolved,
                       "manifest": manifest, "spec_sha256": digest(spec)}
         candidate = "candidate-" + digest(record)
         if component != "runtime":
             destination = self.store.root / "objects" / candidate
             if destination.exists():
-                require(portable_tree(destination) == manifest, "existing candidate bytes changed")
+                require(portable_tree(destination, limit=bundle_limit) == manifest, "existing candidate bytes changed")
             else:
                 temporary.rename(destination)
                 if os.name != "nt":
@@ -127,7 +132,9 @@ class Controller:
         value = (tx or self.store).get("candidate", candidate)
         require(value is not None, "candidate is unavailable")
         if value["kind"] != "runtime":
-            require(portable_tree(self.store.root / "objects" / candidate) == value["manifest"],
+            spec = self.source(value["component"], tx)
+            limit = spec["max_unpacked_bytes"] if spec.get("provider") == "trivy-db-oci" else 512 * 1024**2
+            require(portable_tree(self.store.root / "objects" / candidate, limit=limit) == value["manifest"],
                     "candidate bytes differ from their authenticated manifest")
         return value
 

@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.0.0-rc.3 - Bounded checklist execution profiles
+
+- Add independently current official Trivy OCI advisory acquisition, exact npm
+  lockfile inventory/matching and a completeness-labelled CycloneDX SBOM.
+- Add separately authorized bounded HTTP methods/navigation, kernel controller
+  lifetime enforcement and reviewed offline ZAP passive analysis of private captures.
+- Add actual HTTP/SQLite business scenarios with independent state/response/actor
+  predicates, live source/runtime/database binding and original/fixed comparisons.
+- Add effective local service policy, authenticated GitHub Actions-default reads
+  and offline Cosign verification against an independently reviewed publisher policy.
+- Add actual instrumented three-hop audit transport, protected database capture,
+  usable service restoration, measured event loss and formerly valid access denial.
+- Add private actionable historical reports, explicit incomplete attempts and
+  bounded profile routing. Keep all 36 checklist outcomes independently unverified.
+- Retain M1 offline isolation and legacy M1-M6 authority contracts. New opt-in
+  records do not authorize a customer scan, production action or stable release.
+
 ## 1.0.0-rc.2 - Checklist coverage planning
 
 - Map all 36 Security Audit checklist items to separate evidence requirements,

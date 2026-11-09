@@ -2,7 +2,9 @@
 
 The [coverage matrix](CHECKLIST-COVERAGE.md) maps the 36 items in the selected
 Security Audit section. This roadmap separates delivered planning capability
-from future adapters and target-specific verification. It is not permission to
+from separately qualified adapters and target-specific verification. The current
+bounded profiles are described in [the execution guide](CHECKLIST-EXECUTION.md);
+the exits below remain unchanged and actual results belong in STATUS.md. It is not permission to
 install every candidate, send requests, publish a stable release or change a
 customer system. M1-M6 authorization, evidence and freshness contracts remain.
 

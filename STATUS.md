@@ -1,8 +1,56 @@
 # Project status
 
-Updated: 2026-11-09
+Updated: 2026-11-10
 
 ## Current stage
+
+Candidate `1.0.0-rc.3` implements the bounded C2-C6 profiles in
+[the execution guide](docs/CHECKLIST-EXECUTION.md). Current Trivy/official OCI data,
+admitted HTTP/offline ZAP, actual HTTP/SQLite scenarios, finite effective service
+and publisher policy, and instrumented transport/service recovery have separate
+contracts. All 36 checklist outcomes remain independently unverified for a target.
+
+The corrected executable candidate passed 261 offline Linux regression methods
+with no skips or failures. Its exact private installed package also passed actual
+current Trivy/official-data and Cosign execution, current offline ZAP analysis,
+authenticated Actions-default observation, all eight original/fixed HTTP/SQLite
+scenario families, and the recovery/detection exercises below. Imported product
+modules and worker resources were attributed to the installed package; no checkout
+product files supplied the tests-only harness. These are bounded implementation
+and owned-fixture results, not customer-system security conclusions.
+
+| Observed check | Result | Scope and limit |
+|---|---|---|
+| Current dependencies and provenance | Eight actual operations passed their expected outcomes: three vulnerable inventories, one clean supported near-match, valid provenance and three rejected tamper/signature/builder cases | Exact npm versions and reviewed approved-key policy; no reachability, shipped identity or transparency-log claim |
+| Current passive web analysis and pipeline | One admitted target request, four offline ZAP leads, effective Actions defaults and private report observed | Leads need validation; no browser, active scan or general pipeline permission assessment |
+| Real original/fixed business scenarios | Eight families distinguished original protected-state/response failures from corrected legitimate/denied/variant behavior | Actual selected Python/SQLite containers and independent state predicates; other stacks need separate cases |
+| Service recovery and backup access | All six checks passed, including actual compromised application UID denial and rejection of the same formerly valid credential | About 10.4 seconds from explicit restore start; one lost committed selected event; authenticated GET/read usability only |
+| Actual detection transport | Target event persisted and pushed through collector to receiver; all three correlated hops observed | Qualified on Windows Docker Desktop; Linux full target-push bridge, external SIEM and real notifications remain unverified |
+| Independent correction regressions | Installed maximum body/header handling, invalid-version rejection, incorrect restored state and exceeded recovery budget passed; stale/duplicate/missing matrix content rejected | Relevant legitimate behavior preserved; structural validation is not a security assessment |
+| Controller lifetime | Independent Linux post-admission parent-death and Windows kernel lifetime checks passed | Owned loopback fixtures; no guarantee against a hostile same-user process or host compromise |
+
+Independent review corrected source-mount/identity ambiguity, unrelated state
+oracles, response/state conflation, uncertain-write reporting, transport spoofing,
+backup identity/access gaps, malformed component versions and valid-response
+serialization limits. Original failures remain private. Current advisory data
+also exposed an incomplete dependency fix; that vulnerable near-match remains a
+regression fixture beside the actual clean selected version. No finding was hidden
+by a suppression or weaker acceptance criterion.
+
+Final delivery associates these results with the exact source/archive and permits
+only reviewed documentation-only differences. Current native source/package scans,
+formal independent acceptance and all five exact-revision hosted jobs remain
+mandatory GitHub integration gates, recorded separately in private delivery
+receipts and the pull request. No local result substitutes for those gates.
+
+The recovery/MFA fixture uses synthetic proof predicates; upload content is stored
+in SQLite. Recovery usability verifies the selected authenticated read, not all
+read/write business workflows. General MFA/provider lifecycle, filesystem/object storage, browsers,
+remote clouds, pre-existing SIEM/notifications and production outage RTO/RPO stay
+unverified. This stage does not publish stable software, install globally, test a
+customer service or authorize any production action.
+
+## Previous C1 baseline
 
 The C1 checklist follow-up implements `1.0.0-rc.2`: a complete 36-item planning
 catalog, offline JSON/Markdown plan generation, explicit per-item evidence and
@@ -10,8 +58,9 @@ legitimate/prohibited scenarios, and a C2-C6 completion roadmap. Existing M1-M6
 runtime authority and stored assessment schemas are unchanged. The new planner
 performs no assessment and leaves every target outcome unverified. Candidate
 source health and licensing constraints are updated; no new upstream tool is
-installed or activated. C2-C6 runtime adapters remain future work; completing
-the matrix does not establish their implementation or any target security pass.
+installed or activated at that baseline. C2-C6 runtime adapters were future work
+then; completing the C1 matrix did not establish their implementation or any
+target security pass. Current bounded profiles are described above.
 
 The corrected C1 source passed all 228 offline Linux regression methods and nine
 focused Windows checklist methods, including actual private installed CLI use.

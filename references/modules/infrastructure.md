@@ -22,3 +22,11 @@ working server configuration wholesale.
 Return exact affected resources, safe correction steps, owner responsibilities,
 verification and recovery requirements. Missing administrative access leaves the
 relevant controls unverified even when the public site responds normally.
+
+## Optional checklist execution
+
+Use the [C2-C6 execution guide](../../docs/CHECKLIST-EXECUTION.md) only when its
+selected profile and explicit authority match this project. Require independent
+business expectations and actual attributed observations; preserve unsupported
+requirements and all per-item checklist outcomes. A tool lead or historical
+profile result cannot self-approve a finding, correction or deployment.

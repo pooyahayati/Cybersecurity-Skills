@@ -21,3 +21,11 @@ output escaping. Activate a platform adapter only on observed platform evidence.
 Propose the smallest root-cause fix. Check malicious and legitimate boundary inputs,
 related variants and protected state. Running target builds/tests is separate from
 reading source and requires the corresponding execution scope.
+
+## Optional checklist execution
+
+Use the [C2-C6 execution guide](../../docs/CHECKLIST-EXECUTION.md) only when its
+selected profile and explicit authority match this project. Require independent
+business expectations and actual attributed observations; preserve unsupported
+requirements and all per-item checklist outcomes. A tool lead or historical
+profile result cannot self-approve a finding, correction or deployment.
