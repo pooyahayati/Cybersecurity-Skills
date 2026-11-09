@@ -48,7 +48,11 @@ def main(argv=None):
         store=Store(args.state,package,initialize=args.command=='init')
         require(args.docker is None or args.docker.is_absolute(),'absolute Docker executable required')
         docker=Docker(args.docker,store) if args.docker else None
-        control=ChecklistReview(store,package,docker=docker)
+        source_client=None
+        if args.token_env:
+            require(args.token_env in os.environ and os.environ[args.token_env],'explicit GitHub credential unavailable')
+            source_client=GitHub(Http(os.environ[args.token_env]))
+        control=ChecklistReview(store,package,docker=docker,upstream=source_client,source_client=source_client)
         case=control.case(args.assessment) if hasattr(args,'assessment') else None
         credentials,ca,body=None,None,None
         if getattr(args,'credentials',None):
@@ -76,7 +80,7 @@ def main(argv=None):
         elif name=='bind-deployment':result=control.bind_deployment(args.assessment,document(args.file))
         elif name=='pipeline':
             require(args.token_env and args.token_env in os.environ,'explicit authorized GitHub read credential required')
-            result=control.pipeline_observe(args.assessment,document(args.file),GitHub(Http(os.environ[args.token_env])))
+            result=control.pipeline_observe(args.assessment,document(args.file),source_client)
         elif name=='report':result=control.execution_report(args.assessment)
         elif name=='zap-prepare':result=control.zap.prepare()
         elif name=='zap-review':result=control.zap.review(document(args.file))

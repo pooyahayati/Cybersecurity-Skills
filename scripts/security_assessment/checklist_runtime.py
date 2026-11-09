@@ -14,13 +14,13 @@ from .service_recovery import ServiceRecovery
 
 
 class ChecklistReview(ResilienceReview):
-    def __init__(self,store,package,clock=None,upstream=None,docker=None):
+    def __init__(self,store,package,clock=None,upstream=None,docker=None,source_client=None):
         import time
         super().__init__(store,package,clock=clock or time.time,upstream=upstream,docker=docker)
         self.traffic=ScenarioController(store,package,upstream,self.clock)
         self.traffic.binding_validator=self.validate_binding
         self.traffic.case_provider=self.case
-        self.zap=ZapAnalysis(store,package,upstream,self.clock,docker)
+        self.zap=ZapAnalysis(store,package,upstream,self.clock,docker,source_client)
         self.service_recovery=ServiceRecovery(store,self.traffic,self.clock)
         self.service_recovery.backup_probe=self.backup_access
 

@@ -119,12 +119,13 @@ def run(executable,archives,retain=False):
             except Blocked:pass
             else:raise AssertionError('failed actual verifier imported successfully')
             results.append({'id':key,'blocked_import':True});return None
-        for version in ('4.17.20','4.17.21'):
+        for version in ('4.17.20','4.17.21','4.18.0'):
             lock={'name':'owned','lockfileVersion':3,'packages':{'':{'name':'owned'},'node_modules/lodash':{'version':version}}}
             report=execute('dependency-'+version.replace('.','-'),{'package-lock.json':canonical(lock)},'c2')
             matches=[row for row in report['findings'] if row['advisory']=='CVE-2021-23337']
             require(bool(matches)==(version=='4.17.20'),'known vulnerable/fixed advisory attribution differs')
             require(all(row['location']=='node_modules/lodash' and row['version']==version for row in report['findings']),'wrong exact dependency attribution')
+            if version=='4.18.0':require(report['outcome']=='satisfied' and not report['findings'],'current fixed near-match is not clean; inspect new advisories rather than suppressing them')
         report=execute('provenance-valid',fixture,'c5');require(report['outcome']=='satisfied','approved signature failed')
         execute('provenance-altered-artifact',{**fixture,'artifact.bin':fixture['artifact.bin']+b'tampered'},'c5',False)
         bad=copy.deepcopy(fixture);value=parse(bad['attestation.bundle.json']);value['messageSignature']['signature']=base64.b64encode(b'wrong-signature').decode();bad['attestation.bundle.json']=canonical(value)

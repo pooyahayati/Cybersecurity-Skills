@@ -32,6 +32,9 @@ def build_report(control,case):
             'Match the approved publisher key, artifact, builder, workflow and source revision. Rebuild and verify again; signature validity is not deployment identity.'})
     for identity,record in records['zap-operation'].items():
         if record['assessment']!=key:continue
+        if record['status']=='completed':
+            raw=read_file(store.root,identity+'.zap-output',2*1024**2)
+            require(sha256(raw)==record['result']['sha256'],'passive analysis output changed')
         for operation,expected in record['captures'].items():
             require(digest(store.get('traffic-operation',operation))==expected,'captured producer changed')
         rows.append({'id':identity,'stage':'c3','observed_outcome':record['status'],

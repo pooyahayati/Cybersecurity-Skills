@@ -2,6 +2,7 @@
 
 import base64
 import copy
+import hashlib
 from pathlib import Path
 import re
 import secrets
@@ -25,19 +26,34 @@ def catalog(raw):
         require(len(rows)==1,'selected add-on absent or ambiguous')
         row=rows[0]
         filename=row.findtext('file');hashed=row.findtext('hash');version=row.findtext('version')
+        status=row.findtext('status')
         require(isinstance(filename,str) and re.fullmatch(re.escape(identity)+r'-(release|beta|alpha)-[0-9A-Za-z.]+\.zap',filename)
-            and re.fullmatch(r'SHA-256:[0-9a-f]{64}',str(hashed)),'invalid add-on identity')
+            and re.fullmatch(r'SHA-256:[0-9a-f]{64}',str(hashed)) and re.fullmatch(r'[0-9]+(?:\.[0-9]+){0,3}',str(version))
+            and filename==identity+'-'+str(status)+'-'+version+'.zap','invalid add-on identity')
         dependencies=[a.findtext('id') for a in row.findall('dependencies/addons/addon')]
         require(set(dependencies)<=ADDONS,'unreviewed add-on dependency')
         result[identity]={'file':filename,'sha256':hashed[8:],'version':version,'status':row.findtext('status'),'dependencies':dependencies}
     return result
 
 
+def official_file(github,revision,name):
+    """Fresh official API bytes at the resolved commit; no raw-host/cache fallback."""
+    require(re.fullmatch(r'[0-9a-f]{40}',revision) and re.fullmatch(r'ZapVersions(?:-[0-9]+\.[0-9]+)?\.xml',name),'invalid official catalog identity')
+    value=github.json('zaproxy/zap-admin/contents/'+name+'?ref='+revision)
+    require(value.get('type')=='file' and value.get('path')==name and value.get('encoding')=='base64'
+        and type(value.get('size')) is int and 0<value['size']<=1024*1024 and re.fullmatch(r'[0-9a-f]{40}',str(value.get('sha')))
+        and isinstance(value.get('content'),str),'official catalog content unavailable')
+    raw=base64.b64decode(value['content'].replace('\n',''),validate=True)
+    require(len(raw)==value['size'] and hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()==value['sha'],'official Git blob integrity differs')
+    return raw
+
+
 class ZapAnalysis(TrafficController):
-    def __init__(self,store,package,upstream=None,clock=None,docker=None):
+    def __init__(self,store,package,upstream=None,clock=None,docker=None,source_client=None):
         import time
         super().__init__(store,package,upstream,clock or time.time)
         self.docker=docker
+        self.source_client=source_client or GitHub()
 
     def resolve(self):
         require(self.docker is not None,'local Docker required')
@@ -48,17 +64,16 @@ class ZapAnalysis(TrafficController):
         image=rows[0]
         refs=[r for r in image.get('RepoDigests',[]) if re.fullmatch(r'(?:docker.io/)?zaproxy/zap-stable@sha256:[0-9a-f]{64}',r)]
         require(len(refs)==1,'immutable ZAP image unavailable')
-        github=GitHub()
+        github=self.source_client
         spec={'id':'zap-marketplace','kind':'tool','repository':'zaproxy/zap-admin','repository_id':30185465,'owner_id':6716868,
               'include':['ZapVersions.xml'],'asset':None,'max_download_bytes':1024*1024,'max_unpacked_bytes':1024*1024,'data_max_age_seconds':None}
         revision=github.resolve(spec)
-        core_raw=github.fetch(spec,revision)['ZapVersions.xml']
+        core_raw=official_file(github,revision['identity']['revision'],'ZapVersions.xml')
         require(b'<!DOCTYPE' not in core_raw.upper() and b'<!ENTITY' not in core_raw.upper(),'unsupported core metadata')
         core=ET.fromstring(core_raw).findtext('core/version')
         require(re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+',str(core)),'stable ZAP core unavailable')
         name='ZapVersions-'+'.'.join(core.split('.')[:2])+'.xml'
-        spec['include']=[name]
-        raw=github.fetch(spec,revision)[name]
+        raw=official_file(github,revision['identity']['revision'],name)
         return {'image':{'reference':refs[0],'image_id':image['Id'],'architecture':image['Architecture']},'channel':CHANNEL,
                 'core':core,'marketplace_revision':revision['identity'],'marketplace_sha256':sha256(raw),'addons':catalog(raw)}
 
@@ -109,6 +124,7 @@ class ZapAnalysis(TrafficController):
         operation='op-'+secrets.token_hex(16)
         def guard():
             require(selected_tree(self.package,HEAD_RESOURCES)==head['manifest'],'analysis implementation changed')
+            require(self.store.get('zap-candidate',candidate_id)==candidate,'analysis candidate changed')
             for key,expected in captures.items():require(digest(self.observe(case,key)[0])==expected,'capture producer changed')
             require(self.store.get('zap-review',candidate_id)==review,'analysis review changed')
         with self.store.transaction() as tx:
@@ -121,6 +137,7 @@ class ZapAnalysis(TrafficController):
                     {'memory_mb':1536,'cpus':2,'pids':128,'tmpfs_mb':256},guard,output)
             require(result['exit_code']==0,'offline ZAP analysis failed')
             raw=read_file(self.store.root,operation+'.zap-output',2*1024**2)
+            require(sha256(raw)==result['sha256'] and len(raw)==result['bytes'],'analysis output bytes differ')
             value=parse(raw,2*1024**2)
             require(value.get('adapter')=='c3-zap-passive' and value.get('policy_sha256')==digest(candidate['resources']),'analysis producer differs')
             with self.store.transaction() as tx:

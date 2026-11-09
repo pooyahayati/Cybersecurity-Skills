@@ -111,6 +111,10 @@ blocked; discovery creates no additional authority.
 
 For passive analysis, `zap-prepare` resolves the current official stable ZAP image,
 current core and exact selected official marketplace add-ons and dependencies.
+Catalog files are fetched through the official GitHub Contents API at that exact
+resolved commit, with path, size and Git blob integrity verification. An explicit
+global `--token-env` can authorize GitHub reads; it is never inherited implicitly
+or forwarded to a target. An unavailable lookup blocks rather than reusing cache.
 Inspect these resources and supply a six-area review to `zap-review`. The stable
 image can include upstream alpha/beta-labelled mandatory add-ons; their exact
 content and release labels remain explicit review subjects. `zap-analyze` imports
