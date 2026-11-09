@@ -9,8 +9,8 @@ import subprocess
 import sys
 import time
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import workflow_package
 from m3_support import ReviewWorld, ROOT, GOOD, PARTIAL, DENY_ALL, DENY_AFTER_WRITE, ORIGINAL, behavior
 from security_runtime.common import canonical, require, sha256
 from security_runtime.sandbox import Docker, LABEL

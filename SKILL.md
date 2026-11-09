@@ -4,7 +4,7 @@ description: Review source, identity, customer data, selected infrastructure and
 license: MIT
 metadata:
   author: Pooya Hayati
-  version: 0.7.0-dev
+  version: 1.0.0-rc.1
 ---
 
 # Cybersecurity Skills
@@ -22,6 +22,10 @@ state, and retain an external trusted recovery tool. Installation or rollback
 does not establish latest-version compliance, runtime readiness or stable release
 approval. Do not install globally, publish a release or run a customer assessment
 merely because a package was built. Existing M1-M5 preflight remains required.
+For version channels, installation diagnosis, support and upgrade/rollback use
+[the release-readiness guide](docs/RELEASE-READINESS.md). A successful offline
+diagnosis checks managed bytes only; host discovery and runtime readiness remain
+separate observations. Old package restoration never waives current-version rules.
 
 M2 provides bounded offline discovery, scoped coverage/evidence records, findings
 and redacted reports. Read [M2 operations](docs/M2-OPERATIONS.md) before intake.

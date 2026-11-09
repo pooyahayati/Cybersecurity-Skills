@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.0.0-rc.1 — Release readiness
+
+- Accept canonical development, release-candidate and stable package labels
+  without granting freshness, publisher trust or general security qualification.
+- Add offline managed-install diagnosis with explicit runtime/host unknowns.
+- Attribute actual M1-M5 workflow modules, commands and workers to the verified
+  installed artifact; retain the original scenario assertions and private data.
+- Add selected-host candidate registration checks and document bounded support,
+  development-to-candidate upgrade, recovery and stable publication gates.
+- Keep M1-M5 state schemas and current-version enforcement unchanged.
+- Measure the existing dead-controller test deadline from actual worker start,
+  excluding private fixture setup. Retain the four-second criterion and target
+  effect checks; allow the hosted job time to finish all required lifecycle checks.
+- Reject duplicate/ambiguous skill header identity and version before packaging
+  or installation; isolate test Git initialization from ambient configuration
+  and run installed fixtures without adjacent checkout product resources.
+
 ## 0.7.0-dev — M6 bounded qualification and candidate packaging
 
 - Add exact-Git, reproducible skill archives with bounded structural/content

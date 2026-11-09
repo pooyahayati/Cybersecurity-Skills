@@ -17,8 +17,8 @@ import subprocess
 import sys
 import time
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import workflow_package
 from m4_support import ROOT, RuntimeWorld, Server, role_plan, roles
 from runtime_support import acceptance, source
 from security_runtime.common import canonical, parse, read_file, require, sha256

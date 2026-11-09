@@ -8,8 +8,7 @@ import sys
 import tempfile
 import time
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "scripts"))
+from workflow_package import ROOT
 from security_assessment.contracts import FEATURES
 from security_assessment.service import Assessment
 from security_runtime.store import Store

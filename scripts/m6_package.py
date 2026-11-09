@@ -12,6 +12,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from security_runtime.common import Blocked
 from security_runtime.package import build, read_archive
 from security_runtime.package_lifecycle import Manager
+from security_runtime.package_diagnostics import diagnose
+from security_runtime.package_version import channel
 
 
 def main(argv=None):
@@ -24,7 +26,7 @@ def main(argv=None):
     inspect = subs.add_parser("inspect", help="Verify an independently reviewed archive digest; execute no code")
     inspect.add_argument("--archive", type=Path, required=True)
     inspect.add_argument("--sha256", required=True)
-    for command in ("install", "update", "uninstall", "status", "recover"):
+    for command in ("install", "update", "uninstall", "status", "diagnose", "recover"):
         sub = subs.add_parser(command)
         sub.add_argument("--skills-root", type=Path, required=True)
         sub.add_argument("--state", type=Path, required=True)
@@ -43,12 +45,15 @@ def main(argv=None):
         elif args.command == "inspect":
             _, manifest, _ = read_archive(args.archive, args.sha256)
             result = {"archive_sha256": args.sha256, "manifest": manifest,
+                      "release_channel": channel(manifest["version"]),
                       "integrity_verified": True, "freshness_verified": False,
                       "publisher_authenticated": False, "security_verdict": "not_established"}
         else:
             manager = Manager(args.state, args.skills_root, create=args.command == "install")
             if args.command == "status":
                 result = manager.status()
+            elif args.command == "diagnose":
+                result = diagnose(manager)
             elif args.command == "recover":
                 result = manager.recover(args.transaction)
             else:

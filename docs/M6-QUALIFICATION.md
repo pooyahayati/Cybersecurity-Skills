@@ -1,7 +1,7 @@
 # M6 bounded qualification and package operations
 
 M6 evaluates the behavior actually supported by M1-M5 and prepares an exact,
-reviewable development package. It does not turn finite fixtures into a general
+reviewable package. It does not turn finite fixtures into a general
 application-security certification. A merged candidate is not a stable release,
 an installed upgrade, permission to test a customer system or production approval.
 Use [the evaluation protocol](EVALUATION.md) and [current results](../STATUS.md).
@@ -160,7 +160,9 @@ agent host's discovery or all runtime prerequisites. Docker, k6 and Trivy remain
 separately reviewed optional/operation-specific prerequisites; none is bundled.
 No third-party skill is required at runtime and no installer contacts a service.
 
-This milestone prepares a development candidate. Stable publication still needs
+The follow-up [release-readiness guide](RELEASE-READINESS.md) defines supported
+version channels, offline diagnosis, installed-runtime checks and upgrade limits.
+This milestone prepares a candidate. Stable publication still needs
 explicit release authority, exact-asset verification, current prerequisites,
 supported-scope results and no unresolved required control failure. Neither
 package verification nor structural validation issues an application-security pass.
