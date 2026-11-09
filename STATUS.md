@@ -4,11 +4,57 @@ Updated: 2026-11-09
 
 ## Current stage
 
-Release-readiness work prepares `1.0.0-rc.1`: canonical package version channels,
+Release candidate `1.0.0-rc.1` implements canonical package version channels,
 offline managed-install diagnosis, actual installed M1-M5 workflow attribution
-and isolated host discovery checks. Verification is in progress; no new result is
-assumed from the implementation. Stable publication and global installation are
-not part of this delivery. See [support and upgrades](docs/RELEASE-READINESS.md).
+and selected-host registration checks. Stable publication and global installation
+are not part of this delivery. See [support and upgrades](docs/RELEASE-READINESS.md).
+Exact-revision hosted checks, native source/artifact scans and reviewed package
+identity remain mandatory integration gates, retained in private delivery receipts.
+
+## Release-readiness implementation and observed results
+
+- One canonical header/version parser rejects duplicate identity/version fields,
+  unsupported YAML constructs and invalid scalar/control bytes before installation.
+  Development, candidate and stable labels retain distinct bounded claims.
+- Offline diagnosis verifies actual managed bytes without candidate execution,
+  subprocesses or network. Freshness, runtime and host readiness remain unproven.
+- The existing M1-M5 workflow assertions run using installed modules, catalogs,
+  commands and worker bytes. A copied tests-only harness has no adjacent checkout
+  product resources. M1-M5 operational authority and state schemas are unchanged.
+- The current manager accepts the actual prior M6 archive and explicit restoration;
+  private history, unrelated skills and preserved local edits survive the exercised
+  lifecycle. Upgrade and tested-backup/private-permission requirements are documented.
+
+| Observed check | Result | Boundary |
+|---|---|---|
+| Complete offline Linux suite | Passed with no skips | Current official Python test image; non-root, network disabled, bounded resources and byte-verified source copy |
+| Windows focused release regressions | Nine methods passed, including crafted complete-inventory archives and ambient Git configuration | Full Windows/Linux Python 3.11/current hosted matrix remains required for the delivered revision |
+| Installed M1-M5 workflows | All five existing suites passed in hosted Linux | Original assertions retained; exact final revision must pass before integration |
+| Independent copied-harness bridge | All ten original real Docker checks passed with installed catalog reads | Original checkout-dependent bridge failed in the same copied harness |
+| Independent package/security checks | Legitimate channels, actual prior archive, prohibited effects and corrected failure cases passed | Owned synthetic CLI and instrumented effects; not whole-application security qualification |
+| Actual host registration | Exact installed path, repo scope, enabled state and display metadata observed in bundled Codex CLI 0.167.0-alpha.3.2 | No model turn or autonomous routing; not a claim of latest public stable host |
+
+Four required findings were independently reproduced and corrected: ambient Git
+redirection during host-test setup; checkout resources in the installed producer
+bridge; duplicate version fields; and YAML-invalid scalar/control bytes. Retained
+bad archives now block before installation while legitimate channel operations
+continue. No required review finding remains in the reviewed scope; final delivery
+association and integration checks are separate gates. Original failures remain private.
+
+Three fresh novice operator requests exercised upgrade with private history,
+preserving personal notes/edits, and interruption recovery/explicit restoration.
+Required project status exposed historical M6 results, but not the new case oracle.
+These are independent operator observations, not a blind/statistical benchmark.
+An initial evaluator sequencing failure proceeded after an unreadable backup copy;
+it remains a failure record. Preserving private Windows permissions made that
+fixture backup readable. The guide explicitly requires a successful backup check
+before updating. No general detection or remediation-quality improvement is inferred.
+
+The Windows host also enumerated existing user-level skill metadata despite private
+home/configuration overrides. Only the selected candidate's exact-path registration
+is established; complete catalog isolation is not. No global installation, copied
+credentials, model/provider call, customer scan, production change, stable release
+or recurring monitoring was performed.
 
 The merged M6 baseline implemented bounded qualification and candidate packaging,
 version `0.7.0-dev`. M1-M5 controls remain implemented. The historical results below
@@ -17,7 +63,7 @@ GitHub delivery is gated on the exact revision's
 [validation workflow](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml).
 This is not a qualified whole-application auditor or stable security release.
 
-## M6 implementation and measured scope
+## Historical M6 implementation and measured scope
 
 - Exact-commit, reproducible development archives with a complete selected-file
   inventory and separately supplied SHA-256 archive identity. Git replacement
