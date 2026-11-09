@@ -4,12 +4,24 @@ description: Review source, identity, customer data, selected infrastructure and
 license: MIT
 metadata:
   author: Pooya Hayati
-  version: 0.6.0-dev
+  version: 0.7.0-dev
 ---
 
 # Cybersecurity Skills
 
 ## Current capability boundary
+
+M6 provides bounded qualification records and exact-source package/lifecycle
+operations. Read [M6 qualification and packaging](docs/M6-QUALIFICATION.md) when
+evaluating, packaging or explicitly managing this skill. Keep realistic agent
+evaluations independent of their expected answers; compare the frozen baseline
+under equivalent access and budgets. Preserve actual misses, false alarms and
+scope violations, and report unexposed model settings as unknown. Use a separately
+reviewed package digest, preserve local edits/unrelated skills/private assessment
+state, and retain an external trusted recovery tool. Installation or rollback
+does not establish latest-version compliance, runtime readiness or stable release
+approval. Do not install globally, publish a release or run a customer assessment
+merely because a package was built. Existing M1-M5 preflight remains required.
 
 M2 provides bounded offline discovery, scoped coverage/evidence records, findings
 and redacted reports. Read [M2 operations](docs/M2-OPERATIONS.md) before intake.

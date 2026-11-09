@@ -72,6 +72,14 @@ review. There is no mandatory outside head skill and no wholesale plugin import.
 
 ## Intended execution flow
 
+M6 adds exact-source packaging and bounded qualification around these assessment
+paths. The package builder reads selected Git blobs, records their identities and
+emits a deterministic archive. A separate explicit-root lifecycle manager uses
+private ownership records, a process lock and resumable directory transactions.
+Neither archive inspection nor installation executes candidate code, establishes
+freshness, changes M1-M5 authority or qualifies a customer application. See
+[M6 contracts and operations](M6-QUALIFICATION.md).
+
 Scope and discovery -> freshness and compatibility -> module plan -> bounded
 assessment -> refutation and validation -> actionable report -> authorized fix ->
 retest -> environment-specific disposition.

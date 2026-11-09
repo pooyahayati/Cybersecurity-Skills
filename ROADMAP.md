@@ -133,6 +133,11 @@ unrestorable backup fails recovery acceptance. No implied recurring monitoring.
 
 **Depends on:** all required operational milestones for the claimed release scope.
 
+The bounded qualification and candidate-package contract is in
+[M6 qualification and packaging](docs/M6-QUALIFICATION.md). Measured results and
+unverified surfaces belong in `STATUS.md`; a prepared candidate is not a stable
+release or a general-purpose application-security qualification.
+
 - Run the evaluation protocol in `docs/EVALUATION.md` with a documented baseline.
 - Evaluate supported platforms and degraded modes; address missed important
   findings, false alarms, unsafe actions and incorrect remediation.

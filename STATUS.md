@@ -4,11 +4,28 @@ Updated: 2026-11-09
 
 ## Current stage
 
-M5 bounded capacity, artifact recovery and incident review is implemented, version
-`0.6.0-dev`. M6 behavioral qualification and stable packaging have not started.
+M6 bounded behavioral qualification and candidate packaging is in progress,
+version `0.7.0-dev`. M1-M5 controls remain implemented. Exact package/operator
+checks, independent evaluations and final delivery gates are being completed.
 GitHub delivery is gated on the exact revision's
 [validation workflow](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml).
 This is not a qualified whole-application auditor or stable security release.
+
+## M6 verification scope
+
+The retained baseline is the merged M5 implementation. Eight frozen synthetic
+static-review requests cover vulnerable/safe paths, partial fixes, incomplete
+access, untrusted instructions, stale source/tool claims and failed recovery.
+Independent forward-test agents receive raw requests/artifacts without the answer
+key. Actual results and denominators will be recorded after their observation;
+no model benchmark or general accuracy claim follows from these bounded cases.
+
+Candidate packaging includes exact Git provenance, per-file/archive identities,
+reproducibility and private managed install/update/uninstall/recovery. Initial
+owned Windows lifecycle tests found an interrupted-restoration resume defect;
+separate restoration staging corrected it and the regression passed. Final
+cross-platform, package-runtime, independent review and source/artifact security
+checks remain required before this milestone is reported complete.
 
 ## M5 implementation and verification
 
@@ -152,9 +169,9 @@ Original domain modules remain guidance; M3/M4/M5 add the bounded paths describe
 
 ## Next bounded task
 
-Complete the authorized M5 verification/review/integration gates. M6 requires a
-subsequent user task; this roadmap does not authorize live customer scans,
-production changes or later milestones automatically.
+Complete the authorized M6 behavioral/package verification, independent review
+and GitHub integration gates. Stable release, global installation, live customer
+scans and production changes require their own user task.
 
 ## Historical M2 verification record
 
