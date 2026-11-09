@@ -18,7 +18,7 @@ from security_runtime.sources import unpack
 
 
 class LoadTests(unittest.TestCase):
-    def exercise(self, server, change=None, heartbeat=True, generator=FakeGenerator):
+    def exercise(self, server, change=None, heartbeat=True, generator=FakeGenerator, timing=None):
         world = M5World(server)
         self.addCleanup(world.close)
         spec = world.workload()
@@ -34,6 +34,8 @@ class LoadTests(unittest.TestCase):
             if heartbeat: thread.start()
             try:
                 with patch("security_runtime.load_worker.start_generator", generator):
+                    if timing is not None:
+                        timing["started"] = time.monotonic()
                     output = run({"spec": spec, "workspace": directory, "binary": "test-double", "credential": None, "ca": None})
             finally:
                 done.set()
@@ -131,11 +133,13 @@ class LoadTests(unittest.TestCase):
         server=Server(lambda *_:(time.sleep(.2) or 200,{},b"safe"));self.addCleanup(server.close)
         def change(s):
             s["phases"][0].update(requests=30,rps=20,seconds=4)
-        started=time.monotonic(); result=self.exercise(server,change,heartbeat=False)
+        # Start the existing four-second bound when the worker starts, after
+        # private fixture enrollment/ACL setup. No target request occurs in setup.
+        timing={}; result=self.exercise(server,change,heartbeat=False,timing=timing)
         stopped=len(server.calls);time.sleep(.25)
         self.assertEqual(len(server.calls),stopped)
         self.assertLess(stopped,30)
-        self.assertLess(time.monotonic()-started,4)
+        self.assertLess(time.monotonic()-timing["started"],4)
         self.assertFalse(result["workload_passed"])
 
     def test_closed_scope_and_heavy_production_rejected(self):

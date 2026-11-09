@@ -17,7 +17,9 @@ jobs:
   validate:
     name: Validate (${{ matrix.os }}, Python ${{ matrix.python }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+    # Hosted Windows has needed over nine minutes for regressions alone. Keep
+    # time for package/lifecycle checks; per-control deadlines remain unchanged.
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:

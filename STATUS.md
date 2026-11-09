@@ -41,6 +41,13 @@ bad archives now block before installation while legitimate channel operations
 continue. No required review finding remains in the reviewed scope; final delivery
 association and integration checks are separate gates. Original failures remain private.
 
+A later hosted Windows run exposed a fixture-timing defect: the dead-controller
+test counted private setup/ACL work inside its four-second worker-stop bound.
+The timer now starts immediately before the real worker, retaining the same bound
+and all target-effect assertions. The original 4.031-second failure remains private.
+The hosted job budget is fifteen minutes because regressions alone took over nine;
+this does not change any workload, request, heartbeat or per-control time limit.
+
 Three fresh novice operator requests exercised upgrade with private history,
 preserving personal notes/edits, and interruption recovery/explicit restoration.
 Required project status exposed historical M6 results, but not the new case oracle.
