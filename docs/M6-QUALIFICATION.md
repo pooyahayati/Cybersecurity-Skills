@@ -166,3 +166,8 @@ This milestone prepares a candidate. Stable publication still needs
 explicit release authority, exact-asset verification, current prerequisites,
 supported-scope results and no unresolved required control failure. Neither
 package verification nor structural validation issues an application-security pass.
+
+The ordered remaining release gates and current-candidate evidence limits are in
+the [stable-release checklist](RELEASE-READINESS.md#stable-release-checklist).
+Historical host or agent observations must retain their original version and
+scope; recheck affected release-asset behavior rather than relabelling them.

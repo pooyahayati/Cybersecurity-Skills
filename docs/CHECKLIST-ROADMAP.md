@@ -151,6 +151,14 @@ into current accepted evidence. Freeze accepted resources within a bounded run;
 refresh before a new/materially resumed run. Record exact observed versions in
 private receipts, not fixed version requirements in this roadmap.
 
+## Delivery and stable-release follow-up
+
+C1 planning and the selected C2-C6 profiles are merged. Their measured support
+boundaries and the subsequently observed contention failure/correction are in
+[STATUS.md](../STATUS.md). Their exit requirements below are retained unchanged;
+implementation does not close a target checklist item. Remaining stable release
+work is tracked separately in the [release checklist](RELEASE-READINESS.md#stable-release-checklist).
+
 ## Release decision
 
 A bounded release may publish only the supported scope actually tested and

@@ -57,8 +57,14 @@ class Store:
             connection.execute("BEGIN IMMEDIATE")
             yield Transaction(self, connection)
             connection.commit()
-        except Exception:
+        except Exception as exc:
             connection.rollback()
+            code = getattr(exc, "sqlite_errorcode", None)
+            if (isinstance(exc, sqlite3.OperationalError) and type(code) is int
+                    and code & 0xFF in (sqlite3.SQLITE_BUSY, sqlite3.SQLITE_LOCKED)):
+                # Contention can occur after an external effect as well as before
+                # admission. Do not imply that an operation is safe to replay.
+                raise Blocked("control state is busy; inspect retained operation state before further action") from None
             raise
         finally:
             connection.close()

@@ -149,9 +149,9 @@ release or a general-purpose application-security qualification.
 block release. The skill has measured support boundaries and usable novice
 reports. A passing repository validator alone cannot satisfy this milestone.
 
-## Release-readiness follow-up
+## Release-readiness follow-up baseline
 
-Prepare a bounded `1.0.0-rc.1` candidate without implying stable publication.
+The follow-up delivered the bounded `1.0.0-rc.1` candidate without stable publication.
 Support canonical version channels, retain M1-M5 state and authority contracts,
 add offline managed-install diagnosis, execute actual M1-M5 workflows from the
 installed artifact, and observe real host catalog discovery in an isolated
@@ -167,8 +167,33 @@ behavior. C1 implements complete coverage planning and validation. C2-C6 add
 separate bounded dependency/advisory, web, target-scenario, infrastructure and
 recovery profiles described in [the execution guide](docs/CHECKLIST-EXECUTION.md).
 Their original exit criteria remain binding; [status](STATUS.md) separates actual
-qualification from pending delivery. Profile availability does not close all
+qualification, observed failures and subsequent delivery. Profile availability does not close all
 target checklist items or authorize every candidate tool.
+
+## Stable-release completion work
+
+M1-M6 and the selected C1-C6 profiles are implemented; this is not a claim that
+all target controls or platforms are qualified. The current candidate also fixes
+the observed post-merge SQLite contention error. Complete the ordered
+[stable-release checklist](docs/RELEASE-READINESS.md#stable-release-checklist):
+
+1. Resolve required failures and observe passing exact-revision platform and
+   installed-workflow checks; retain the original failures and independent review.
+2. Freeze the bounded release claim and perform relevant current-candidate
+   novice/agent exercises with independent expectations and explicit limitations.
+3. Prepare the exact stable-labelled source/archive, then verify affected
+   installation, upgrade/restoration and actual host registration behavior.
+4. Refresh selected prerequisite identities, scan final source/extracted bytes,
+   reconcile independent acceptance and verify archive/digest/source correspondence.
+5. Obtain explicit stable-publication authority for the concrete reviewed result,
+   publish it and verify the downloaded public asset and release metadata.
+
+Run only checks justified by changed inputs and release claims. Preserve previous
+evidence where it remains applicable; no universal test quota or compulsory
+installation of disabled candidates is introduced. Browser/JavaScript, additional
+ecosystems/databases, remote clouds and external detection systems are later
+capability work unless included in the selected release claim. Global installation
+and customer execution remain separately authorized actions.
 
 ## Maintenance after a stable release
 

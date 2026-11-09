@@ -4,7 +4,7 @@ description: Review source, identity, customer data, selected infrastructure and
 license: MIT
 metadata:
   author: Pooya Hayati
-  version: 1.0.0-rc.3
+  version: 1.0.0-rc.4
 ---
 
 # Cybersecurity Skills

@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.0-rc.4 - Post-merge contention and release readiness
+
+- Convert actual SQLite BUSY/LOCKED control-state errors into a sanitized blocked
+  result after rollback, preserving the two-second wait, atomicity and no-replay
+  authority. Unrelated database errors retain their meaning.
+- Add real lock/commit/state and HTTP-effect regressions without changing the
+  existing concurrent-budget assertions or retrying target operations.
+- Preserve the first failed post-merge run and distinguish historical C2-C6
+  qualification from current correction evidence.
+- Reconcile README, status and roadmaps with an explicit stable-release checklist,
+  remaining current-candidate operator/asset evidence and optional future scope.
+  No stable publication or global installation is performed.
+
 ## 1.0.0-rc.3 - Bounded checklist execution profiles
 
 - Add independently current official Trivy OCI advisory acquisition, exact npm

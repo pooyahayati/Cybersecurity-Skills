@@ -4,6 +4,37 @@ Updated: 2026-11-10
 
 ## Current stage
 
+Candidate `1.0.0-rc.4` retains the bounded C2-C6 capabilities and corrects the
+post-merge control-state contention failure. No stable release is published.
+See the [remaining release gates](docs/RELEASE-READINESS.md#stable-release-checklist)
+and [supported execution profiles](docs/CHECKLIST-EXECUTION.md).
+
+| Delivery evidence | Observed result | Boundary |
+|---|---|---|
+| PR10 pre-merge run | [All five jobs passed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42715179737) | Tested merge tree equals the reviewed source tree |
+| First merged-main run | [Four jobs passed; current-Python Windows failed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42717907092) | Original failure retained; no rerun used to erase it |
+| Independent original reproduction | Real writer and commit contention raised raw SQLite errors; no request/budget bypass was observed | Zero-request admission and rolled-back state were checked independently |
+| Corrected contention behavior | Seven new regression methods and the unchanged concurrent-budget method passed locally | Real BEGIN/COMMIT/table locks, exact error classification, preserved state, ordinary recovery and post-request non-replayability |
+| Follow-up integration | Exact-revision hosted checks and independent acceptance are required before merge | Final run conclusions are linked from the follow-up pull request and [validation history](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml); a local pass is not hosted success |
+
+The correction retains the two-second database wait, full synchronization,
+immediate transactions and existing admission budgets. Only SQLite BUSY/LOCKED
+numeric result codes become a sanitized blocked result after rollback; unrelated
+database errors retain their meaning. A busy error can occur after an external
+effect, so it does not authorize retry, refund or state reset. Inspect retained
+operation state after contention clears. New tests preserve the original
+concurrent-budget assertions and add real prohibited-effect/recovery evidence.
+
+Stable preparation still needs an exact stable-labelled asset and its current
+release-time evidence, affected install/upgrade/restore and host observations,
+risk-relevant novice/agent checks for the claimed current scope, independent final
+acceptance and an explicit publication decision. Historical M6 behavior measurements
+and the helper results below do not establish new C2-C6 agent effectiveness.
+Browser/cloud/other-engine expansion is separate optional work, not automatically
+a prerequisite for a release restricted to the documented supported profiles.
+
+## C2-C6 qualification baseline
+
 Candidate `1.0.0-rc.3` implements the bounded C2-C6 profiles in
 [the execution guide](docs/CHECKLIST-EXECUTION.md). Current Trivy/official OCI data,
 admitted HTTP/offline ZAP, actual HTTP/SQLite scenarios, finite effective service
@@ -37,11 +68,12 @@ also exposed an incomplete dependency fix; that vulnerable near-match remains a
 regression fixture beside the actual clean selected version. No finding was hidden
 by a suppression or weaker acceptance criterion.
 
-Final delivery associates these results with the exact source/archive and permits
-only reviewed documentation-only differences. Current native source/package scans,
-formal independent acceptance and all five exact-revision hosted jobs remain
-mandatory GitHub integration gates, recorded separately in private delivery
-receipts and the pull request. No local result substitutes for those gates.
+PR10 delivered these results with verified source/archive identity, independently
+accepted security/contract review and passing native source/package scans. Its
+pre-merge hosted checks passed; the first post-merge failure and current correction
+are recorded above. The corrected candidate changes Store error handling as well
+as documentation, so it needs its own relevant verification. Earlier successful
+results remain historical and do not erase the later failure.
 
 The recovery/MFA fixture uses synthetic proof predicates; upload content is stored
 in SQLite. Recovery usability verifies the selected authenticated read, not all
