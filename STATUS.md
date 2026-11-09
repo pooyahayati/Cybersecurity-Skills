@@ -34,8 +34,9 @@ legitimate/prohibited scenarios, and a C2-C6 completion roadmap. Existing M1-M6
 runtime authority and stored assessment schemas are unchanged. The new planner
 performs no assessment and leaves every target outcome unverified. Candidate
 source health and licensing constraints are updated; no new upstream tool is
-installed or activated. C2-C6 runtime adapters remain future work; completing
-the matrix does not establish their implementation or any target security pass.
+installed or activated at that baseline. C2-C6 runtime adapters were future work
+then; completing the C1 matrix did not establish their implementation or any
+target security pass. Current bounded profiles are described above.
 
 The corrected C1 source passed all 228 offline Linux regression methods and nine
 focused Windows checklist methods, including actual private installed CLI use.

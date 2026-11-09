@@ -71,7 +71,7 @@ correction steps and a retest that preserves legitimate behavior.
 | C3 | Explicit bounded HTTP methods, admitted HTML navigation and offline current ZAP passive checks | No browser/JavaScript, automatic login or general active scan; alerts are leads |
 | C4 | Real HTTP/SQLite positive, prohibited and variant scenarios; valid actor, response and persisted-state predicates; original/fixed comparison | Qualified Python/SQLite fixture profile; each real project needs independent business rules and coverage |
 | C5 | Effective local Python-container settings and source/database/URL binding, authenticated Actions defaults, approved-key Cosign provenance | No remote cloud/host qualification, keyless/transparency claim or deployment approval |
-| C6 | Actual instrumented target/log/receiver transport; private backup capture, application-UID access probe, usable service restore and compromised-access rejection | Finite transport/SQLite profile; measured restore duration and committed-event loss, not production outage RTO or time-based RPO |
+| C6 | Actual instrumented target/log/receiver transport; private backup capture, application-UID access probe, selected authenticated read-service restore and compromised-access rejection | Finite transport/SQLite profile; other read/write workflows remain unverified; measured restore duration and committed-event loss are not production outage RTO or time-based RPO |
 
 All tools remain opt-in and separately reviewed. Currentness failures stop the
 affected operation. Actual evidence stays private; historical reports retain
@@ -302,16 +302,16 @@ must not be reported as performed merely because they appear in this table.
 | Execution safety | Immutable snapshots, no egress, resource budgets, cancellation, recovery | Implemented M1 controls | Local Linux Docker; offline only |
 | Intake and coverage | Selected-file discovery, passive URL scope, actors/assets/flows, module routing and explicit unknowns | Implemented M2 records | No target execution, crawling or network probe |
 | Architecture | Assets, trust boundaries, data flows, attack chains and insecure design | M2 records and M3 source traces | Attributed review of selected source/context |
-| Identity and access | Sessions, recovery, roles, ownership and tenant separation | M3 source paths; M4 observed identity predicates and same-resource role comparisons | Server assertions only; session lifecycle and real database effects need further evidence |
+| Identity and access | Sessions, recovery, roles, ownership and tenant separation | M3/M4 plus C4 actual selected HTTP/SQLite actor, response and protected-state scenarios | Synthetic proof predicates; complete enrollment, MFA providers and token lifecycle need project-specific evidence |
 | Sensitive/customer data | Secrets, leaks, storage, logs, retention and deletion | M3 selected credential/log leads and lifecycle review | Privacy requirements and other data copies need project context |
-| Application and API code | Injection, XSS, SSRF, uploads, traversal, deserialization and API controls | M3 finite source rules; M4 exact bounded reads | No whole-program analysis, crawler, form submission or arbitrary active payloads |
+| Application and API code | Injection, XSS, SSRF, uploads, traversal, deserialization and API controls | M3 finite source rules; C3 admitted HTML navigation/passive leads; C4 selected HTTP/SQLite scenarios | No whole-program analysis, browser or arbitrary active payloads; file fixtures use SQLite content and metadata |
 | Business logic | Abuse cases, authorization order and concurrent idempotency | M3/M5 plus C4 actual HTTP and independently observed SQLite state | Synthetic business cases; real payment providers and unselected tables/replicas remain unverified |
 | Dependencies and artifacts | Exact component/advisory matching, SBOM and publisher/build policy | M1/M3/M4 plus C2 npm/Trivy data and C5 approved-key Cosign | Selected declared inventory only; shipped identity and keyless/transparency remain unverified |
-| Infrastructure and DevOps | Host/cloud access, storage exposure, IaC, containers and CI/CD secrets | M4 finite structured/lexical leads, Trivy adapter and local container reads | Selected forms only; no remote account discovery or infrastructure mutation |
-| Pre-release and release | Artifact/environment identity, staging checks, deployment controls and rollback readiness | M4 declared/observed local artifact correspondence and role prerequisites | URL routing/build provenance unverified; no release approval or rollback execution |
-| Post-release web/API | Scoped production verification, authenticated role comparisons and exposure checks | M4 exact authorized GET/HEAD, TLS and complete response predicates | No general scan or monitoring; explicit target scope, credentials and budgets required |
+| Infrastructure and DevOps | Host/cloud access, storage exposure, IaC, containers and CI/CD secrets | M4 leads/Trivy; C5 finite effective local container/source/database policy and authenticated Actions defaults | Selected local profile and hosted defaults only; remote accounts, egress and runner behavior remain unverified |
+| Pre-release and release | Artifact/environment identity, staging checks, deployment controls and rollback readiness | M4 correspondence; C5 selected live service binding and Cosign approved-key artifact/builder/source verification | No general ingress proof, keyless/transparency claim, release approval or rollback execution |
+| Post-release web/API | Scoped production verification, authenticated role comparisons and exposure checks | M4 exact reads; C3 separately admitted bounded capture/navigation and offline ZAP passive analysis | No browser, general active scan or monitoring; explicit target scope, credentials and budgets required |
 | Capacity and concurrency | Concurrent users versus RPS, latency/errors and state invariants | M5 bounded read workloads plus C4 concurrent synthetic HTTP writes/SQLite state | Small explicit budgets; target resource saturation and distributed capacity remain unverified |
-| Recovery and incidents | Backup access, usable restore, measured loss/time, audit hops and private custody | M5 plus C6 actual instrumented transport and selected SQLite service recovery | Explicit qualified platform/profile; no real notifications, production cutover or universal RTO/RPO |
+| Recovery and incidents | Backup access, usable restore, measured loss/time, audit hops and private custody | M5 plus C6 actual instrumented transport and selected authenticated SQLite read-service recovery | Explicit qualified platform/profile; other workflows, real notifications, production cutover and universal RTO/RPO remain unverified |
 | AI features | Prompt injection, tool authority, sensitive context, output handling and tenant isolation | M2 planning and M3 general source reasoning | Specialized AI runtime assessment remains unavailable |
 | Findings and fixes | Counterevidence, private candidates and original/fixed preservation tests | M2/M3 plus C4 equivalent actual HTTP/SQLite scenarios and historical C2-C6 reports | Independent project rules required; no automatic source overwrite or production claim |
 | Evidence privacy and validity | Redaction, provenance, actor/environment/source bindings, selective invalidation | Implemented M2 controls | Private state; redaction cannot recognize arbitrary sensitive prose |
@@ -395,8 +395,11 @@ Python/Docker are observed prerequisites, not automatically upgraded products.
 
 M1 has no advisory subscription, unattended updater, scheduled monitoring,
 network-enabled scanner, production load test or automatic remediation. Explicit
-revocation stops affected work; external advisories must be supplied by the
-operator until an advisory integration exists. Blocked coverage stays visible.
+revocation stops affected work; operator-supplied incident/revocation information
+remains necessary. C2 separately acquires current official Trivy advisory data on
+demand for its supported inventory, without subscribing to alerts or updating
+dependencies automatically. C3 has a separate bounded traffic authority; it does
+not enable networking in M1. Blocked coverage stays visible.
 
 All maintained project documentation is English. Keep credentials, customer data,
 raw output, private SQLite records and evidence outside Git. Retention/deletion

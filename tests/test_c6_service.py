@@ -156,5 +156,15 @@ class RecoveryTests(unittest.TestCase):
         with self.assertRaises(Blocked):self.control.service_recovery.restore(self.case,'restore')
         self.assertEqual(self.store.get('service-recovery','restore')['status'],'captured')
 
+    def test_wrong_restored_state_and_elapsed_budget_cannot_pass(self):
+        self.capture();positive,negative=self.restore()
+        record=self.store.get('service-recovery','restore')
+        with closing(sqlite3.connect(self.store.root/record['restored'])) as db,db:
+            db.execute('UPDATE events SET data="incorrect-restored-value" WHERE id=1')
+        service=self.control.service_recovery;service.clock=lambda:time.time()+61
+        result=service.finish(self.case,'restore',positive,negative,'owned-proof','restored')
+        self.assertEqual(result['outcome'],'failed')
+        self.assertFalse(result['checks']['restored_state']);self.assertFalse(result['checks']['recovery_within_budget'])
+
 
 if __name__=='__main__':unittest.main()

@@ -224,7 +224,7 @@ the authorized recovery/credential actions.
 
 Use `backup-access` to attempt opening the selected backup as the actual restored
 application UID in its own namespace. `recovery-check` repeats that probe, verifies
-the current service/database binding, full legitimate response, denial for the
+the current service/database binding, full legitimate GET/read response, denial for the
 same formerly valid compromised credential, restored selected state and budgets.
 An unrelated application's denial or a never-valid token is insufficient. Exact
 restored data must survive. Backup mount denial is not encryption, immutable
@@ -235,6 +235,9 @@ start of a production outage. Measured loss counts selected committed events;
 it is not an inferred time-based RPO. No containment, deletion, production cutover,
 customer notification, remote rollback or recurring monitoring follows from these
 records.
+
+Required restored write/transaction workflows need additional independently
+specified C4 scenarios; a selected read-usability result does not qualify them.
 
 ## Explain results to the developer
 

@@ -223,4 +223,4 @@ class ServiceRecovery:
         with self.store.transaction() as tx:tx.put('service-recovery',key,record)
         return {'id':key,'status':'completed','outcome':record['outcome'],'checks':checks,'measured_service_recovery_seconds':elapsed,
             'measured_lost_committed_events':len(record['lost_committed_events']),
-            'limits':['Measured from explicit restore start through observed usable service, not production outage onset. RPO measured in committed selected events, not an inferred wall-clock data-loss window.']}
+            'limits':['Measured from explicit restore start through observed selected authenticated GET/read usability, not production outage onset. Other read/write business workflows require separate scenarios. RPO measured in committed selected events, not an inferred wall-clock data-loss window.']}

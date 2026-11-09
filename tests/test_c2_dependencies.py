@@ -78,5 +78,15 @@ class DependenciesTests(unittest.TestCase):
         with self.assertRaises(Blocked):normalize({'SchemaVersion':2,'Results':[]},inventory(canonical(self.lock)),'fixture',self.metadata)
         with self.assertRaises(Blocked):inventory(canonical({'lockfileVersion':1,'dependencies':{}}))
 
+    def test_strict_exact_semver_keeps_unsupported_versions_unverified(self):
+        for version in ('01.2.3','1.2.3-.','1.2.3-alpha..one','1.2.3-01','1.2.3+','1.2.3+'+'x'*129):
+            lock={'lockfileVersion':3,'packages':{'node_modules/owned':{'version':version}}}
+            selected=inventory(canonical(lock));self.assertEqual(selected['components'],[])
+            self.assertEqual(normalize({'SchemaVersion':2,'Results':[]},selected,'fixture',self.metadata)['outcome'],'unverified')
+        for version in ('0.0.0','1.2.3','1.2.3-alpha.1','1.2.3-0.alpha+build.007','1.2.3+000'):
+            selected=inventory(canonical({'lockfileVersion':3,'packages':{'node_modules/owned':{'version':version}}}))
+            self.assertEqual(selected['gaps'],[]);self.assertEqual(selected['components'][0]['version'],version)
+        with self.assertRaises(Blocked):inventory(canonical({'lockfileVersion':3.0,'packages':{}}))
+
 
 if __name__=='__main__':unittest.main()

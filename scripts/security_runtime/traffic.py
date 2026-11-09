@@ -17,6 +17,9 @@ from .process import bounded_process
 from .web import WebController
 from .web_scope import address, credential, fingerprint, url
 
+# Base64 of the largest body, worst-case JSON escapes for bounded Latin-1
+# header text, and fixed framing/address/hash metadata. This is not a wire cap.
+CAPTURE_OUTPUT_LIMIT=((262144+2)//3)*4+32768*6+16384
 
 def authority(spec, deployment, now):
     fields(spec, {'schema_version','id','deployment','profile','addresses','network','routes','limits','ca_sha256'})
@@ -98,9 +101,9 @@ class TrafficController(WebController):
             for name in ('SYSTEMROOT','WINDIR','TEMP','TMP'):
                 if name in os.environ: env[name]=os.environ[name]
         result = bounded_process([sys.executable,'-I','-B',str(Path(__file__).with_name('traffic_worker.py'))],env,
-            payload['timeout'],400000,guard=guard,input_data=canonical(payload),max_input_bytes=110000,kill_with_parent=True)
+            payload['timeout'],CAPTURE_OUTPUT_LIMIT,guard=guard,input_data=canonical(payload),max_input_bytes=110000,kill_with_parent=True)
         require(result['exit_code']==0,'traffic observation unavailable; do not retry uncertain writes')
-        output = parse(result['content'],400000)
+        output = parse(result['content'],CAPTURE_OUTPUT_LIMIT)
         fields(output,{'schema_version','status','headers','body','body_bytes','body_sha256','address'})
         require(output['schema_version']==1,'unsupported traffic output')
         raw=base64.b64decode(output['body'],validate=True)

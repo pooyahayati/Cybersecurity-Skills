@@ -110,5 +110,19 @@ time.sleep(10)
         finally:
             if parent.poll() is None:parent.kill();parent.wait(5)
 
+    def test_maximum_response_with_valid_escaped_headers_and_true_overflows(self):
+        for index,(size,headers,allowed) in enumerate(((262144,4,True),(262145,4,False),(262144,5,False))):
+            self.server.handler=lambda p,t:(200,{'X-Owned-'+str(i):'\xff'*8000 for i in range(headers)},b'x'*size)
+            key='response-'+str(index)
+            self.control.authorize(self.case,self.spec(key=key,response_bytes=262144,total_body_bytes=262144))
+            if allowed:
+                result=self.control.execute(self.case,key,'start')
+                observed,_=self.control.observe(self.case,result['operation'])
+                self.assertEqual(observed['result']['body_bytes'],262144)
+            else:
+                with self.assertRaises(Blocked):self.control.execute(self.case,key,'start')
+            self.assertEqual(len(self.server.calls),index+1)
+            with self.assertRaises(Blocked):self.control.execute(self.case,key,'start')
+
 
 if __name__=='__main__':unittest.main()

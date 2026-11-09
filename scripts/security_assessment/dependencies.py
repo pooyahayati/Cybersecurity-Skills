@@ -5,10 +5,13 @@ from urllib.parse import quote
 
 from security_runtime.common import digest, fields, parse, require, sha256, text
 
+NUMBER=r'(?:0|[1-9][0-9]*)'
+PRERELEASE=r'(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)'
+SEMVER=re.compile(NUMBER+r'\.'+NUMBER+r'\.'+NUMBER+r'(?:-'+PRERELEASE+r'(?:\.'+PRERELEASE+r')*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?')
 
 def inventory(raw, path="package-lock.json"):
     lock = parse(raw, 4 * 1024**2)
-    require(lock.get("lockfileVersion") in (2, 3) and isinstance(lock.get("packages"), dict), "unsupported npm lock format")
+    require(type(lock.get("lockfileVersion")) is int and lock['lockfileVersion'] in (2, 3) and isinstance(lock.get("packages"), dict), "unsupported npm lock format")
     require(len(lock["packages"]) <= 10000, "inventory exceeds limit")
     components, gaps = [], []
     for location, item in lock["packages"].items():
@@ -19,7 +22,7 @@ def inventory(raw, path="package-lock.json"):
             continue
         name = location.rsplit("node_modules/", 1)[-1]
         version = item.get("version")
-        if item.get("link") or not isinstance(version, str) or not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?", version):
+        if item.get("link") or not isinstance(version, str) or len(version)>128 or not SEMVER.fullmatch(version):
             gaps.append({"path": location, "reason": "unresolved, linked or unsupported exact version"})
             continue
         identity = {"lockfile": path, "location": location, "name": name, "version": version}
