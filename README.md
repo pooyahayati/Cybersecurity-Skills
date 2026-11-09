@@ -5,9 +5,9 @@ can go wrong, what customer data is at risk, how to fix a confirmed weakness, an
 how to verify the result. It works independently of the person, framework or
 coding assistant that created a project. It does not require another head skill.
 
-**Development version: `0.5.0-dev`. M4 adds authorized web/API reads, authenticated
-role comparisons, infrastructure leads and local artifact observations on M1–M3.**
-General active scanning, load tests and deployment approval remain unsupported. This is not
+**Development version: `0.6.0-dev`. M5 adds bounded read workloads, persisted-state
+artifact checks, disposable recovery and private incident triage on M1–M4.**
+General active scanning and deployment approval remain unsupported. This is not
 a stable security-auditor release and does not establish that an application is secure.
 
 ## What this skill is for
@@ -28,8 +28,36 @@ will be measured in the [evaluation protocol](docs/EVALUATION.md), not assumed.
 Today the package provides eleven domain guidance modules, a bounded intake and
 assessment ledger, useful private reports, and a foundation for acquiring and
 running reviewed components. M3 adds finite source leads and evidence-bound fixes;
-M4 adds bounded runtime/configuration observations. These help an agent investigate and justify
+M4 adds bounded runtime/configuration observations; M5 adds bounded resilience checks. These help an agent investigate and justify
 a review; they do not automatically establish application security.
+
+## Implemented M5 capacity, recovery and incident checks
+
+- Run a current reviewed native k6 binary with generated private broker tickets.
+  A trusted collector enforces one exact GET/HEAD route, destination/TLS checks,
+  total requests, admission rate, concurrency, time, byte limits and stopping.
+  Target code and credentials never enter k6. M1 execution stays offline.
+- Measure actual read latency percentiles, matching successful RPS, errors,
+  overload and generator completion. Failed or incomplete workloads cannot pass.
+  Choose explicit phases for baseline/load/stress/spike/soak/breakpoint questions;
+  heavy production work is unsupported and short samples do not prove capacity.
+- Inspect exact standalone SQLite artifacts in M1. Detect duplicate/null
+  transaction keys, missing rows and altered typed values against a reviewed
+  expected state. Restore a backup and a separate rollback snapshot into disposable
+  databases; an existing but corrupt backup fails. Original data is preserved.
+- Measure disposable restore time and report declared data-loss intervals
+  separately. Correlate a fresh, observed receiver acknowledgment with a recovery
+  challenge. Missing/revoked evidence remains visible and retracts dependent results.
+- Preserve explicitly selected incident bytes privately, append authenticated
+  chronology and verify custody on export. Separate facts, hypotheses and proposed
+  actions. Reports hide raw evidence and private notes and give corrective steps.
+
+These are bounded observations. Resource saturation, live database linkage,
+actual capture time, whole-service RTO/RPO and end-to-end notification delivery
+need additional evidence. No containment, deployment rollback, customer message
+or recurring monitoring is performed. The agent prepares the contracts and
+explains these limits to the developer. See [M5 operations](docs/M5-OPERATIONS.md)
+and [M5 contracts](docs/M5-RESILIENCE.md).
 
 ## Implemented M4 runtime, infrastructure and delivery checks
 
@@ -171,7 +199,7 @@ development use, implemented opt-in adapters and planned runtime composition.
 | [Trivy](https://github.com/aquasecurity/trivy) | Secret and configuration leads | M4 opt-in current reviewed Linux binary; release-embedded rules in offline M1; no product vulnerability DB |
 | [Semgrep](https://github.com/semgrep/semgrep) | Source analysis | Disabled candidate; edition/rule licenses require review |
 | [ZAP](https://github.com/zaproxy/zaproxy) | General dynamic web/API testing | Disabled candidate; M4 uses a smaller explicit-read collector; M1 stays offline |
-| [k6](https://github.com/grafana/k6) | Load, concurrency and capacity measurements | Disabled candidate; M5 work |
+| [k6](https://github.com/grafana/k6) | Load, concurrency and capacity measurements | M5 opt-in current reviewed x64 native binary; generated broker workload only; not bundled |
 | Python standard library | Controller, source verification, signed state, bounded HTTP/TLS and tests | Implemented; host Python 3.11+ required |
 | Docker and official `python:3-slim` image | Local offline isolation | Implemented backend; image resolved to a reviewed current immutable digest |
 
@@ -193,13 +221,13 @@ must not be reported as performed merely because they appear in this table.
 | Identity and access | Sessions, recovery, roles, ownership and tenant separation | M3 source paths; M4 observed identity predicates and same-resource role comparisons | Server assertions only; session lifecycle and real database effects need further evidence |
 | Sensitive/customer data | Secrets, leaks, storage, logs, retention and deletion | M3 selected credential/log leads and lifecycle review | Privacy requirements and other data copies need project context |
 | Application and API code | Injection, XSS, SSRF, uploads, traversal, deserialization and API controls | M3 finite source rules; M4 exact bounded reads | No whole-program analysis, crawler, form submission or arbitrary active payloads |
-| Business logic | Abuse cases, authorization order, payments and idempotency | M3 source traces and finite state/variant cases | Concurrency, real payments and operational state remain unverified |
+| Business logic | Abuse cases, authorization order, payments and idempotency | M3 source traces and finite state/variant cases | M5 can check selected persisted SQLite artifacts; real payments and deployed state linkage remain unverified |
 | Dependencies and artifacts | Vulnerabilities, packages, install hooks, containers and provenance | M1 acquisition, M3 exact-version/advisory review, M4 observed local image identity | Product Trivy adapter does not select vulnerability databases or build attestation |
 | Infrastructure and DevOps | Host/cloud access, storage exposure, IaC, containers and CI/CD secrets | M4 finite structured/lexical leads, Trivy adapter and local container reads | Selected forms only; no remote account discovery or infrastructure mutation |
 | Pre-release and release | Artifact/environment identity, staging checks, deployment controls and rollback readiness | M4 declared/observed local artifact correspondence and role prerequisites | URL routing/build provenance unverified; no release approval or rollback execution |
 | Post-release web/API | Scoped production verification, authenticated role comparisons and exposure checks | M4 exact authorized GET/HEAD, TLS and complete response predicates | No general scan or monitoring; explicit target scope, credentials and budgets required |
-| Capacity and concurrency | Concurrent users versus RPS, load/stress/spike/soak, latency, errors and persisted state | Planned, with guidance | M5; heavy testing normally uses staging |
-| Recovery and incidents | Backup restoration, recovery objectives, alerts and evidence-preserving triage | Guidance | M5 |
+| Capacity and concurrency | Concurrent users versus RPS, load/stress/spike/soak, latency, errors and persisted state | M5 bounded read workloads and independent SQLite artifact oracles | Small explicit budgets; target resource saturation and deployed write linkage remain unknown |
+| Recovery and incidents | Backup restoration, recovery objectives, alerts and evidence-preserving triage | M5 disposable SQLite restore/rollback, receiver acknowledgment and private custody | Service RTO/RPO, deployment rollback and notification transport need independent evidence |
 | AI features | Prompt injection, tool authority, sensitive context, output handling and tenant isolation | M2 planning and M3 general source reasoning | Specialized AI runtime assessment remains unavailable |
 | Findings and fixes | Counterevidence, scoped causes, private candidates, before/after tests and retest guidance | M2 ledger and M3 scoped proposal/acceptance workflow | Finite declared model only; no automatic source overwrite or production claim |
 | Evidence privacy and validity | Redaction, provenance, actor/environment/source bindings, selective invalidation | Implemented M2 controls | Private state; redaction cannot recognize arbitrary sensitive prose |

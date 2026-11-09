@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.6.0-dev — M5 bounded resilience and incident review
+
+- Add current reviewed native k6 with a generated private broker workload,
+  exact pinned read authority, persistent single-use reservations and hard stops.
+- Add M1-only SQLite state oracles, disposable restore/rollback checks, recovery
+  challenge/receiver correlation and dependent evidence retraction.
+- Add private append-only incident preservation, custody checks and bounded reports.
+- Bound request wall time across trickled responses and include startup in origin
+  leases. Apply SQLite equality/collation to unique keys and reserve failed capture
+  storage durably. Preserve report provenance and validated outcome/event tokens
+  while redacting private display text, including assessment headings.
+- Measure restore duration with a high-resolution monotonic performance clock;
+  short Windows operations cannot be rounded to zero by a coarse elapsed timer.
+- Resolve release-version archive member paths without stale permanent pins.
+- Document measured read/artifact scope and unverified service/deployment claims.
+
 ## 0.5.0-dev — M4 bounded runtime, infrastructure and delivery review
 
 - Add a separate trusted HTTP/TLS collector with exact read authority, destination

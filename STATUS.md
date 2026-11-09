@@ -1,13 +1,41 @@
 # Project status
 
-Updated: 2026-11-08
+Updated: 2026-11-09
 
 ## Current stage
 
-M4 bounded runtime, infrastructure and delivery review, version `0.5.0-dev`.
-Bounded implementation and local behavioral checks are complete. GitHub delivery is gated on the exact revision's
+M5 bounded capacity, artifact recovery and incident review is implemented, version
+`0.6.0-dev`. M6 behavioral qualification and stable packaging have not started.
+GitHub delivery is gated on the exact revision's
 [validation workflow](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml).
 This is not a qualified whole-application auditor or stable security release.
+
+## M5 implementation and verification
+
+- Current reviewed native k6 generates private broker tickets; a separate trusted
+  collector enforces exact read destinations, persistent single-use authority,
+  rate/concurrency/request/byte/time ceilings, overload abort and cancellation.
+- M1-only SQLite artifact oracles detect duplicate/null transaction keys and
+  changed state; disposable backup restoration and rollback preserve originals.
+- Recovery plans bind fresh observed receiver acknowledgments; missing/invalidated
+  evidence stays visible. Actual service RTO/RPO and deployed linkage stay unknown.
+- Private incident bytes, append-only chronology and export-time custody checks;
+  no containment actions, notification sending or recurring monitoring.
+
+| Check | Observed result | Boundary |
+|---|---|---|
+| Windows, Python 3.14 | 191 discovered; 188 passed, 3 skipped | Host cannot create three symlink fixtures; Linux covers them |
+| Non-root offline Linux, current official Python runtime | All 191 passed; no skips | Byte-verified copy from a read-only source mount; owned loopback fixtures |
+| Real M5 native/Docker workflow | 15 expected CLI outcomes, 3 actual M1 artifact operations and 16 owned HTTP requests passed | Current official k6; bounded concurrent reads, overload abort, uncertain replay refusal, restoration/rollback, acknowledgment, incident custody, duplicate transactions and corrupt-backup rejection |
+| Independent security rechecks | Quota exhaustion, heading redaction, trickled-body deadline, SQLite numeric/collation equality and lease ownership/tails corrected | Original prohibited effects reproduced; legitimate reads, distinct keys and bounded capture remain available |
+| Independent contract/operator review | 47 CLI/main calls, 3 real native workloads and 3 actual M1 operations; required report/token/test defects resolved | Complete frozen criteria and producer context, rollback oracle, retraction and distinction between observation and hypothesis; retained tool metadata is explicitly not a new freshness qualification |
+
+Original failing fixtures, upstream failures and the temporary automatic-review
+outage remain private. A failed fresh lookup blocks rather than falling back to
+retained metadata. Independent component tests using verified retained bytes are
+attributed separately from the successful fresh official-tool workflow. Final
+source scanning and exact-revision hosted checks govern integration; their actual
+results are retained with delivery evidence, not inferred from this status file.
 
 ## M4 implementation and verification
 
@@ -117,16 +145,16 @@ and a compatible adapter. See [M3 contracts](docs/M3-SOURCE-REMEDIATION.md).
 ## Not implemented
 
 Automatic whole-project/live target discovery, general-purpose active scanning,
-automatic source overwrite, workload/load testing, remote cloud/host inspection, actual database-state
-verification, automatic installed-skill replacement, advisory subscriptions and
+automatic source overwrite, unrestricted load testing, remote cloud/host inspection,
+deployed database linkage, whole-service recovery, automatic installed-skill replacement, advisory subscriptions and
 scheduled monitoring. Full-skill detection performance has not been established.
-Original domain modules remain guidance; M3/M4 add the bounded paths described above.
+Original domain modules remain guidance; M3/M4/M5 add the bounded paths described above.
 
 ## Next bounded task
 
-M5 capacity/recovery work requires a subsequent user task after M4 delivery; this
-roadmap does not authorize live customer scans, production changes or later
-milestones automatically.
+Complete the authorized M5 verification/review/integration gates. M6 requires a
+subsequent user task; this roadmap does not authorize live customer scans,
+production changes or later milestones automatically.
 
 ## Historical M2 verification record
 

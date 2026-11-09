@@ -18,5 +18,7 @@ Test relevant rollback, alert delivery and recovery objectives; file existence a
 process health are insufficient. Preserve evidence when compromise is suspected;
 separate immediate authorized containment from destructive cleanup and recovery.
 
-Report security, capacity, data integrity and recovery outcomes separately. A k6
-adapter is planned, not installed or executed by this guidance file.
+Report security, capacity, data integrity and recovery outcomes separately. The bounded M5 paths are implemented in [M5 operations](../../docs/M5-OPERATIONS.md)
+and [M5 contracts](../../docs/M5-RESILIENCE.md). A catalog entry does not activate
+or authorize k6. Preserve the distinction between sampled read performance,
+artifact integrity, disposable restore and service recovery.

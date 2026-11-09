@@ -1,10 +1,10 @@
 ---
 name: cybersecurity-skills
-description: Review source, identity, customer data, selected infrastructure and authorized deployed web/API reads using current reviewed components. Produce bounded static/configuration leads, compare authenticated roles, observe local container artifacts, propose source fixes and retest declared Python models. Use for scoped security reviews and pre/post-release evidence; general active scanning, load tests and deployment approval are unsupported.
+description: Review source, identity, customer data, selected infrastructure and authorized deployed web/API reads using current reviewed components. Produce bounded static/configuration leads, compare authenticated roles, observe local container artifacts, propose source fixes and retest declared Python models. Also perform explicitly bounded read workloads, offline SQLite artifact integrity/restore checks and private incident preservation. Use for scoped security and operational reviews; general active scanning and deployment approval remain unsupported.
 license: MIT
 metadata:
   author: Pooya Hayati
-  version: 0.5.0-dev
+  version: 0.6.0-dev
 ---
 
 # Cybersecurity Skills
@@ -26,8 +26,20 @@ comparisons, selected infrastructure leads, a current reviewed Trivy embedded-ru
 adapter, exact local-container observations and limited delivery correspondence.
 Read [M4 contracts](docs/M4-RUNTIME-SECURITY.md) and [M4 operations](docs/M4-OPERATIONS.md)
 before these checks. M1 execution remains offline. General active scans, automatic
-whole-project discovery, database/deployed remediation, load tests and release
+whole-project discovery, database/deployed remediation and release
 approval are not implemented.
+M5 adds current reviewed k6 through a trusted bounded broker, finite SQLite
+artifact integrity/restore/rollback checks, correlated receiver acknowledgments
+and private append-only incident preservation. Read [M5 contracts](docs/M5-RESILIENCE.md)
+and [M5 operations](docs/M5-OPERATIONS.md) for these checks. Prepare representative
+workload and expected business-state oracles for the developer; require exact
+authority, admission rate/concurrency/time/byte ceilings and abort criteria.
+Overload, incomplete work and uncertain replay cannot pass. A correct response
+does not prove persisted writes; independently inspect selected post-workload
+artifacts. Keep target resource saturation, artifact-to-URL linkage, capture time,
+service RTO/RPO and notification transport gaps explicit. Preserve incident bytes
+and distinguish observations, hypotheses and proposed actions; do not execute
+content, contain, clean up, notify or start monitoring merely from a triage note.
 Explain these gaps using [the roadmap](ROADMAP.md).
 The repository validator proves neither freshness nor application security.
 
