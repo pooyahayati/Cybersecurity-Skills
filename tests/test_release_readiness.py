@@ -1,8 +1,11 @@
 """Labels and offline diagnostics cannot promote integrity to security readiness."""
 
 import json
+import os
+from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -25,6 +28,28 @@ def versioned(files, version):
 
 
 class ReleaseTests(unittest.TestCase):
+    def test_host_probe_git_init_cannot_redirect_or_copy_ambient_templates(self):
+        from host_discovery import initialize_project
+        with tempfile.TemporaryDirectory(prefix="cyber-host-env-") as tmp:
+            base = Path(tmp).resolve()
+            project, home, foreign, template = [base / name for name in ("project", "home", "foreign", "template")]
+            for folder in (project, home, foreign, template):
+                folder.mkdir()
+            (foreign / "keep").write_bytes(b"unrelated")
+            (template / "marker").write_bytes(b"must not copy")
+            config = base / "host-config"
+            config.write_text('[init]\n bare = true\n templateDir = ' + template.as_posix() + '\n', encoding="utf-8")
+            with patch.dict(os.environ, {"GIT_DIR": str(foreign), "GIT_WORK_TREE": str(foreign),
+                    "GIT_CONFIG_GLOBAL": str(config), "GIT_CONFIG_SYSTEM": str(config),
+                    "GIT_TEMPLATE_DIR": str(template), "GIT_CONFIG_COUNT": "1",
+                    "GIT_CONFIG_KEY_0": "init.bare", "GIT_CONFIG_VALUE_0": "true"}):
+                env = initialize_project(project, home)
+            self.assertEqual({p.name: p.read_bytes() for p in foreign.iterdir()}, {"keep": b"unrelated"})
+            self.assertTrue((project / ".git/HEAD").is_file())
+            self.assertFalse((project / ".git/marker").exists())
+            self.assertNotIn("GIT_DIR", env)
+            self.assertNotIn("GIT_CONFIG_COUNT", env)
+
     def test_supported_labels_preserve_exact_package_identity(self):
         files = payload()
         for version, expected in [("0.7.0-dev", "development"), ("1.0.0-rc.1", "release-candidate"),

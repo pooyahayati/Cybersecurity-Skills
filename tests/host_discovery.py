@@ -23,6 +23,27 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from security_runtime.package_lifecycle import Manager
 
 
+def isolated_environment(home):
+    env = {k: v for k, v in os.environ.items() if k.upper() in
+           ("SYSTEMROOT", "WINDIR", "COMSPEC", "PATH", "PATHEXT", "TMP", "TEMP", "LANG")}
+    env.update(HOME=str(home), USERPROFILE=str(home), CODEX_HOME=str(home / ".codex"),
+               LOCALAPPDATA=str(home / "AppData/Local"), APPDATA=str(home / "AppData/Roaming"),
+               GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+               GIT_CONFIG_SYSTEM=os.devnull, GIT_TERMINAL_PROMPT="0")
+    return env
+
+
+def initialize_project(project, home):
+    env = isolated_environment(home)
+    empty = home / "empty-git-template"
+    empty.mkdir()
+    # Never inherit GIT_DIR, worktree/index/object redirects or host templates.
+    subprocess.run(["git", "init", "--quiet", "--template=" + str(empty), str(project)],
+                   env=env, cwd=project, check=True, timeout=30,
+                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    return env
+
+
 def run(codex, archive, identity):
     private = Path(tempfile.mkdtemp(prefix="cyber-host-discovery-")).resolve()
     project, home = private / "project", private / "home"
@@ -31,16 +52,11 @@ def run(codex, archive, identity):
     skills = project / ".agents/skills"
     skills.mkdir(parents=True)
     # An owned repository bounds project discovery at this directory.
-    subprocess.run(["git", "init", "--quiet", str(project)], check=True, timeout=30,
-                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    env = initialize_project(project, home)
     manager = Manager(private / "manager", skills, create=True)
     manager.change("install", archive, identity)
     frozen = private / "cloud.json"
     frozen.write_text('{"skills": []}\n', encoding="utf-8")
-    env = {k: v for k, v in os.environ.items() if k.upper() in
-           ("SYSTEMROOT", "WINDIR", "COMSPEC", "PATH", "PATHEXT", "TMP", "TEMP", "LANG")}
-    env.update(HOME=str(home), USERPROFILE=str(home), CODEX_HOME=str(home / ".codex"),
-               LOCALAPPDATA=str(home / "AppData/Local"), APPDATA=str(home / "AppData/Roaming"))
     (home / ".codex").mkdir()
     version = subprocess.check_output([str(codex), "--version"], env=env, timeout=15).decode().strip()
     incoming = queue.Queue(maxsize=128)
