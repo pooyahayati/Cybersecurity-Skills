@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.0-rc.2 - Checklist coverage planning
+
+- Map all 36 Security Audit checklist items to separate evidence requirements,
+  bounded current support, legitimate/prohibited scenarios and explicit gaps.
+- Add offline checklist validation and JSON/Markdown plan output. All target
+  applicability and outcomes remain unknown/unverified; no tools are activated.
+- Preserve the existing M2 catalog, M1-M6 authority and assessment-state formats.
+- Add dependency-ordered C1-C6 exit criteria and refresh disabled source candidates,
+  including the deprecated OpenAI skills source and rule-license distinctions.
+- Catalog validity and C1 completion do not qualify C2-C6 execution, a target
+  security verdict or stable publication.
+
 ## 1.0.0-rc.1 — Release readiness
 
 - Accept canonical development, release-candidate and stable package labels

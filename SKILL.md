@@ -4,12 +4,22 @@ description: Review source, identity, customer data, selected infrastructure and
 license: MIT
 metadata:
   author: Pooya Hayati
-  version: 1.0.0-rc.1
+  version: 1.0.0-rc.2
 ---
 
 # Cybersecurity Skills
 
 ## Current capability boundary
+
+For checklist-based audits, start with the [36-item coverage profile](docs/CHECKLIST-COVERAGE.md)
+and prepare the offline plan with `scripts/security_checklist.py`. Keep capability,
+target applicability and target outcome separate. Retain every source item with
+its own scope, evidence, acceptance criteria and legitimate/prohibited scenarios.
+A generated plan leaves all outcomes unverified and activates no tool. Record
+actual observations through the existing evidence and execution methods; never
+close finer items merely because their broad M2 control or an ASVS chapter was
+reviewed. The [C1-C6 roadmap](docs/CHECKLIST-ROADMAP.md) distinguishes this planning
+capability from future dependency, web, scenario, infrastructure and recovery work.
 
 M6 provides bounded qualification records and exact-source package/lifecycle
 operations. Read [M6 qualification and packaging](docs/M6-QUALIFICATION.md) when

@@ -50,9 +50,9 @@
       "id": "openai-security",
       "kind": "skill",
       "repository": "https://github.com/openai/skills",
-      "status": "candidate",
+      "status": "deprecated",
       "enabled": false,
-      "purpose": "Selected threat-model and supported-language guidance."
+      "purpose": "Deprecated upstream catalog. Do not enroll for new work; review the current OpenAI plugin source separately."
     },
     {
       "id": "trivy",
@@ -85,6 +85,62 @@
       "status": "candidate",
       "enabled": false,
       "purpose": "Scoped dynamic web/API assessment."
+    },
+    {
+      "id": "openai-security-plugin",
+      "kind": "skill",
+      "repository": "https://github.com/openai/plugins",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Selected Codex Security resources; host/protocol assumptions, per-resource licenses and standalone compatibility require review."
+    },
+    {
+      "id": "osv-scanner",
+      "kind": "tool",
+      "repository": "https://github.com/google/osv-scanner",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Alternative dependency/advisory adapter when the selected Trivy path has an observed ecosystem gap; data freshness and outbound disclosure require review."
+    },
+    {
+      "id": "testssl",
+      "kind": "tool",
+      "repository": "https://github.com/testssl/testssl.sh",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Conditional TLS configuration checks; select the stable channel and enforce target/request bounds."
+    },
+    {
+      "id": "prowler",
+      "kind": "tool",
+      "repository": "https://github.com/prowler-cloud/prowler",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Conditional supported-cloud configuration assessment with explicit read authority."
+    },
+    {
+      "id": "checkov",
+      "kind": "tool",
+      "repository": "https://github.com/bridgecrewio/checkov",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Conditional IaC analysis when selected Trivy coverage is insufficient; not a mandatory duplicate scanner."
+    },
+    {
+      "id": "cosign",
+      "kind": "tool",
+      "repository": "https://github.com/sigstore/cosign",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Verify selected artifact signatures and attestations against an explicit publisher identity policy."
+    },
+    {
+      "id": "betterleaks",
+      "kind": "tool",
+      "repository": "https://github.com/betterleaks/betterleaks",
+      "status": "candidate",
+      "enabled": false,
+      "purpose": "Secret-history scanner candidate; review stable/development channels and prevent implicit credential validation, analysis or revocation."
     }
   ]
 }

@@ -5,7 +5,7 @@ can go wrong, what customer data is at risk, how to fix a confirmed weakness, an
 how to verify the result. It works independently of the person, framework or
 coding assistant that created a project. It does not require another head skill.
 
-**Release candidate: `1.0.0-rc.1`. The bounded M1–M6 controls include exact-source
+**Release candidate: `1.0.0-rc.2`. The bounded M1–M6 controls include exact-source
 packaging, owned installation/recovery and offline installation diagnosis.**
 General active scanning and deployment approval remain unsupported. This is not
 a stable security-auditor release and does not establish that an application is secure.
@@ -31,6 +31,31 @@ assessment ledger, useful private reports, and a foundation for acquiring and
 running reviewed components. M3 adds finite source leads and evidence-bound fixes;
 M4 adds bounded runtime/configuration observations; M5 adds bounded resilience checks. These help an agent investigate and justify
 a review; they do not automatically establish application security.
+
+## Checklist coverage and implementation gaps
+
+The [36-item security checklist profile](docs/CHECKLIST-COVERAGE.md) maps every
+item in the Security Audit section of the service checklist to existing bounded
+support, minimum evidence, acceptance criteria, legitimate/prohibited test ideas
+and explicit remaining work. It does not claim all checks are implemented or that
+a target has passed. Capability, applicability and assessment outcome are separate.
+
+From a trusted checkout or installed package, prepare an offline plan:
+
+```sh
+python -I -B scripts/security_checklist.py plan --format markdown
+```
+
+All 36 items start with unknown applicability and unverified outcomes. This command
+does not execute target code, contact a website, install a tool or create an
+assessment result. Keep saved plans and actual evidence in the owner's private
+assessment area. The existing M2 evidence ledger and M1-M5 execution methods remain
+the source of actual observations; one broad control cannot close every child item.
+
+[C1-C6 implementation phases](docs/CHECKLIST-ROADMAP.md) describe the remaining
+dependency/advisory, web/browser, project-specific scenario, infrastructure and
+service-recovery work, including the gate for each phase. C1 supplies the complete
+planning inventory. It does not complete C2-C6 or qualify general penetration testing.
 
 ## M6 qualification and skill packages
 
@@ -225,10 +250,17 @@ development use, implemented opt-in adapters and planned runtime composition.
 | [Cloudflare security audit skill](https://github.com/cloudflare/security-audit-skill) | Source evidence and refutation methods | Disabled candidate |
 | [Addy Osmani agent skills](https://github.com/addyosmani/agent-skills) | Focused secure-development guidance | M3 supports selected hardening guidance after current enrollment/review; disabled by default |
 | [WordPress agent skills](https://github.com/WordPress/agent-skills) | Platform-specific WordPress/WooCommerce methods | Disabled candidate; relevant only on platform evidence |
-| [OpenAI skills](https://github.com/openai/skills) | Selected threat-model and language-specific guidance | Disabled candidate |
+| [OpenAI skills](https://github.com/openai/skills) | Historical skill catalog | Deprecated upstream; disabled; not a source for new enrollment |
+| [OpenAI plugins](https://github.com/openai/plugins) | Selected current Codex Security resources | Disabled candidate; host/protocol compatibility and per-resource licensing require review |
 | [Trivy](https://github.com/aquasecurity/trivy) | Secret and configuration leads | M4 opt-in current reviewed Linux binary; release-embedded rules in offline M1; no product vulnerability DB |
 | [Semgrep](https://github.com/semgrep/semgrep) | Source analysis | Disabled candidate; edition/rule licenses require review |
 | [ZAP](https://github.com/zaproxy/zaproxy) | General dynamic web/API testing | Disabled candidate; M4 uses a smaller explicit-read collector; M1 stays offline |
+| [OSV-Scanner](https://github.com/google/osv-scanner) | Dependency/advisory alternative for a demonstrated coverage gap | Disabled C2 candidate; current data and outbound disclosures require review |
+| [testssl.sh](https://github.com/testssl/testssl.sh) | Selected TLS configuration checks | Disabled C3 candidate; stable channel and bounded target requests required |
+| [Prowler](https://github.com/prowler-cloud/prowler) | Supported cloud-account posture | Disabled C5 candidate; explicit resource and read authority required |
+| [Checkov](https://github.com/bridgecrewio/checkov) | Additional IaC coverage if needed | Disabled C5 candidate; avoid duplicating sufficient Trivy coverage |
+| [Cosign](https://github.com/sigstore/cosign) | Artifact signature and attestation verification | Disabled C5 candidate; an explicit trusted publisher policy is required |
+| [Betterleaks](https://github.com/betterleaks/betterleaks) | Secret-history scanning candidate | Disabled; review stable/development channels and prohibit implicit credential validation or revocation |
 | [k6](https://github.com/grafana/k6) | Load, concurrency and capacity measurements | M5 opt-in current reviewed x64 native binary; generated broker workload only; not bundled |
 | Python standard library | Controller, source verification, signed state, bounded HTTP/TLS and tests | Implemented; host Python 3.11+ required |
 | Docker and official `python:3-slim` image | Local offline isolation | Implemented backend; image resolved to a reviewed current immutable digest |

@@ -42,6 +42,9 @@ REQUIRED_FILES = (
     "docs/M6-QUALIFICATION.md", "templates/qualification-record.md", "scripts/m6_package.py",
     "docs/RELEASE-READINESS.md", "scripts/security_runtime/package_version.py",
     "scripts/security_runtime/package_diagnostics.py",
+    "config/security-checklist.json", "scripts/security_checklist.py",
+    "scripts/security_assessment/checklist.py",
+    "docs/CHECKLIST-COVERAGE.md", "docs/CHECKLIST-ROADMAP.md",
 )
 
 
@@ -193,7 +196,7 @@ def validate(root: Path) -> dict:
                 and source["id"] not in source_ids, "invalid or duplicate source ID")
         source_ids.add(source["id"])
         require(source["kind"] in ("skill", "tool"), "unsupported source kind")
-        require(source["status"] == "candidate" and source["enabled"] is False,
+        require(source["status"] in ("candidate", "deprecated") and source["enabled"] is False,
                 "foundation sources cannot be activated")
         require(isinstance(source["repository"], str)
                 and REPOSITORY.fullmatch(source["repository"]) is not None,
@@ -231,11 +234,24 @@ def validate(root: Path) -> dict:
     except (ValueError, KeyError, TypeError) as exc:
         raise ValidationError("invalid assessment control catalog") from exc
 
+    from security_assessment.checklist import validate_catalog as validate_checklist
+    try:
+        checklist = validate_checklist(reader.json("config/security-checklist.json"), identifiers,
+                                       {item["id"] for item in controls["controls"]})
+        for capability in checklist["capabilities"]:
+            for path in capability["paths"]:
+                reader.read(path)
+    except (ValueError, KeyError, TypeError) as exc:
+        raise ValidationError("invalid security checklist catalog") from exc
+
     return {"result": "structure_valid", "scope": "repository_structure_only",
             "operational_assessment": False, "freshness_verified": False,
             "version": project["version"], "modules": len(identifiers),
-            "candidate_sources": len(source_ids), "files_checked": len(reader.contents),
+            "candidate_sources": sum(item["status"] == "candidate" for item in sources["sources"]),
+            "deprecated_sources": sum(item["status"] == "deprecated" for item in sources["sources"]),
+            "files_checked": len(reader.contents),
             "assessment_control_templates": len(controls["controls"]),
+            "security_checklist_items": len(checklist["controls"]),
             "inputs_sha256": reader.fingerprint()}
 
 

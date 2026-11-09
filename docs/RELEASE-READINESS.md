@@ -1,6 +1,8 @@
 # Bounded release contract and operator guide
 
-The `1.0.0-rc.1` candidate prepares the existing bounded controls for release.
+The release-candidate series prepares the existing bounded controls for release.
+Version `1.0.0-rc.2` adds the offline [checklist planning profile](CHECKLIST-COVERAGE.md);
+it does not add the future runtime adapters in the checklist roadmap.
 It is not a published stable release, a general vulnerability detector, a
 certification, a guarantee against compromise or permission to test a system.
 Read [observed results](../STATUS.md) before selecting a capability.
