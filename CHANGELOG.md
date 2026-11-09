@@ -7,7 +7,7 @@
 - Add offline managed-install diagnosis with explicit runtime/host unknowns.
 - Attribute actual M1-M5 workflow modules, commands and workers to the verified
   installed artifact; retain the original scenario assertions and private data.
-- Add isolated host catalog verification and document bounded support,
+- Add selected-host candidate registration checks and document bounded support,
   development-to-candidate upgrade, recovery and stable publication gates.
 - Keep M1-M5 state schemas and current-version enforcement unchanged.
 - Measure the existing dead-controller test deadline from actual worker start,
