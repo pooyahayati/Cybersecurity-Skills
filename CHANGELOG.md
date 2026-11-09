@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.0-rc.1 — Release readiness
+
+- Accept canonical development, release-candidate and stable package labels
+  without granting freshness, publisher trust or general security qualification.
+- Add offline managed-install diagnosis with explicit runtime/host unknowns.
+- Attribute actual M1-M5 workflow modules, commands and workers to the verified
+  installed artifact; retain the original scenario assertions and private data.
+- Add isolated host catalog verification and document bounded support,
+  development-to-candidate upgrade, recovery and stable publication gates.
+- Keep M1-M5 state schemas and current-version enforcement unchanged.
+
 ## 0.7.0-dev — M6 bounded qualification and candidate packaging
 
 - Add exact-Git, reproducible skill archives with bounded structural/content

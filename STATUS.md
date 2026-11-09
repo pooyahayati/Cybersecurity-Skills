@@ -4,8 +4,14 @@ Updated: 2026-11-09
 
 ## Current stage
 
-M6 bounded behavioral qualification and candidate packaging is implemented,
-version `0.7.0-dev`. M1-M5 controls remain implemented. The observed results below
+Release-readiness work prepares `1.0.0-rc.1`: canonical package version channels,
+offline managed-install diagnosis, actual installed M1-M5 workflow attribution
+and isolated host discovery checks. Verification is in progress; no new result is
+assumed from the implementation. Stable publication and global installation are
+not part of this delivery. See [support and upgrades](docs/RELEASE-READINESS.md).
+
+The merged M6 baseline implemented bounded qualification and candidate packaging,
+version `0.7.0-dev`. M1-M5 controls remain implemented. The historical results below
 separate static agent behavior, actual helper/runtime effects and package checks.
 GitHub delivery is gated on the exact revision's
 [validation workflow](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml).

@@ -149,6 +149,16 @@ release or a general-purpose application-security qualification.
 block release. The skill has measured support boundaries and usable novice
 reports. A passing repository validator alone cannot satisfy this milestone.
 
+## Release-readiness follow-up
+
+Prepare a bounded `1.0.0-rc.1` candidate without implying stable publication.
+Support canonical version channels, retain M1-M5 state and authority contracts,
+add offline managed-install diagnosis, execute actual M1-M5 workflows from the
+installed artifact, and observe real host catalog discovery in an isolated
+project. Document supported scope and explicit upgrade/rollback. Require
+independent review, native source/artifact scans and exact-revision hosted checks.
+See [the release contract](docs/RELEASE-READINESS.md) and actual [status](STATUS.md).
+
 ## Maintenance after a stable release
 
 Recheck upstream changes, license constraints, advisories, tool/rule data and

@@ -5,8 +5,8 @@ can go wrong, what customer data is at risk, how to fix a confirmed weakness, an
 how to verify the result. It works independently of the person, framework or
 coding assistant that created a project. It does not require another head skill.
 
-**Development version: `0.7.0-dev`. M6 adds bounded behavioral qualification and
-exact-source skill packaging/lifecycle to the M1–M5 controls.**
+**Release candidate: `1.0.0-rc.1`. The bounded M1–M6 controls include exact-source
+packaging, owned installation/recovery and offline installation diagnosis.**
 General active scanning and deployment approval remain unsupported. This is not
 a stable security-auditor release and does not establish that an application is secure.
 
@@ -50,8 +50,16 @@ and operator workflows remain separate from static agent reasoning. See
 universal detection guarantee or unobserved model setting is invented.
 
 Package identity does not establish freshness or security. Every assessment
-keeps M1 current-version checks. This task prepares a development candidate;
+keeps M1 current-version checks. This task prepares a release candidate;
 merging it does not publish a stable release or update a user's installed skill.
+
+The [release and operator guide](docs/RELEASE-READINESS.md) defines the supported
+capabilities, platform matrix, version/channel contract, prerequisite boundaries,
+upgrade from development versions and explicit rollback. Use `m6_package.py
+diagnose` to check managed installed bytes without network or candidate execution;
+its result separately reports that freshness, host discovery and runtime readiness
+are not established. Actual installed M1–M5 workflows and host catalog discovery
+are qualification checks, with observed results recorded in [status](STATUS.md).
 
 ## Implemented M5 capacity, recovery and incident checks
 
@@ -253,7 +261,7 @@ must not be reported as performed merely because they appear in this table.
 | AI features | Prompt injection, tool authority, sensitive context, output handling and tenant isolation | M2 planning and M3 general source reasoning | Specialized AI runtime assessment remains unavailable |
 | Findings and fixes | Counterevidence, scoped causes, private candidates, before/after tests and retest guidance | M2 ledger and M3 scoped proposal/acceptance workflow | Finite declared model only; no automatic source overwrite or production claim |
 | Evidence privacy and validity | Redaction, provenance, actor/environment/source bindings, selective invalidation | Implemented M2 controls | Private state; redaction cannot recognize arbitrary sensitive prose |
-| Skill qualification and packaging | Blind baseline/candidate cases, exact-source archives, owned installation/update/uninstall and recovery | M6 development-candidate workflow | Finite measured cases; no universal protection, publisher authentication or automatic global update |
+| Skill qualification and packaging | Blind baseline/candidate cases, exact-source archives, owned installation/update/uninstall, recovery and offline diagnosis | M6 bounded release-candidate workflow | Finite measured cases; no universal protection, publisher authentication or automatic global update |
 
 ## Getting started
 

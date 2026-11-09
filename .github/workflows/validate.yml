@@ -55,15 +55,7 @@ jobs:
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.x'
-      - name: Exercise real protected-state and interruption boundaries
-        run: python -B tests/docker_integration.py --docker /usr/bin/docker
-      - name: Exercise M3 detection and remediation workflow
-        run: python -B tests/m3_workflow.py --docker /usr/bin/docker
-      - name: Exercise M4 current scanners and runtime workflow
+      - name: Exercise real M1-M5 workflows from the exact installed package
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python -B tests/m4_workflow.py --docker /usr/bin/docker
-      - name: Exercise M5 bounded load and recovery workflow
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: python -B tests/m5_workflow.py --docker /usr/bin/docker
+        run: python -B tests/installed_workflow.py --docker /usr/bin/docker

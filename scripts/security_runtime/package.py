@@ -13,6 +13,7 @@ import warnings
 import zipfile
 
 from .common import Blocked, canonical, fields, parse, read_file, relpath, require, sha256
+from .package_version import channel
 
 
 NAME = "cybersecurity-skills"
@@ -73,8 +74,13 @@ def check_payload(files):
             and type(project.get("schema_version")) is int and project["schema_version"] == 1
             and project.get("entrypoint") == "SKILL.md", "package has wrong skill identity")
     version = project.get("version")
-    require(isinstance(version, str) and re.fullmatch(r"0\.\d+\.\d+-dev", version),
-            "only supported development candidates can be packaged")
+    release_channel = channel(version)
+    if release_channel != "development":
+        require(project.get("maturity") == "bounded-qualification" and project.get("operational") is False,
+                "release labels cannot declare general operational assessment readiness")
+        require({"scripts/m6_package.py", "scripts/security_runtime/package_version.py",
+                 "scripts/security_runtime/package_diagnostics.py", "docs/RELEASE-READINESS.md"} <= files.keys(),
+                "release package is missing lifecycle/support content")
     skill = files["SKILL.md"].decode("utf-8")
     require(skill.startswith("---\n") and "\n---\n" in skill[4:], "missing skill frontmatter")
     header = skill.split("\n---\n", 1)[0]
@@ -234,5 +240,6 @@ def build(root, revision, output):
     manifest, _ = verify(raw, sha256(raw))
     write_new(output, raw)
     return {"archive_sha256": sha256(raw), "bytes": len(raw), "manifest": manifest,
+            "release_channel": channel(manifest["version"]),
             "source": "exact Git objects; worktree edits excluded", "freshness_verified": False,
             "publisher_authenticated": False, "security_verdict": "not_established", "stable_release": False}

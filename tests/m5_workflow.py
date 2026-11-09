@@ -18,8 +18,8 @@ import tempfile
 import threading
 import time
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import workflow_package
 from m5_support import ROOT, M5World, Server, artifact_contract, make_database
 from runtime_support import acceptance, source
 from security_runtime.common import Blocked, canonical, parse, read_file, require, sha256

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate this development package, without executing or fetching resources.
+"""Validate this skill package, without executing or fetching resources.
 
 This intentionally narrow validator is not a security scanner, freshness verifier,
 general schema validator, or a defense against concurrent filesystem replacement.
@@ -17,6 +17,8 @@ from pathlib import Path, PurePosixPath
 from urllib.parse import unquote, urlsplit
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from security_runtime.common import Blocked
+from security_runtime.package_version import channel
 
 
 MAX_FILE_BYTES = 1_048_576
@@ -38,6 +40,8 @@ REQUIRED_FILES = (
     "docs/M5-RESILIENCE.md", "docs/M5-OPERATIONS.md", "scripts/m5_review.py", "scripts/m5_worker.py",
     "docs/M4-RUNTIME-SECURITY.md", "docs/M4-OPERATIONS.md", "scripts/m4_review.py", "scripts/m4_worker.py",
     "docs/M6-QUALIFICATION.md", "templates/qualification-record.md", "scripts/m6_package.py",
+    "docs/RELEASE-READINESS.md", "scripts/security_runtime/package_version.py",
+    "scripts/security_runtime/package_diagnostics.py",
 )
 
 
@@ -129,9 +133,10 @@ def validate(root: Path) -> dict:
     require(type(project["schema_version"]) is int and project["schema_version"] == 1,
             "unsupported project schema")
     require(project["name"] == "cybersecurity-skills", "unexpected skill identity")
-    require(isinstance(project["version"], str)
-            and re.fullmatch(r"0\.\d+\.\d+-dev", project["version"]) is not None,
-            "package requires a development version")
+    try:
+        channel(project["version"])
+    except Blocked as exc:
+        raise ValidationError("unsupported package version") from exc
     require(project["maturity"] == "bounded-qualification" and project["operational"] is False,
             "bounded qualification cannot declare general operational assessment readiness")
     require(project["entrypoint"] == "SKILL.md"
