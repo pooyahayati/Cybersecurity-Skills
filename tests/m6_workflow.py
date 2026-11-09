@@ -52,7 +52,7 @@ def run(root, revision):
         cli("build", "--root", root, "--revision", revision, "--output", second)
         assert first.read_bytes() == second.read_bytes(), "package is not reproducible"
         identity = built["archive_sha256"]
-        manifest, files = read_archive(first, identity)
+        _, manifest, files = read_archive(first, identity)
         assert manifest["source_revision"] == revision
         cli("inspect", "--archive", first, "--sha256", "0" * 64, code=2)
         inspected = cli("inspect", "--archive", first, "--sha256", identity)
@@ -69,6 +69,8 @@ def run(root, revision):
             help_checks += 1
         result = subprocess.run([sys.executable, "-I", "-B", str(installed / "scripts/validate_project.py")],
                                 cwd=installed, capture_output=True, timeout=30, env=environment)
+        (private / "installed-structure.stdout").write_bytes(result.stdout)
+        (private / "installed-structure.stderr").write_bytes(result.stderr)
         assert result.returncode == 0, "installed package structural check failed"
         # Reuse the existing unchanged assertions; only select the executable path.
         code = ("import pathlib,sys; sys.path.insert(0," + repr(str(root / "tests")) + "); "

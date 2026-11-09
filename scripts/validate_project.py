@@ -12,8 +12,11 @@ import hashlib
 import json
 import posixpath
 import re
+import sys
 from pathlib import Path, PurePosixPath
 from urllib.parse import unquote, urlsplit
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 
 MAX_FILE_BYTES = 1_048_576
