@@ -12,7 +12,7 @@ import zipfile
 
 from m6_support import ROOT, World, payload
 from security_runtime.common import Blocked, canonical, sha256
-from security_runtime.package import (MANIFEST, NAME, assemble, read_archive, verify)
+from security_runtime.package import (MANIFEST, NAME, assemble, build, read_archive, verify)
 from security_runtime.package_lifecycle import Manager
 
 
@@ -264,6 +264,80 @@ class PackageTests(unittest.TestCase):
         with self.assertRaises(Blocked):
             self.manager.change("uninstall", expected_installed=self.old)
         self.assertEqual(outside.read_bytes(), b"preserve outside")
+
+
+class GitBuildTests(unittest.TestCase):
+    def setUp(self):
+        self.files = payload()
+        self.world = World(self.files)
+        self.addCleanup(self.world.close)
+        self.repo = self.world.root / "source"
+        self.repo.mkdir()
+        self.env = {k: v for k, v in os.environ.items() if k.upper() in
+                    ("SYSTEMROOT", "WINDIR", "PATH", "TMP", "TEMP")}
+        self.env.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull)
+        self.git("init")
+        for name, data in self.files.items():
+            path = self.repo / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(data)
+        self.git("add", ".")
+        self.git("commit", "--no-gpg-sign", "-m", "owned original fixture")
+        self.original = self.git("rev-parse", "HEAD").decode().strip()
+
+    def git(self, *args):
+        return subprocess.check_output(["git", "-C", str(self.repo),
+            "-c", "user.name=Owned Fixture", "-c", "user.email=fixture@example.invalid",
+            "-c", "core.hooksPath=" + os.devnull, "-c", "core.autocrlf=false", *args],
+            stderr=subprocess.DEVNULL, env=self.env, timeout=30)
+
+    def test_replace_refs_cannot_substitute_named_commit_content(self):
+        original_archive = self.world.root / "original.zip"
+        build(self.repo, self.original, original_archive)
+        (self.repo / "README.md").write_bytes(b"replacement must never impersonate original\n")
+        self.git("add", "README.md")
+        self.git("commit", "--no-gpg-sign", "-m", "owned replacement fixture")
+        replacement = self.git("rev-parse", "HEAD").decode().strip()
+        self.git("replace", self.original, replacement)
+        result = self.world.root / "after-replace.zip"
+        build(self.repo, self.original, result)
+        self.assertEqual(result.read_bytes(), original_archive.read_bytes())
+        _, manifest, files = read_archive(result, sha256(result.read_bytes()))
+        self.assertEqual(manifest["source_revision"], self.original)
+        self.assertEqual(files["README.md"], self.files["README.md"])
+
+    def test_inherited_git_repository_settings_cannot_redirect_selected_root(self):
+        original = self.world.root / "expected.zip"
+        build(self.repo, self.original, original)
+        foreign = self.world.root / "foreign"
+        foreign.mkdir()
+        subprocess.run(["git", "-C", str(foreign), "init"], env=self.env,
+                       capture_output=True, check=True, timeout=30)
+        result = self.world.root / "scoped.zip"
+        with patch.dict(os.environ, {"GIT_DIR": str(foreign / ".git"), "GIT_WORK_TREE": str(foreign),
+                                      "GIT_CONFIG_COUNT": "1", "GIT_CONFIG_KEY_0": "core.bare", "GIT_CONFIG_VALUE_0": "true"}):
+            build(self.repo, self.original, result)
+        self.assertEqual(result.read_bytes(), original.read_bytes())
+
+    def test_missing_promisor_object_cannot_trigger_implicit_fetch(self):
+        remote = self.world.root / "owned-remote.git"
+        self.git("clone", "--bare", "--no-hardlinks", str(self.repo), str(remote))
+        self.git("config", "remote.origin.url", str(remote))
+        self.git("config", "remote.origin.promisor", "true")
+        self.git("config", "remote.origin.partialclonefilter", "blob:none")
+        self.git("config", "extensions.partialClone", "origin")
+        oid = self.git("rev-parse", self.original + ":README.md").decode().strip()
+        object_root = (self.repo / ".git/objects").resolve(strict=True)
+        victim = (object_root / oid[:2] / oid[2:]).resolve(strict=True)
+        self.assertTrue(victim.is_relative_to(object_root) and victim.is_file())
+        victim.chmod(0o600)
+        victim.unlink()  # Only an inspected object in this newly owned fixture.
+        before = set((object_root / "pack").iterdir())
+        output = self.world.root / "must-not-build.zip"
+        with self.assertRaises((Blocked, subprocess.SubprocessError)):
+            build(self.repo, self.original, output)
+        self.assertFalse(output.exists())
+        self.assertEqual(set((object_root / "pack").iterdir()), before)
 
 
 if __name__ == "__main__":

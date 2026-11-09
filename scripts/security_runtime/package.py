@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import io
+import hashlib
 import os
 from pathlib import Path
 import re
@@ -182,11 +183,33 @@ def build(root, revision, output):
     output = Path(output).absolute()
     directory(output.parent)
     require(not output.is_relative_to(root), "package output must stay outside source")
+    require(not output.exists() and not output.is_symlink(), "output already exists; choose a new archive path")
+    environment = {k: v for k, v in os.environ.items() if k.upper() in
+                   ("SYSTEMROOT", "WINDIR", "PATH", "TMP", "TEMP")}
+    environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+                       GIT_TERMINAL_PROMPT="0", GIT_OPTIONAL_LOCKS="0")
     def git(*args):
-        return subprocess.check_output(["git", "-C", str(root), *args], stderr=subprocess.DEVNULL, timeout=30)
+        return subprocess.check_output(["git", "--no-replace-objects", "--no-lazy-fetch",
+            "-c", "protocol.allow=never", "-c", "core.fsmonitor=false", "-C", str(root), *args],
+            env=environment, stderr=subprocess.DEVNULL, timeout=30)
+    def object_bytes(kind, oid):
+        require(kind in ("commit", "tree", "blob") and re.fullmatch(r"[a-f0-9]{40}", oid),
+                "unsupported Git object identity")
+        size = int(git("cat-file", "-s", oid))
+        require(0 <= size <= MAX_FILE, "Git object exceeds size limit")
+        data = git("cat-file", kind, oid)
+        # SHA-1 here verifies Git's object-address format, not publisher trust.
+        header = kind.encode() + b" " + str(len(data)).encode() + b"\0"
+        require(len(data) == size and hashlib.sha1(header + data, usedforsecurity=False).hexdigest() == oid,
+                "Git object content identity mismatch")
+        return data
     require(git("rev-parse", "--verify", revision + "^{commit}").decode().strip() == revision,
             "source revision is not an exact commit")
-    tree = git("ls-tree", "-rz", "--full-tree", revision)
+    commit = object_bytes("commit", revision)
+    first = commit.split(b"\n", 1)[0]
+    require(re.fullmatch(rb"tree [a-f0-9]{40}", first), "commit has no supported root tree")
+    object_bytes("tree", first[5:].decode())
+    tree = git("ls-tree", "-rtz", "--full-tree", revision)
     require(len(tree) <= MAX_TOTAL, "Git tree inventory exceeds limit")
     files = {}
     for row in tree.split(b"\0"):
@@ -194,16 +217,19 @@ def build(root, revision, output):
             continue
         meta, raw_name = row.split(b"\t", 1)
         name = raw_name.decode("utf-8")
+        mode, kind, oid = meta.split()
+        if kind == b"tree":
+            object_bytes("tree", oid.decode())
+            continue
         if name not in ROOT_FILES and name.split("/")[0] not in ROOT_DIRS:
             continue
         selected(name)
-        mode, kind, oid = meta.split()
         require(mode in (b"100644", b"100755") and kind == b"blob", "selected Git member is a link or submodule")
         require(len(files) < MAX_FILES, "too many selected Git members")
-        size = int(git("cat-file", "-s", oid.decode()))
-        require(size <= MAX_FILE and sum(map(len, files.values())) + size <= MAX_TOTAL,
+        data = object_bytes("blob", oid.decode())
+        require(sum(map(len, files.values())) + len(data) <= MAX_TOTAL,
                 "selected Git content exceeds limit")
-        files[name] = git("cat-file", "blob", oid.decode())
+        files[name] = data
     raw = assemble(files, revision)
     manifest, _ = verify(raw, sha256(raw))
     write_new(output, raw)

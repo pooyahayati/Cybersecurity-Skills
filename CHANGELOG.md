@@ -4,6 +4,8 @@
 
 - Add exact-Git, reproducible skill archives with bounded structural/content
   verification and separately supplied archive identities; execute no package hooks.
+- Disable Git replacement refs, inherited repository/configuration redirection
+  and lazy object fetching; verify actual commit/tree/blob object identities.
 - Add explicit-root managed install/update/uninstall and private interruption
   recovery, preserving local edits, unrelated skills and assessment state.
 - Keep separate staging identities when restoration itself is interrupted; retain
