@@ -143,3 +143,22 @@ unrelated data. Package regressions also cover hostile archive members, managed
 ownership, modified/extra content, twice-interrupted restoration and Git identity
 substitution/acquisition. Source checks do not replace extracted-artifact checks.
 Neither CI nor the package installer invokes a paid model or tests a live target.
+
+## Current C2-C6 release claims
+
+The current-tool and actual HTTP/SQLite exercises establish only their selected
+helper/profile outcomes. Historical M6 agent requests were run against earlier
+versions; neither evidence set measures current C2-C6 agent detection or novice
+workflow quality. Before claiming such support in a stable release, select the
+risk-relevant current-candidate requests, independent expectations and baseline
+under the method above. Include correct scope selection, blocked/stale/unavailable
+inputs, safe/prohibited behavior, incomplete evidence and a usable explanation of
+the next action. Preserve failed fixes and important misses. Limit the release
+claim when a platform or workflow is not exercised; do not invent a universal
+accuracy percentage or require unrelated expansion work.
+
+The post-merge control-state correction adds real writer, reader-at-commit and
+table-lock cases, unchanged authenticated-state checks, legitimate continuation,
+and actual pre-admission/no-replay HTTP observations. These are deterministic
+regressions, not a new agent-quality evaluation. Original hosted failure evidence
+remains historical and cannot be erased by a subsequent successful run.

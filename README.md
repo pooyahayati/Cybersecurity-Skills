@@ -5,16 +5,33 @@ can go wrong, what customer data is at risk, how to fix a confirmed weakness, an
 how to verify the result. It works independently of the person, framework or
 coding assistant that created a project. It does not require another head skill.
 
-**Release candidate: `1.0.0-rc.3`. The bounded M1–M6 controls include exact-source
-packaging, owned installation/recovery and offline installation diagnosis.**
+**Release candidate: `1.0.0-rc.4`. The bounded M1–M6 controls include exact-source
+packaging, owned installation/recovery and offline installation diagnosis;
+C2-C6 add the selected execution profiles below.**
 General active scanning and deployment approval remain unsupported. This is not
 a stable security-auditor release and does not establish that an application is secure.
+
+## Delivery status and stable release
+
+The bounded C2-C6 implementation was merged in [PR10](https://github.com/pooyahayati/Cybersecurity-Skills/pull/10).
+All five checks passed before that merge. Its first post-merge run exposed an
+unhandled SQLite contention error on Windows; the other four jobs passed. This
+candidate handles that expected contention as a blocked operation, preserving the
+existing wait, authority, state and no-replay bounds. Original failure evidence is
+retained. Read [current verification and delivery](STATUS.md) for the correction's
+observations and the exact hosted check links.
+
+The [stable-release checklist](docs/RELEASE-READINESS.md#stable-release-checklist)
+separates remaining release work from optional future capabilities. A stable
+release still needs its exact stable-labelled artifact, current prerequisites and
+scans, affected installation/operator qualification, final independent acceptance
+and explicit publication authority. No stable GitHub release has been published.
 
 ## What this skill is for
 
 This skill helps a novice developer organize and substantiate reviews of source code,
 APIs, deployed websites, sensitive data, customer isolation, infrastructure and
-delivery. Its workflow will connect weaknesses across these surfaces instead of
+delivery. Its workflow connects supported findings across these surfaces instead of
 treating a clean scanner result as sufficient evidence. A useful finding identifies
 the affected code or environment, attack prerequisites, customer impact, evidence,
 counterevidence, a concrete fix, and checks that preserve legitimate behavior.
@@ -29,8 +46,10 @@ and remediation quality remain unestablished.
 Today the package provides eleven domain guidance modules, a bounded intake and
 assessment ledger, useful private reports, and a foundation for acquiring and
 running reviewed components. M3 adds finite source leads and evidence-bound fixes;
-M4 adds bounded runtime/configuration observations; M5 adds bounded resilience checks. These help an agent investigate and justify
-a review; they do not automatically establish application security.
+M4 adds bounded runtime/configuration observations; M5 adds bounded resilience
+checks; C2-C6 add the selected current-data, actual-application and recovery
+profiles. These help an agent investigate and justify a review; they do not
+automatically establish application security.
 
 ## Checklist coverage and implementation gaps
 
@@ -105,8 +124,8 @@ capabilities, platform matrix, version/channel contract, prerequisite boundaries
 upgrade from development versions and explicit rollback. Use `m6_package.py
 diagnose` to check managed installed bytes without network or candidate execution;
 its result separately reports that freshness, host discovery and runtime readiness
-are not established. Actual installed M1–M5 workflows and host catalog discovery
-are qualification checks, with observed results recorded in [status](STATUS.md).
+are not established. Actual installed M1-M5 and selected C2/C4/C5/C6 workflows, plus selected
+host catalog discovery, are qualification checks, with observed results recorded in [status](STATUS.md).
 
 ## Implemented M5 capacity, recovery and incident checks
 

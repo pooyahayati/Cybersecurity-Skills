@@ -253,3 +253,13 @@ fix, legitimate behavior to preserve and exact retest. Separate confirmed defect
 leads, refuted claims and missing evidence. Never hide a remaining checklist item
 behind a broad successful control or a clean scanner result. Use M2 review for
 finding decisions and the unchanged checklist requirements for per-item closure.
+
+## Control-state contention
+
+A busy/locked private control database blocks the operation within the existing
+bounded wait. Uncommitted state rolls back; the controller does not retry a target
+request, restore spent budget or clear a consumed intent. Contention after an
+external effect can leave an incomplete observation. Once access is available,
+inspect the private report and operation state before deciding the next action.
+A blocked result alone does not prove that no request was sent. Supported release
+claims and remaining gates are in [the release guide](RELEASE-READINESS.md).

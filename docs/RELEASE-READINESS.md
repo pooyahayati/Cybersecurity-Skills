@@ -1,7 +1,7 @@
 # Bounded release contract and operator guide
 
 The release-candidate series prepares the existing bounded controls for release.
-Version `1.0.0-rc.3` adds opt-in [C2-C6 execution profiles](CHECKLIST-EXECUTION.md)
+Version `1.0.0-rc.4` adds opt-in [C2-C6 execution profiles](CHECKLIST-EXECUTION.md)
 to the offline [checklist planning profile](CHECKLIST-COVERAGE.md). Their measured
 support boundaries remain separate from each target's unverified item outcomes.
 It is not a published stable release, a general vulnerability detector, a
@@ -27,7 +27,7 @@ required merely to load this skill. Version labels never bypass M1 freshness.
 Python 3.11 and the current Python 3 release on Windows/Linux are the maintained
 test matrix. Package management supports owned local directories. macOS, network
 shares, power-loss durability and hostile writers with the same account are not
-qualified. Docker, Git, Trivy and k6 are operation-specific external requirements,
+qualified. Docker, Git, Trivy, k6, ZAP and Cosign are operation-specific external requirements,
 not bundled dependencies. A Docker executable's presence does not prove isolation.
 See the operation guides for actual preflight and explicit scope/budget contracts.
 
@@ -79,7 +79,7 @@ explicit migration and recovery contract before support is claimed.
    subprocesses, install anything, contact a service, load candidate code, check
    latest versions or prove runtime readiness. Missing/edited files or a pending
    transaction block diagnosis. A successful diagnosis alone does not authorize
-   an assessment. Follow the selected M1-M5 operation guide next.
+   an assessment. Follow the selected M1-M5 or C2-C6 operation guide next.
 4. Stop active use before updating. Preserve the existing private manager and
    assessment state; retain the verified previous archive and a tested backup of
    private state, including its private permissions. Verify backup readability
@@ -103,8 +103,10 @@ reaching the limit requires a separate preservation/maintenance decision.
 ## Qualification and release decision
 
 `tests/installed_workflow.py` builds an exact-commit archive and runs the existing
-M1-M5 workflow assertions using the managed installed modules, CLIs and worker
-bytes. It records import attribution for parent and child controllers, verifies
+M1-M5 workflow assertions plus selected C2/C4/C5/C6 checks using the managed
+installed modules, CLIs and worker bytes. Current ZAP/full Windows target-push
+qualification is separately retained; the hosted Linux workflow does not claim
+those surfaces. It records import attribution for parent and child controllers, verifies
 the installed inventory again after each suite and keeps raw evidence private.
 The copied test harness has no checkout scripts, configuration or documentation
 beside it, so misplaced relative product-resource lookups fail. Synthetic publisher identities apply
@@ -129,3 +131,43 @@ Rebuild and inspect the final stable-labelled asset, retain its digest and sourc
 identity, and rerun affected checks after any change. Then publish only the tested
 scope and actual results. A passing validator, version label, clean scan or merged
 pull request is not that release decision and never an application-security pass.
+
+## Stable-release checklist
+
+This checklist records remaining work for a bounded first stable release. It
+does not authorize publication or expand operational support. The latest observed
+implementation and CI results are in [STATUS.md](../STATUS.md).
+
+| Gate | Existing evidence | Remaining action and acceptance |
+|---|---|---|
+| SR1: Required failures and CI | PR10 pre-merge checks passed; its post-merge Windows contention failure was independently reproduced and corrected | Accept the correction only with preserved original evidence, relevant positive/prohibited regressions, independent review and successful exact-revision hosted checks; follow the merged run to its conclusion |
+| SR2: Release scope and novice behavior | Historical M6 static/operator results and C2-C6 helper/current-tool fixtures have explicit limits | Freeze the supported release claim; exercise risk-relevant current-candidate novice requests and failure/degraded paths with independent expectations, usable reports and no unresolved important misses/unsafe actions; make no broader accuracy claim |
+| SR3: Exact stable-labelled asset | Candidate archive/inspection and version-channel handling are implemented and tested | Prepare a concrete stable version in both canonical version fields; build from the exact commit, inspect the complete archive, bind digest/source and verify reproducibility and affected version/package checks |
+| SR4: Installed lifecycle and host | Owned installation and prior lifecycle/host observations exist; installed M1-M5 and selected C2-C6 workflows run in CI | Exercise the actual selected release asset and relevant candidate-to-stable upgrade, private-state preservation, restoration/uninstall and supported-host registration; retain unaffected evidence only when bytes/context justify it |
+| SR5: Current prerequisites and security | Current-tool fixture records and native candidate source/package scans exist | Resolve current selected tools/rules/data at release preparation, review actual changes/licenses and scan the final source and extracted stable asset; no stale fallback or unexplained finding |
+| SR6: Independent final acceptance | Candidate security, contract and diagnostic reviews are separately retained | Bind final acceptance to the exact release tree, artifact, current evidence and stated limitations; any changed security boundary needs its own protective-effect evidence |
+| SR7: Publication and public verification | No stable GitHub release is published | Obtain explicit authority for the concrete release, publish its immutable version/source and verified asset/digest, then verify the downloaded asset and release metadata; global installation is a separate action |
+
+The gates require adequate relevant evidence, not a compulsory full rerun of every
+unchanged historic experiment. A new version label is not new behavioral evidence.
+An installed-helper pass is not proof that an agent can independently select and
+explain an assessment. Use [EVALUATION.md](EVALUATION.md) for that distinction.
+
+The following are optional scope expansions, unless promised by the selected
+stable release: real browser/JavaScript/session automation; additional dependency
+ecosystems, frameworks and database engines; cloud account/effective network
+collectors; production capacity/outage RTO or time-based RPO; external SIEM and
+real notification delivery; keyless/transparency verification; and Linux full
+target-push transport. Keep each unsupported surface visible instead of silently
+converting it into a passed control or a requirement to install every candidate.
+
+## Busy control state
+
+Concurrent use can exhaust the existing two-second SQLite lock wait. The controller
+then returns a sanitized blocked result for BUSY/LOCKED codes, rolls back its
+uncommitted transaction and closes the connection. This preserves authority and
+state; it does not make the underlying operation replayable. A failure while
+recording an already-sent request can leave an incomplete operation and consumed
+budget. Inspect private operation records once contention clears. Do not delete
+state, refund budgets, reset an intent or repeat an uncertain write automatically.
+Unrelated database errors are not classified as ordinary contention.
