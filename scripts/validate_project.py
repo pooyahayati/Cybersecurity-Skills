@@ -12,8 +12,11 @@ import hashlib
 import json
 import posixpath
 import re
+import sys
 from pathlib import Path, PurePosixPath
 from urllib.parse import unquote, urlsplit
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 
 MAX_FILE_BYTES = 1_048_576
@@ -34,6 +37,7 @@ REQUIRED_FILES = (
     "docs/M3-SOURCE-REMEDIATION.md", "docs/M3-OPERATIONS.md", "scripts/m3_review.py", "scripts/m3_worker.py",
     "docs/M5-RESILIENCE.md", "docs/M5-OPERATIONS.md", "scripts/m5_review.py", "scripts/m5_worker.py",
     "docs/M4-RUNTIME-SECURITY.md", "docs/M4-OPERATIONS.md", "scripts/m4_review.py", "scripts/m4_worker.py",
+    "docs/M6-QUALIFICATION.md", "templates/qualification-record.md", "scripts/m6_package.py",
 )
 
 
@@ -128,8 +132,8 @@ def validate(root: Path) -> dict:
     require(isinstance(project["version"], str)
             and re.fullmatch(r"0\.\d+\.\d+-dev", project["version"]) is not None,
             "package requires a development version")
-    require(project["maturity"] == "bounded-resilience-review" and project["operational"] is False,
-            "bounded resilience review cannot declare operational assessment readiness")
+    require(project["maturity"] == "bounded-qualification" and project["operational"] is False,
+            "bounded qualification cannot declare general operational assessment readiness")
     require(project["entrypoint"] == "SKILL.md"
             and project["modules_catalog"] == "config/modules.json"
             and project["sources_catalog"] == "config/sources.json",

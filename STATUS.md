@@ -4,11 +4,74 @@ Updated: 2026-11-09
 
 ## Current stage
 
-M5 bounded capacity, artifact recovery and incident review is implemented, version
-`0.6.0-dev`. M6 behavioral qualification and stable packaging have not started.
+M6 bounded behavioral qualification and candidate packaging is implemented,
+version `0.7.0-dev`. M1-M5 controls remain implemented. The observed results below
+separate static agent behavior, actual helper/runtime effects and package checks.
 GitHub delivery is gated on the exact revision's
 [validation workflow](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml).
 This is not a qualified whole-application auditor or stable security release.
+
+## M6 implementation and measured scope
+
+- Exact-commit, reproducible development archives with a complete selected-file
+  inventory and separately supplied SHA-256 archive identity. Git replacement
+  objects, inherited repository redirection and implicit object fetching cannot
+  substitute content. Actual commit/tree/blob identities are checked.
+- Data-only archive verification; no package hook or candidate code is executed.
+  Integrity does not establish publisher trust, currentness or application safety.
+- Explicit-root managed installation/update/uninstall with private ownership,
+  process locking and interruption recovery. Changed, extra, missing, linked or
+  unowned content blocks mutation; unrelated skills and assessment data survive.
+- Two separate forward evaluators used the merged M5 baseline and the installed
+  M6 candidate on the same eight frozen synthetic static-review requests. The
+  expected answers were withheld from both evaluators, including reachable skill
+  documentation. A separate reviewer adjudicates against the retained oracle.
+
+| Static report observation | M5 baseline | Installed M6 candidate | Denominator and limit |
+|---|---|---|---|
+| Completed requests | 8/8 | 8/8 | One separate agent session per version, eight cases in each session |
+| Required source issues identified | 4/4 | 4/4 | Issue-level count; related issues can share one report finding |
+| Important source misses | 0/4 | 0/4 | Only the four predetermined issues, not general recall |
+| Examined safe paths correctly retained | 2/2 | 2/2 | Concrete source/counterevidence reviewed, not a zero-warning inference |
+| Unsupported vulnerability claims on safe paths | 0/2 | 0/2 | Only the two selected near-matches, not general precision |
+| Incomplete correction rejected | 1/1 | 1/1 | Proposed checks preserve legitimate behavior; no target fix executed |
+| Actionable, bounded responses | 8/8 | 8/8 | Locations or evidence gaps, practical next steps, retests and limitations |
+
+Both sets of responses preserved missing-access, stale-component, deployment and
+failed-recovery limits. Both withheld the synthetic private value and rejected
+embedded instructions that requested unauthorized effects. These are inspected
+report/action records, not instrumented proof of network or operating-system
+enforcement. No behavioral improvement over the baseline is claimed. Neither
+session contacted a customer target or executed the supplied application code.
+
+The host exposed the Codex/OpenAI provider but not the exact model identifier or
+sampling configuration. Host launch/stream failures, report-save command limits
+and an evaluation timing-metadata correction remain in private history. Intended
+active-time budgets were not externally enforced; active time, cost and repeated
+stochastic performance were not measured. The cases share a session per version,
+so this is not eight isolated trials or a reproducible model benchmark. Previously
+published case results require fresh held-out inputs in future qualification.
+
+| Executed check | Observed result | Boundary |
+|---|---|---|
+| Windows, Python 3.14 | 210 discovered; 206 passed, 4 skipped | This host cannot create four symlink fixtures; Linux exercises them |
+| Non-root offline Linux, current official Python test image | All 210 passed; no skips | Byte-verified source copy, network disabled, bounded resources; existing M1 runtime policy unchanged |
+| Real package/installed workflow | 11 package CLI outcomes, 6 installed entrypoint checks and 15 installed M2 outcomes passed | Reproducible archive, real controller termination, recovery/update/uninstall and unrelated-data preservation |
+| Independent operator/security review | Original provenance defect reproduced and corrected; legitimate and prohibited lifecycle effects rechecked | Owned temporary roots and synthetic archives; unchanged prior checks explicitly carried forward |
+
+The initial interrupted-restoration defect was corrected with separate restoration
+staging and a regression that interrupts recovery again. Actual isolated CLI use
+also exposed import-path defects in the package command and installed validator;
+both were corrected. Independent review reproduced Git replacement-ref content
+substitution; inherited-environment and missing-object acquisition variants were
+also reproduced and corrected without weakening criteria. Original failures stay
+private. Final source and exact extracted-package scans, independent acceptance
+and all exact-revision hosted jobs remain delivery gates, not assumed outcomes.
+
+Support is bounded to the tested Windows/Linux Python matrix and owned local
+directories. Agent-host discovery, global installation, other filesystems, hostile
+concurrent writers, power-loss durability and general application-security quality
+are not qualified. The package remains a development candidate, not a stable release.
 
 ## M5 implementation and verification
 
@@ -152,9 +215,9 @@ Original domain modules remain guidance; M3/M4/M5 add the bounded paths describe
 
 ## Next bounded task
 
-Complete the authorized M5 verification/review/integration gates. M6 requires a
-subsequent user task; this roadmap does not authorize live customer scans,
-production changes or later milestones automatically.
+After the authorized M6 GitHub delivery, select the next bounded qualification or
+integration scope from the documented gaps. Stable release, global installation,
+live customer scans and production changes require their own user task.
 
 ## Historical M2 verification record
 

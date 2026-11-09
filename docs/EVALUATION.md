@@ -125,3 +125,21 @@ when its predicate fails. URL-only cases retain inaccessible source/infra gaps.
 Exact-hash body predicates detect only the declared content contract; partial or
 transformed leakage, real customer sessions, broad cloud posture, build/routing
 attestation and all-replica assurance need additional supported evidence.
+
+## M6 bounded qualification and distribution
+
+Use [the M6 contract](M6-QUALIFICATION.md) for baseline selection, blinded agent
+inputs, independently justified oracles, actual installed-package evaluation,
+private input/output identities and explicit host/model limits. The measured
+results are in [STATUS.md](../STATUS.md), separately from operational fixture
+evidence. An unchanged baseline result does not support an improvement claim.
+Record whether cases share a session; do not describe them as independent trials
+or compare latency/cost when active budgets and host delays are not controlled.
+
+Run `tests/m6_workflow.py` against the exact committed source. It verifies the
+reproducible archive, real private installation, installed M2 operator behavior,
+actual controller termination, recovery, update, uninstall and preservation of
+unrelated data. Package regressions also cover hostile archive members, managed
+ownership, modified/extra content, twice-interrupted restoration and Git identity
+substitution/acquisition. Source checks do not replace extracted-artifact checks.
+Neither CI nor the package installer invokes a paid model or tests a live target.

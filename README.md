@@ -5,8 +5,8 @@ can go wrong, what customer data is at risk, how to fix a confirmed weakness, an
 how to verify the result. It works independently of the person, framework or
 coding assistant that created a project. It does not require another head skill.
 
-**Development version: `0.6.0-dev`. M5 adds bounded read workloads, persisted-state
-artifact checks, disposable recovery and private incident triage on M1–M4.**
+**Development version: `0.7.0-dev`. M6 adds bounded behavioral qualification and
+exact-source skill packaging/lifecycle to the M1–M5 controls.**
 General active scanning and deployment approval remain unsupported. This is not
 a stable security-auditor release and does not establish that an application is secure.
 
@@ -22,14 +22,36 @@ counterevidence, a concrete fix, and checks that preserve legitimate behavior.
 Source-only, URL-only and combined reviews have different coverage. A public URL
 does not reveal private source code, cloud permissions or backup recoverability.
 The skill must retain those unknowns, distinguish staging from production, and
-explain next steps in plain language. Detection accuracy and remediation quality
-will be measured in the [evaluation protocol](docs/EVALUATION.md), not assumed.
+explain next steps in plain language. [Measured bounded results](STATUS.md) follow
+the [evaluation protocol](docs/EVALUATION.md); full-application detection accuracy
+and remediation quality remain unestablished.
 
 Today the package provides eleven domain guidance modules, a bounded intake and
 assessment ledger, useful private reports, and a foundation for acquiring and
 running reviewed components. M3 adds finite source leads and evidence-bound fixes;
 M4 adds bounded runtime/configuration observations; M5 adds bounded resilience checks. These help an agent investigate and justify
 a review; they do not automatically establish application security.
+
+## M6 qualification and skill packages
+
+Use the [M6 guide](docs/M6-QUALIFICATION.md) to build a deterministic package from
+an exact Git commit, inspect it against a separately reviewed digest, and manage
+an explicitly selected installation. No package code or installation hook runs
+during verification. Update/uninstall refuse unmanaged content and local edits;
+private pending transactions support recovery after interrupted directory moves.
+Unrelated skills and assessment data remain outside the managed inventory.
+
+Behavioral evaluation compares frozen realistic synthetic requests against the
+previous version, without revealing expected answers to evaluating agents. It
+records concrete findings, examined safe paths, missed issues, false alarms,
+unsafe actions, proposed fix quality and novice-report usefulness. Actual package
+and operator workflows remain separate from static agent reasoning. See
+[status](STATUS.md) for observed results and limitations; no security percentage,
+universal detection guarantee or unobserved model setting is invented.
+
+Package identity does not establish freshness or security. Every assessment
+keeps M1 current-version checks. This task prepares a development candidate;
+merging it does not publish a stable release or update a user's installed skill.
 
 ## Implemented M5 capacity, recovery and incident checks
 
@@ -231,6 +253,7 @@ must not be reported as performed merely because they appear in this table.
 | AI features | Prompt injection, tool authority, sensitive context, output handling and tenant isolation | M2 planning and M3 general source reasoning | Specialized AI runtime assessment remains unavailable |
 | Findings and fixes | Counterevidence, scoped causes, private candidates, before/after tests and retest guidance | M2 ledger and M3 scoped proposal/acceptance workflow | Finite declared model only; no automatic source overwrite or production claim |
 | Evidence privacy and validity | Redaction, provenance, actor/environment/source bindings, selective invalidation | Implemented M2 controls | Private state; redaction cannot recognize arbitrary sensitive prose |
+| Skill qualification and packaging | Blind baseline/candidate cases, exact-source archives, owned installation/update/uninstall and recovery | M6 development-candidate workflow | Finite measured cases; no universal protection, publisher authentication or automatic global update |
 
 ## Getting started
 

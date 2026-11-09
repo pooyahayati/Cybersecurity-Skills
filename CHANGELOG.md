@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.7.0-dev — M6 bounded qualification and candidate packaging
+
+- Add exact-Git, reproducible skill archives with bounded structural/content
+  verification and separately supplied archive identities; execute no package hooks.
+- Disable Git replacement refs, inherited repository/configuration redirection
+  and lazy object fetching; verify actual commit/tree/blob object identities.
+- Record bounded baseline/candidate static-report measurements and actual
+  installed-package/operator checks, with host/model and unsupported-surface limits.
+- Add explicit-root managed install/update/uninstall and private interruption
+  recovery, preserving local edits, unrelated skills and assessment state.
+- Keep separate staging identities when restoration itself is interrupted; retain
+  exact previous bytes and refuse unknown transaction content.
+- Add frozen synthetic forward-test requests, independent expected-behavior
+  records and bounded baseline/candidate reporting; no automatic model-provider calls.
+- Retain development status, strict current-version assessment policy, private
+  evidence and explicit limits on stable-release and production claims.
+
 ## 0.6.0-dev — M5 bounded resilience and incident review
 
 - Add current reviewed native k6 with a generated private broker workload,
