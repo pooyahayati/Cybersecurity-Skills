@@ -1,0 +1,9 @@
+{
+  "id": "trivy-db",
+  "kind": "data",
+  "provider": "trivy-db-oci",
+  "feed": "registry-1.docker.io/aquasec/trivy-db:2",
+  "max_download_bytes": 268435456,
+  "max_unpacked_bytes": 2147483648,
+  "data_max_age_seconds": 86400
+}

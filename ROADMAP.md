@@ -163,10 +163,12 @@ See [the release contract](docs/RELEASE-READINESS.md) and actual [status](STATUS
 
 The [C1-C6 roadmap](docs/CHECKLIST-ROADMAP.md) addresses the gaps identified by
 comparing the 36 Security Audit items in the service checklist with implemented
-behavior. C1 implements complete coverage planning and validation. C2-C6 remain
-separate dependency/advisory, web/browser, target-scenario, infrastructure and
-recovery milestones with explicit exit criteria. A merged C1 catalog does not
-qualify these future runtime capabilities or authorize every candidate tool.
+behavior. C1 implements complete coverage planning and validation. C2-C6 add
+separate bounded dependency/advisory, web, target-scenario, infrastructure and
+recovery profiles described in [the execution guide](docs/CHECKLIST-EXECUTION.md).
+Their original exit criteria remain binding; [status](STATUS.md) separates actual
+qualification from pending delivery. Profile availability does not close all
+target checklist items or authorize every candidate tool.
 
 ## Maintenance after a stable release
 

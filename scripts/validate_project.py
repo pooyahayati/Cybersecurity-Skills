@@ -45,6 +45,8 @@ REQUIRED_FILES = (
     "config/security-checklist.json", "scripts/security_checklist.py",
     "scripts/security_assessment/checklist.py",
     "docs/CHECKLIST-COVERAGE.md", "docs/CHECKLIST-ROADMAP.md",
+    "docs/CHECKLIST-EXECUTION.md", "scripts/c26_review.py", "scripts/c2_worker.py",
+    "scripts/c3_zap_worker.py", "scripts/c5_worker.py", "config/trivy-db-source.json", "config/cosign-source.json",
 )
 
 

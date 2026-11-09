@@ -1,0 +1,12 @@
+{
+  "id": "cosign",
+  "kind": "tool",
+  "repository": "sigstore/cosign",
+  "repository_id": 335952417,
+  "owner_id": 71096353,
+  "include": [],
+  "asset": {"name": "cosign-linux-amd64", "format": "raw", "members": ["cosign"]},
+  "max_download_bytes": 268435456,
+  "max_unpacked_bytes": 268435456,
+  "data_max_age_seconds": null
+}

@@ -22,3 +22,11 @@ Report security, capacity, data integrity and recovery outcomes separately. The 
 and [M5 contracts](../../docs/M5-RESILIENCE.md). A catalog entry does not activate
 or authorize k6. Preserve the distinction between sampled read performance,
 artifact integrity, disposable restore and service recovery.
+
+## Optional checklist execution
+
+Use the [C2-C6 execution guide](../../docs/CHECKLIST-EXECUTION.md) only when its
+selected profile and explicit authority match this project. Require independent
+business expectations and actual attributed observations; preserve unsupported
+requirements and all per-item checklist outcomes. A tool lead or historical
+profile result cannot self-approve a finding, correction or deployment.

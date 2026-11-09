@@ -17,9 +17,9 @@ jobs:
   validate:
     name: Validate (${{ matrix.os }}, Python ${{ matrix.python }})
     runs-on: ${{ matrix.os }}
-    # Hosted Windows has needed over nine minutes for regressions alone. Keep
-    # time for package/lifecycle checks; per-control deadlines remain unchanged.
-    timeout-minutes: 15
+    # Existing Windows regressions need over nine minutes; C2-C6 adds actual
+    # service scenarios. Only the job budget changes, never a control deadline.
+    timeout-minutes: 25
     strategy:
       fail-fast: false
       matrix:
@@ -47,7 +47,7 @@ jobs:
   isolation:
     name: Real Docker isolation (Linux)
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Check out the exact revision
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -57,7 +57,7 @@ jobs:
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.x'
-      - name: Exercise real M1-M5 workflows from the exact installed package
+      - name: Exercise real M1-M5 and C2-C6 profiles from the exact installed package
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python -B tests/installed_workflow.py --docker /usr/bin/docker

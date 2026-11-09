@@ -1,8 +1,32 @@
 # Project status
 
-Updated: 2026-11-09
+Updated: 2026-11-10
 
 ## Current stage
+
+Candidate `1.0.0-rc.3` implements the bounded C2-C6 profiles in
+[the execution guide](docs/CHECKLIST-EXECUTION.md). Current Trivy/official OCI data,
+admitted HTTP/offline ZAP, actual HTTP/SQLite scenarios, finite effective service
+and publisher policy, and instrumented transport/service recovery have separate
+contracts. All 36 checklist outcomes remain independently unverified for a target.
+
+Qualification is in progress. Preliminary actual current Trivy, ZAP and Cosign
+runs succeeded. Independent Windows checks passed all eight HTTP/SQLite business
+families and failed-fix/actor/oracle regressions; their deployment binding was
+explicitly simulated. Separate actual Windows Docker Desktop checks passed
+effective service binding, usable SQLite service restoration, actual application
+UID backup isolation and previously valid credential rejection, plus real target
+push to collector and receiver. These preliminary checks are not final package
+or hosted-CI acceptance. Original failures and independent review findings remain
+private; remaining exact-package, full regression and integration gates are open.
+
+The recovery/MFA fixture uses synthetic proof predicates; upload content is stored
+in SQLite. General MFA/provider lifecycle, filesystem/object storage, browsers,
+remote clouds, pre-existing SIEM/notifications and production outage RTO/RPO stay
+unverified. This stage does not publish stable software, install globally, test a
+customer service or authorize any production action.
+
+## Previous C1 baseline
 
 The C1 checklist follow-up implements `1.0.0-rc.2`: a complete 36-item planning
 catalog, offline JSON/Markdown plan generation, explicit per-item evidence and

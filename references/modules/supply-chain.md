@@ -16,3 +16,11 @@ Use Trivy or another reviewed adapter only for its supported surfaces. Match
 findings to the actual component and explain unsupported coverage. Do not upgrade
 dependencies across compatibility boundaries automatically to silence a scanner.
 Treat the auditor's own tools, skills and rules as supply-chain dependencies too.
+
+## Optional checklist execution
+
+Use the [C2-C6 execution guide](../../docs/CHECKLIST-EXECUTION.md) only when its
+selected profile and explicit authority match this project. Require independent
+business expectations and actual attributed observations; preserve unsupported
+requirements and all per-item checklist outcomes. A tool lead or historical
+profile result cannot self-approve a finding, correction or deployment.

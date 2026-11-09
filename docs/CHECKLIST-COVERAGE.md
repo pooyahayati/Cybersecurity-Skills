@@ -4,7 +4,8 @@ This profile translates the 36 items under **Security Audit** in the
 [service checklist](https://pooyahayati.com/services/software-audit-security/checklist/)
 into original English operational requirements. Review date: 2026-11-09.
 The authoritative maintained inventory is [security-checklist.json](../config/security-checklist.json).
-Read the [implementation roadmap](CHECKLIST-ROADMAP.md) for missing capabilities.
+Read the [implementation roadmap](CHECKLIST-ROADMAP.md) for acceptance gates and
+the [execution guide](CHECKLIST-EXECUTION.md) for bounded C2-C6 profiles and gaps.
 
 ## Three independent questions
 
@@ -36,7 +37,7 @@ completed assessment, signed receipt or new M2 state format.
 
 For an actual assessment, bind each selected item to exact assets, actors,
 environment, source/deployed revision and allowed effects. Record observations
-through the applicable M1-M5 methods and M2 evidence ledger. Reference those
+through the applicable M1-M5/C2-C6 methods and M2 evidence ledger. Reference those
 records separately for each checklist item, with reviewer, observation/expiry
 times and outcome rationale. Preserve missing access, inconclusive results and
 unsupported surfaces. A not-applicable decision needs concrete evidence.

@@ -17,3 +17,11 @@ refresh-token reuse and account enumeration without generating uncontrolled traf
 Use the actual framework and current applicable guidance. Do not prescribe one
 timeout, hash cost or cookie setting without checking workload and integration
 requirements. Preserve intentional login and recovery flows after a fix.
+
+## Optional checklist execution
+
+Use the [C2-C6 execution guide](../../docs/CHECKLIST-EXECUTION.md) only when its
+selected profile and explicit authority match this project. Require independent
+business expectations and actual attributed observations; preserve unsupported
+requirements and all per-item checklist outcomes. A tool lead or historical
+profile result cannot self-approve a finding, correction or deployment.

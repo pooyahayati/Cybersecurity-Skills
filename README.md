@@ -5,14 +5,14 @@ can go wrong, what customer data is at risk, how to fix a confirmed weakness, an
 how to verify the result. It works independently of the person, framework or
 coding assistant that created a project. It does not require another head skill.
 
-**Release candidate: `1.0.0-rc.2`. The bounded M1–M6 controls include exact-source
+**Release candidate: `1.0.0-rc.3`. The bounded M1–M6 controls include exact-source
 packaging, owned installation/recovery and offline installation diagnosis.**
 General active scanning and deployment approval remain unsupported. This is not
 a stable security-auditor release and does not establish that an application is secure.
 
 ## What this skill is for
 
-The complete product is intended to help a novice developer review source code,
+This skill helps a novice developer organize and substantiate reviews of source code,
 APIs, deployed websites, sensitive data, customer isolation, infrastructure and
 delivery. Its workflow will connect weaknesses across these surfaces instead of
 treating a clean scanner result as sufficient evidence. A useful finding identifies
@@ -52,10 +52,32 @@ assessment result. Keep saved plans and actual evidence in the owner's private
 assessment area. The existing M2 evidence ledger and M1-M5 execution methods remain
 the source of actual observations; one broad control cannot close every child item.
 
-[C1-C6 implementation phases](docs/CHECKLIST-ROADMAP.md) describe the remaining
-dependency/advisory, web/browser, project-specific scenario, infrastructure and
-service-recovery work, including the gate for each phase. C1 supplies the complete
-planning inventory. It does not complete C2-C6 or qualify general penetration testing.
+[C1-C6 implementation phases](docs/CHECKLIST-ROADMAP.md) retain separate acceptance
+gates. C1 supplies the complete planning inventory; the opt-in C2-C6 profiles now
+provide additional observations within the exact boundaries below. Neither a
+profile result nor a generated checklist qualifies general penetration testing.
+
+## C2-C6 execution profiles
+
+Use [the execution and operator guide](docs/CHECKLIST-EXECUTION.md) to select a
+profile, prepare private scope and independent expectations, resolve current
+resources, execute within explicit authority and explain the resulting evidence.
+The agent should translate findings into affected code/routes, customer impact,
+correction steps and a retest that preserves legitimate behavior.
+
+| Stage | Available operation | Important limit |
+|---|---|---|
+| C2 | Current Trivy plus independently current official OCI advisory data; exact npm lock v2/v3 matching and selected-inventory SBOM | No installed/shipped identity, reachability, malicious-package or unsupported-ecosystem claim |
+| C3 | Explicit bounded HTTP methods, admitted HTML navigation and offline current ZAP passive checks | No browser/JavaScript, automatic login or general active scan; alerts are leads |
+| C4 | Real HTTP/SQLite positive, prohibited and variant scenarios; valid actor, response and persisted-state predicates; original/fixed comparison | Qualified Python/SQLite fixture profile; each real project needs independent business rules and coverage |
+| C5 | Effective local Python-container settings and source/database/URL binding, authenticated Actions defaults, approved-key Cosign provenance | No remote cloud/host qualification, keyless/transparency claim or deployment approval |
+| C6 | Actual instrumented target/log/receiver transport; private backup capture, application-UID access probe, usable service restore and compromised-access rejection | Finite transport/SQLite profile; measured restore duration and committed-event loss, not production outage RTO or time-based RPO |
+
+All tools remain opt-in and separately reviewed. Currentness failures stop the
+affected operation. Actual evidence stays private; historical reports retain
+incomplete attempts, remediation and missing coverage without renewing a pass.
+The [status record](STATUS.md) distinguishes implementation, qualification and
+GitHub delivery; this is still a release candidate.
 
 ## M6 qualification and skill packages
 
@@ -252,14 +274,14 @@ development use, implemented opt-in adapters and planned runtime composition.
 | [WordPress agent skills](https://github.com/WordPress/agent-skills) | Platform-specific WordPress/WooCommerce methods | Disabled candidate; relevant only on platform evidence |
 | [OpenAI skills](https://github.com/openai/skills) | Historical skill catalog | Deprecated upstream; disabled; not a source for new enrollment |
 | [OpenAI plugins](https://github.com/openai/plugins) | Selected current Codex Security resources | Disabled candidate; host/protocol compatibility and per-resource licensing require review |
-| [Trivy](https://github.com/aquasecurity/trivy) | Secret and configuration leads | M4 opt-in current reviewed Linux binary; release-embedded rules in offline M1; no product vulnerability DB |
+| [Trivy](https://github.com/aquasecurity/trivy) | Secret/configuration leads and selected dependency advisories | M4 plus C2 opt-in current Linux binary and separately current official Trivy DB; offline M1; not bundled |
 | [Semgrep](https://github.com/semgrep/semgrep) | Source analysis | Disabled candidate; edition/rule licenses require review |
-| [ZAP](https://github.com/zaproxy/zaproxy) | General dynamic web/API testing | Disabled candidate; M4 uses a smaller explicit-read collector; M1 stays offline |
+| [ZAP](https://github.com/zaproxy/zaproxy) | Passive analysis of admitted private HTTP captures | C3 opt-in current stable image/core/reviewed add-ons; generated offline plan; no active scan or browser |
 | [OSV-Scanner](https://github.com/google/osv-scanner) | Dependency/advisory alternative for a demonstrated coverage gap | Disabled C2 candidate; current data and outbound disclosures require review |
 | [testssl.sh](https://github.com/testssl/testssl.sh) | Selected TLS configuration checks | Disabled C3 candidate; stable channel and bounded target requests required |
 | [Prowler](https://github.com/prowler-cloud/prowler) | Supported cloud-account posture | Disabled C5 candidate; explicit resource and read authority required |
 | [Checkov](https://github.com/bridgecrewio/checkov) | Additional IaC coverage if needed | Disabled C5 candidate; avoid duplicating sufficient Trivy coverage |
-| [Cosign](https://github.com/sigstore/cosign) | Artifact signature and attestation verification | Disabled C5 candidate; an explicit trusted publisher policy is required |
+| [Cosign](https://github.com/sigstore/cosign) | Artifact signature and provenance verification | C5 opt-in current Linux verifier; separately reviewed public key/build policy; no transparency/keyless claim |
 | [Betterleaks](https://github.com/betterleaks/betterleaks) | Secret-history scanning candidate | Disabled; review stable/development channels and prohibit implicit credential validation or revocation |
 | [k6](https://github.com/grafana/k6) | Load, concurrency and capacity measurements | M5 opt-in current reviewed x64 native binary; generated broker workload only; not bundled |
 | Python standard library | Controller, source verification, signed state, bounded HTTP/TLS and tests | Implemented; host Python 3.11+ required |
@@ -283,15 +305,15 @@ must not be reported as performed merely because they appear in this table.
 | Identity and access | Sessions, recovery, roles, ownership and tenant separation | M3 source paths; M4 observed identity predicates and same-resource role comparisons | Server assertions only; session lifecycle and real database effects need further evidence |
 | Sensitive/customer data | Secrets, leaks, storage, logs, retention and deletion | M3 selected credential/log leads and lifecycle review | Privacy requirements and other data copies need project context |
 | Application and API code | Injection, XSS, SSRF, uploads, traversal, deserialization and API controls | M3 finite source rules; M4 exact bounded reads | No whole-program analysis, crawler, form submission or arbitrary active payloads |
-| Business logic | Abuse cases, authorization order, payments and idempotency | M3 source traces and finite state/variant cases | M5 can check selected persisted SQLite artifacts; real payments and deployed state linkage remain unverified |
-| Dependencies and artifacts | Vulnerabilities, packages, install hooks, containers and provenance | M1 acquisition, M3 exact-version/advisory review, M4 observed local image identity | Product Trivy adapter does not select vulnerability databases or build attestation |
+| Business logic | Abuse cases, authorization order and concurrent idempotency | M3/M5 plus C4 actual HTTP and independently observed SQLite state | Synthetic business cases; real payment providers and unselected tables/replicas remain unverified |
+| Dependencies and artifacts | Exact component/advisory matching, SBOM and publisher/build policy | M1/M3/M4 plus C2 npm/Trivy data and C5 approved-key Cosign | Selected declared inventory only; shipped identity and keyless/transparency remain unverified |
 | Infrastructure and DevOps | Host/cloud access, storage exposure, IaC, containers and CI/CD secrets | M4 finite structured/lexical leads, Trivy adapter and local container reads | Selected forms only; no remote account discovery or infrastructure mutation |
 | Pre-release and release | Artifact/environment identity, staging checks, deployment controls and rollback readiness | M4 declared/observed local artifact correspondence and role prerequisites | URL routing/build provenance unverified; no release approval or rollback execution |
 | Post-release web/API | Scoped production verification, authenticated role comparisons and exposure checks | M4 exact authorized GET/HEAD, TLS and complete response predicates | No general scan or monitoring; explicit target scope, credentials and budgets required |
-| Capacity and concurrency | Concurrent users versus RPS, load/stress/spike/soak, latency, errors and persisted state | M5 bounded read workloads and independent SQLite artifact oracles | Small explicit budgets; target resource saturation and deployed write linkage remain unknown |
-| Recovery and incidents | Backup restoration, recovery objectives, alerts and evidence-preserving triage | M5 disposable SQLite restore/rollback, receiver acknowledgment and private custody | Service RTO/RPO, deployment rollback and notification transport need independent evidence |
+| Capacity and concurrency | Concurrent users versus RPS, latency/errors and state invariants | M5 bounded read workloads plus C4 concurrent synthetic HTTP writes/SQLite state | Small explicit budgets; target resource saturation and distributed capacity remain unverified |
+| Recovery and incidents | Backup access, usable restore, measured loss/time, audit hops and private custody | M5 plus C6 actual instrumented transport and selected SQLite service recovery | Explicit qualified platform/profile; no real notifications, production cutover or universal RTO/RPO |
 | AI features | Prompt injection, tool authority, sensitive context, output handling and tenant isolation | M2 planning and M3 general source reasoning | Specialized AI runtime assessment remains unavailable |
-| Findings and fixes | Counterevidence, scoped causes, private candidates, before/after tests and retest guidance | M2 ledger and M3 scoped proposal/acceptance workflow | Finite declared model only; no automatic source overwrite or production claim |
+| Findings and fixes | Counterevidence, private candidates and original/fixed preservation tests | M2/M3 plus C4 equivalent actual HTTP/SQLite scenarios and historical C2-C6 reports | Independent project rules required; no automatic source overwrite or production claim |
 | Evidence privacy and validity | Redaction, provenance, actor/environment/source bindings, selective invalidation | Implemented M2 controls | Private state; redaction cannot recognize arbitrary sensitive prose |
 | Skill qualification and packaging | Blind baseline/candidate cases, exact-source archives, owned installation/update/uninstall, recovery and offline diagnosis | M6 bounded release-candidate workflow | Finite measured cases; no universal protection, publisher authentication or automatic global update |
 
