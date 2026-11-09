@@ -4,6 +4,32 @@ Updated: 2026-11-09
 
 ## Current stage
 
+The C1 checklist follow-up implements `1.0.0-rc.2`: a complete 36-item planning
+catalog, offline JSON/Markdown plan generation, explicit per-item evidence and
+legitimate/prohibited scenarios, and a C2-C6 completion roadmap. Existing M1-M6
+runtime authority and stored assessment schemas are unchanged. The new planner
+performs no assessment and leaves every target outcome unverified. Candidate
+source health and licensing constraints are updated; no new upstream tool is
+installed or activated. C2-C6 runtime adapters remain future work; completing
+the matrix does not establish their implementation or any target security pass.
+
+The corrected C1 source passed all 228 offline Linux regression methods and nine
+focused Windows checklist methods, including actual private installed CLI use.
+Independent review identified whitespace-only minimum requirements, an omitted
+required support module and incomplete Markdown provenance/phase output. The
+first two failures were independently reproduced before correction; the Markdown
+gap was observed in the original source, with corrected installed output checked
+separately. Original failures and reviewer fixture/sequence errors remain private.
+The corrections preserve legitimate planning and all 36 unverified outcomes.
+These results qualify the bounded planner, not security detection accuracy.
+
+Exact-revision hosted checks, current native source/extracted-package scans,
+independent review acceptance and package identity are integration gates retained
+in private delivery records. They do not authorize stable publication, global
+installation, customer scans or the next runtime milestone.
+
+## Previous release-readiness baseline
+
 Release candidate `1.0.0-rc.1` implements canonical package version channels,
 offline managed-install diagnosis, actual installed M1-M5 workflow attribution
 and selected-host registration checks. Stable publication and global installation

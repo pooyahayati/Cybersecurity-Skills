@@ -159,6 +159,15 @@ project. Document supported scope and explicit upgrade/rollback. Require
 independent review, native source/artifact scans and exact-revision hosted checks.
 See [the release contract](docs/RELEASE-READINESS.md) and actual [status](STATUS.md).
 
+## Checklist completion workstream
+
+The [C1-C6 roadmap](docs/CHECKLIST-ROADMAP.md) addresses the gaps identified by
+comparing the 36 Security Audit items in the service checklist with implemented
+behavior. C1 implements complete coverage planning and validation. C2-C6 remain
+separate dependency/advisory, web/browser, target-scenario, infrastructure and
+recovery milestones with explicit exit criteria. A merged C1 catalog does not
+qualify these future runtime capabilities or authorize every candidate tool.
+
 ## Maintenance after a stable release
 
 Recheck upstream changes, license constraints, advisories, tool/rule data and
