@@ -31,6 +31,15 @@ def run(docker, revision, trivy_archive=None, k6_archive=None):
     manager = Manager(private / "manager", skills, create=True)
     manager.change("install", archive, built["archive_sha256"])
     installed = manager.target
+    # Copy only the trusted test harness: no checkout scripts/config/docs can
+    # satisfy a mistaken __file__-relative product-resource lookup in a child.
+    harness = private / "harness/tests"
+    harness.mkdir(parents=True)
+    harness_hashes = {}
+    for source in sorted((ROOT / "tests").glob("*.py")):
+        data = source.read_bytes()
+        (harness / source.name).write_bytes(data)
+        harness_hashes[source.name] = hashlib.sha256(data).hexdigest()
     diagnostic = diagnose(manager)
     assert diagnostic["integrity_verified"] and not diagnostic["freshness_verified"]
     environment = dict(os.environ)
@@ -49,8 +58,8 @@ def run(docker, revision, trivy_archive=None, k6_archive=None):
         name = Path(script).stem
         prefix = private / (name + "-imports")
         environment["CYBER_TEST_IMPORT_RECEIPT"] = str(prefix)
-        result = subprocess.run([sys.executable, "-I", "-B", str(ROOT / "tests" / script), *map(str, options)],
-                                capture_output=True, env=environment, timeout=600)
+        result = subprocess.run([sys.executable, "-I", "-B", str(harness / script), *map(str, options)],
+                                cwd=harness.parent, capture_output=True, env=environment, timeout=600)
         (private / (name + ".stdout")).write_bytes(result.stdout)
         (private / (name + ".stderr")).write_bytes(result.stderr)
         assert result.returncode == 0, script + " failed; retain " + str(private)
@@ -66,6 +75,7 @@ def run(docker, revision, trivy_archive=None, k6_archive=None):
         print(json.dumps(results[-1]), flush=True)
     record = {"result": "passed", "source_revision": revision, "archive_sha256": built["archive_sha256"],
               "payload_files": len(built["manifest"]["files"]), "suites": results,
+              "harness_files_sha256": harness_hashes, "checkout_resources_available_to_harness": False,
               "installed_integrity": diagnose(manager), "security_verdict": "not_established"}
     (private / "result.json").write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(record))

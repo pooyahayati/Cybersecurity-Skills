@@ -10,6 +10,9 @@
 - Add isolated host catalog verification and document bounded support,
   development-to-candidate upgrade, recovery and stable publication gates.
 - Keep M1-M5 state schemas and current-version enforcement unchanged.
+- Reject duplicate/ambiguous skill header identity and version before packaging
+  or installation; isolate test Git initialization from ambient configuration
+  and run installed fixtures without adjacent checkout product resources.
 
 ## 0.7.0-dev — M6 bounded qualification and candidate packaging
 

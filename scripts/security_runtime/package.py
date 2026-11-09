@@ -13,7 +13,7 @@ import warnings
 import zipfile
 
 from .common import Blocked, canonical, fields, parse, read_file, relpath, require, sha256
-from .package_version import channel
+from .package_version import channel, skill_header
 
 
 NAME = "cybersecurity-skills"
@@ -81,11 +81,8 @@ def check_payload(files):
         require({"scripts/m6_package.py", "scripts/security_runtime/package_version.py",
                  "scripts/security_runtime/package_diagnostics.py", "docs/RELEASE-READINESS.md"} <= files.keys(),
                 "release package is missing lifecycle/support content")
-    skill = files["SKILL.md"].decode("utf-8")
-    require(skill.startswith("---\n") and "\n---\n" in skill[4:], "missing skill frontmatter")
-    header = skill.split("\n---\n", 1)[0]
-    require(re.search(r"^name: " + NAME + "$", header, re.M)
-            and re.search(r"^  version: " + re.escape(version) + "$", header, re.M),
+    header = skill_header(files["SKILL.md"].decode("utf-8"))
+    require(header["name"] == NAME and header["metadata"]["version"] == version,
             "package skill version/identity mismatch")
     source = parse(files["config/head-source.json"], MAX_FILE)
     require(isinstance(source, dict) and source.get("repository") == "pooyahayati/Cybersecurity-Skills"

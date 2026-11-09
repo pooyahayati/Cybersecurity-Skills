@@ -34,7 +34,10 @@ and `MAJOR.MINOR.PATCH`, where release major and candidate number start at one.
 Numbers use ASCII digits without leading zeroes. Prefixes, build metadata,
 arbitrary prerelease names and floating labels are unsupported. Archive and skill
 metadata must agree. Candidate/stable packages must include lifecycle/support
-content and preserve `maturity: bounded-qualification` and `operational: false`.
+content. The skill header accepts only its documented plain-scalar fields and
+one `metadata` mapping with one author and version; duplicate keys, YAML aliases,
+tags, quoted/block scalars and ambiguous comments are rejected. Packages must
+preserve `maturity: bounded-qualification` and `operational: false`.
 The latter means general operational assessment qualification is not established;
 it does not deny the individually documented implemented controls.
 
@@ -74,7 +77,10 @@ explicit migration and recovery contract before support is claimed.
    an assessment. Follow the selected M1-M5 operation guide next.
 4. Stop active use before updating. Preserve the existing private manager and
    assessment state; retain the verified previous archive and a tested backup of
-   private state. Supply both the reviewed new archive digest and the observed
+   private state, including its private permissions. Verify backup readability
+   with the relevant operation before updating; stop if that check fails. A byte
+   copy alone may not preserve required Windows access controls. Supply both the
+   reviewed new archive digest and the observed
    currently installed digest. Local edits or unmanaged content block mutation;
    preserve and review them instead of forcing an overwrite.
 5. On interruption, use `status` and the exact pending transaction ID with
@@ -95,7 +101,8 @@ reaching the limit requires a separate preservation/maintenance decision.
 M1-M5 workflow assertions using the managed installed modules, CLIs and worker
 bytes. It records import attribution for parent and child controllers, verifies
 the installed inventory again after each suite and keeps raw evidence private.
-The test harness is outside the package. Synthetic publisher identities apply
+The copied test harness has no checkout scripts, configuration or documentation
+beside it, so misplaced relative product-resource lookups fail. Synthetic publisher identities apply
 only to owned head/worker fixtures; actual current tool metadata is still required.
 
 `tests/host_discovery.py` checks a real host catalog in an isolated owned project

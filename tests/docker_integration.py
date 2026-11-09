@@ -156,7 +156,7 @@ def run_suite(executable):
         # completed process as a completed security review.
         from security_assessment.service import Assessment
         from m2_support import model
-        assessment = Assessment(fixture.store, Path(__file__).resolve().parents[1])
+        assessment = Assessment(fixture.store, ROOT)
         assessment.create({"schema_version": 1, "id": "real-producer", "source": {
             "root": str(fixture.target), "files": ["customer.txt"], "revision": None},
             "deployments": [], "model": model(), "redact_values": []})

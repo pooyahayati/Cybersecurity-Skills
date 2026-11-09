@@ -14,7 +14,7 @@ from security_runtime.common import Blocked, canonical, sha256
 from security_runtime.package import assemble, verify
 from security_runtime.package_diagnostics import diagnose
 from security_runtime.package_lifecycle import Manager
-from security_runtime.package_version import channel
+from security_runtime.package_version import channel, skill_header
 
 
 def versioned(files, version):
@@ -28,6 +28,55 @@ def versioned(files, version):
 
 
 class ReleaseTests(unittest.TestCase):
+    def test_ambiguous_frontmatter_blocks_packaging_install_and_structure(self):
+        import io
+        import zipfile
+        from validate_project import ValidationError, validate
+        files = payload()
+        original = files["SKILL.md"]
+        for old, replacement in [
+                (b"  version: 1.0.0-rc.1", b"  version: 1.0.0-rc.1\n  version: invalid-floating-latest"),
+                (b"name: cybersecurity-skills", b"name: cybersecurity-skills\nname: unrelated"),
+                (b"metadata:", b"metadata: {}\nmetadata:"),
+                (b"  version: 1.0.0-rc.1", b"  version: '1.0.0-rc.1'"),
+                (b"  version: 1.0.0-rc.1", b"  version: 1.0.0-rc.1 # shadow")]:
+            changed = original.replace(old, replacement)
+            self.assertNotEqual(changed, original)
+            with self.subTest(replacement=replacement):
+                with self.assertRaises(Blocked):
+                    assemble({**files, "SKILL.md": changed}, "a" * 40)
+                world = World(files)
+                try:
+                    # Mutate a complete archive and update its inventory digest:
+                    # malformed metadata, not a mere hash mismatch, must block.
+                    output = io.BytesIO()
+                    with zipfile.ZipFile(world.old) as source, zipfile.ZipFile(output, "w") as target:
+                        for info in source.infolist():
+                            data = source.read(info)
+                            if info.filename.endswith("/SKILL.md"):
+                                data = changed
+                            elif info.filename.endswith("/PACKAGE.json"):
+                                manifest = json.loads(data)
+                                manifest["files"]["SKILL.md"] = {"sha256": sha256(changed), "size": len(changed)}
+                                data = canonical(manifest)
+                            target.writestr(info, data)
+                    invalid = world.root / "ambiguous.zip"
+                    invalid.write_bytes(output.getvalue())
+                    manager = Manager(world.state, world.skills, create=True)
+                    with self.assertRaises(Blocked):
+                        manager.change("install", invalid, sha256(output.getvalue()))
+                    self.assertFalse(manager.target.exists())
+                    structure = world.root / "structure"
+                    structure.mkdir()
+                    for name, data in {**files, "SKILL.md": changed}.items():
+                        path = structure / name
+                        path.parent.mkdir(parents=True, exist_ok=True)
+                        path.write_bytes(data)
+                    with self.assertRaises(ValidationError):
+                        validate(structure)
+                finally:
+                    world.close()
+
     def test_host_probe_git_init_cannot_redirect_or_copy_ambient_templates(self):
         from host_discovery import initialize_project
         with tempfile.TemporaryDirectory(prefix="cyber-host-env-") as tmp:

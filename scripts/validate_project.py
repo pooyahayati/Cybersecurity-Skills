@@ -18,7 +18,7 @@ from urllib.parse import unquote, urlsplit
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from security_runtime.common import Blocked
-from security_runtime.package_version import channel
+from security_runtime.package_version import channel, skill_header
 
 
 MAX_FILE_BYTES = 1_048_576
@@ -145,14 +145,13 @@ def validate(root: Path) -> dict:
             "unexpected package entrypoints")
 
     skill = reader.read(project["entrypoint"])
-    require(skill.startswith("---\n") and "\n---\n" in skill[4:],
-            "skill frontmatter is missing")
-    header = skill.split("\n---\n", 1)[0]
-    require(re.search(r"^name: cybersecurity-skills$", header, re.M) is not None
-            and re.search(r"^description: \S.+$", header, re.M) is not None,
+    try:
+        header = skill_header(skill)
+    except Blocked as exc:
+        raise ValidationError(str(exc)) from exc
+    require(header["name"] == "cybersecurity-skills" and header["description"],
             "skill name or description is missing")
-    require(re.search(r"^  version: " + re.escape(project["version"]) + r"$", header, re.M)
-            is not None, "skill and project versions differ")
+    require(header["metadata"]["version"] == project["version"], "skill and project versions differ")
 
     catalog = reader.json(project["modules_catalog"])
     shape(catalog, {"schema_version", "modules"}, "module catalog")
