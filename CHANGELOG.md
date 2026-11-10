@@ -1,6 +1,22 @@
 # Changelog
 
-## 1.0.0 - Bounded stable preparation
+## Unreleased documentation
+
+- Simplify the main-branch README around managed installation, first review,
+  supported security operations, optional tools and linked specialist guides.
+- Record the public release and successful anonymous download verification while
+  retaining the exact published source and archive identities.
+
+## 1.0.0 - 2026-11-10
+
+- Publish the approved archive from source
+  `4e5c838c8c854bba1b5243e850a3db18dde9faff` as stable `v1.0.0`.
+  The public ZIP and checksum were downloaded and matched byte-for-byte;
+  archive SHA-256 is
+  `799f02bbee3129220f7fbfaa3d25c0888ee9b3f9a17283396ca21606168a69a4`.
+- Complete PR13 with all five pre-merge and five post-merge checks passing:
+  276 methods per matrix job and seven installed Linux suites. Historical failed
+  runs remain retained with their unproven causes explicit.
 
 - Prepare stable-labelled metadata while retaining the supported profiles,
   independent runtime, strict currentness and unverified target outcomes.

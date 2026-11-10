@@ -170,7 +170,7 @@ Their original exit criteria remain binding; [status](STATUS.md) separates actua
 qualification, observed failures and subsequent delivery. Profile availability does not close all
 target checklist items or authorize every candidate tool.
 
-## Stable-release completion work
+## Stable release 1.0.0 completed
 
 M1-M6 and the selected C1-C6 profiles are implemented within their documented
 boundaries. PR11 resolved the retained contention failure and passed all five
@@ -179,10 +179,16 @@ graded novice observations and real archive lifecycle qualification on Windows
 and Linux. [Status](STATUS.md) records their exact scope and historical identities.
 
 PR12 subsequently passed its pre-merge checks but failed the first post-merge
-Windows/Python 3.11 allowed-redirect scenario. The deadline-observation correction
-must close its independently reproduced legitimate-path and monitor-error
-defects, then pass new exact-source pre/post-merge and artifact gates. Retain the
-earlier failure; independent reproductions do not establish its hosted cause.
+Windows/Python 3.11 allowed-redirect scenario. PR13 resolved the independently
+reproduced deadline-observation and monitor-error defects and passed all five
+checks before and after merge. Earlier failures remain retained; independent
+reproductions do not establish their hosted causes.
+
+The authorized [stable 1.0.0 release](https://github.com/pooyahayati/Cybersecurity-Skills/releases/tag/v1.0.0)
+publishes the exact approved archive from `4e5c838c8c854bba1b5243e850a3db18dde9faff`.
+Anonymous public downloads of the ZIP and checksum match the approved bytes;
+tag, manifest and payload identities were verified. The installation and
+first-review README is maintained on main independently of the frozen archive.
 
 Every selected delivery still binds the reproducible archive to source, actual
 installation/upgrade/recovery and host observations, current prerequisites/native
@@ -191,10 +197,9 @@ documentation-only changes may reuse unaffected evidence with explicit input and
 context correspondence; a version label cannot renew evidence. Follow the
 [release checklist](docs/RELEASE-READINESS.md#stable-release-checklist).
 
-The subsequent publication step needs authority for the concrete reviewed asset:
-publish its immutable version/source and digest, then verify the downloaded public
-asset and release metadata. That step and a global installation are separate from
-this source-preparation and integration task.
+The first stable publication and downloaded-asset verification are complete.
+Future releases repeat the relevant gates for their own exact artifacts. Global
+installation and assessments of customer systems remain separately authorized.
 
 Run only checks justified by changed inputs and release claims. Preserve previous
 evidence where it remains applicable; no universal test quota or compulsory
