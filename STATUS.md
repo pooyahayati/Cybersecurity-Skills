@@ -26,6 +26,22 @@ improve installation and first use without replacing the published bytes. See th
 [README](README.md) and [release guide](docs/RELEASE-READINESS.md). A stable release
 does not establish general application-security qualification.
 
+The first [PR14 documentation workflow](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42839689219)
+passed three jobs but failed two Windows fixtures: recovery evidence had expired
+before its final checks, and an allowed redirect reached the child deadline.
+The hosted operation timings were not retained, so exact scheduling causes remain
+unproven. Follow-up test-only maintenance gives recovery evidence a 60-second
+lifetime and the redirect-scope fixture a five-second request budget. The actual
+runtime and published archive are unchanged. Recovery's three-second requests,
+60-second recovery limit, wrong-state/elapsed failure assertions, redirect scope,
+aggregate budgets and separate hard-deadline regressions remain protected.
+An added test verifies expired prior evidence cannot change recovery/traffic
+records or restored/backup bytes, trigger a probe or send a request. Independent
+controlled observations preserve the original failure and demonstrate these
+boundaries; they do not establish the original hosted timing. Subsequent delivery
+still requires its own exact-revision checks in the
+[validation history](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml).
+
 ## Stable preparation and retained observations
 
 New blinded novice observations and actual candidate-to-stable lifecycle exercises

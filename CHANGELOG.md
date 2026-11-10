@@ -1,11 +1,17 @@
 # Changelog
 
-## Unreleased documentation
+## Unreleased maintenance
 
 - Simplify the main-branch README around managed installation, first review,
   supported security operations, optional tools and linked specialist guides.
 - Record the public release and successful anonymous download verification while
   retaining the exact published source and archive identities.
+- Give multi-step recovery fixtures a 60-second evidence lifetime while keeping
+  their three-second request and 60-second recovery limits distinct. Add explicit
+  expired-evidence refusal with unchanged records, files and no probe/request.
+- Use a five-second request budget only in the redirect-scope fixture, retaining
+  aggregate limits and checking consumed time. Hard-deadline regressions remain
+  unchanged. These test-only changes do not replace the published archive.
 
 ## 1.0.0 - 2026-11-10
 
