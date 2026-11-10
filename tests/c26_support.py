@@ -12,8 +12,8 @@ from urllib.request import urlopen
 
 from m4_support import ROOT, RuntimeWorld, Server
 from security_assessment.checklist_runtime import ChecklistReview
-from security_assessment.scenarios import snapshot
-from security_runtime.common import canonical, digest, sha256
+from security_assessment.scenarios import ScenarioController, snapshot
+from security_runtime.common import Blocked, canonical, digest, sha256
 
 TABLES = {
     'account-recovery-mfa': {'accounts':['id','tenant','resets']},
@@ -85,7 +85,36 @@ class ScenarioWorld:
         return case,spec,bodies,credentials
     def run(self,*args,**kwargs):
         case,spec,bodies,credentials=self.prepare(*args,**kwargs)
-        return self.control.traffic.exercise(case,spec['id'],bodies,credentials)
+        errors=[]
+        safe_reasons={'process deadline exceeded','cannot enforce process deadline',
+            'control state is busy; inspect retained operation state before further action',
+            'traffic observation unavailable; do not retry uncertain writes',
+            'traffic wall-clock budget exhausted','traffic budget exhausted',
+            'cannot retain bounded execution evidence','traffic collector changed',
+            'live deployment changed before request','live deployment changed after request',
+            'credential identity is not independently established'}
+        def trace(frame,event,arg):
+            if frame.f_code is not ScenarioController.exercise.__code__:return None
+            frame.f_trace_lines=False
+            if event=='exception' and len(errors)<8:
+                kind,error,tb=arg
+                frames=[]
+                while tb is not None and len(frames)<8:
+                    frames.append({'file':Path(tb.tb_frame.f_code.co_filename).name,
+                                   'function':tb.tb_frame.f_code.co_name,'line':tb.tb_lineno})
+                    tb=tb.tb_next
+                reason=str(error) if type(error) is Blocked and str(error) in safe_reasons else 'unclassified; private inspection required'
+                errors.append({'type':kind.__name__,'reason':reason,'frames':frames})
+            return trace
+        # Owned fixture diagnostics only: observe the exception swallowed by the
+        # public blocked/unverified contract, without exposing locals or payloads.
+        previous=sys.gettrace()
+        if previous is None:sys.settrace(trace)
+        try:result=self.control.traffic.exercise(case,spec['id'],bodies,credentials)
+        finally:
+            if previous is None:sys.settrace(None)
+        if result['status']=='blocked':result['fixture_diagnostics']=errors
+        return result
     def close(self):
         for app in self.apps:app.close()
         self.world.close()

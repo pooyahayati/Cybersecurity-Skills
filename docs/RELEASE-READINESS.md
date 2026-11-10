@@ -100,6 +100,13 @@ assessment, cloud scan or release publication. Uninstall preserves private state
 and unrelated skills. Sixteen retained archives are the existing bounded cache;
 reaching the limit requires a separate preservation/maintenance decision.
 
+Guarded subprocesses retain their selected deadline even when a synchronous
+authority callback blocks on I/O or control-state contention. An independent
+monitor terminates the child at the deadline; late or unknown completion cannot
+pass. The callback may take additional time to return and is not forcibly
+cancelled. Deadline blocking never grants replay, budget refund or a new intent;
+inspect retained operation state before any further authorized action.
+
 ## Qualification and release decision
 
 `tests/installed_workflow.py` builds an exact-commit archive and runs the existing

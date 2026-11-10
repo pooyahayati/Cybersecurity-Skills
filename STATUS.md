@@ -37,6 +37,24 @@ An earlier fixture pass cannot replace the selected asset's installation checks.
 The [release checklist](docs/RELEASE-READINESS.md#stable-release-checklist) retains
 these continuing gates and separates public publication from source integration.
 
+The first [PR12 pre-merge workflow](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42787454880)
+passed four jobs but current-Python Windows returned blocked/unverified for the
+fixed concurrency scenario. The original inner exception was not retained, so its
+cause remains unproven. Sanitized diagnostics now observe owned-fixture exceptions
+without changing scenario authority, timing, state or acceptance assertions.
+
+During that investigation, independent review reproduced a separate deadline
+defect: a blocking synchronous authority callback allowed a child to create an
+effect after its deadline. The corrected process helper enforces the same deadline
+with an independent monitor and rejects late/unknown completion. Two new tests
+failed on the original helper; the focused process-boundary methods then passed
+with the correction, including timely legitimate output and private pipe input.
+An independently reviewed monitor-start failure also requires child cleanup.
+The callback itself cannot be forcibly cancelled; the child is stopped while it
+finishes. Runtime correction evidence remains separate from the earlier static
+agent observations and the unproven cause of the first hosted failure. Exact
+corrected delivery checks and independent acceptance remain required.
+
 ## Completed contention correction
 
 Candidate `1.0.0-rc.4` retains the bounded C2-C6 capabilities and corrects the
