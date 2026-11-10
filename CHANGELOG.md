@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.0.0 - Bounded stable preparation
+
+- Prepare stable-labelled metadata while retaining the supported profiles,
+  independent runtime, strict currentness and unverified target outcomes.
+- Add actual reviewed candidate-to-stable lifecycle qualification, including
+  authenticated private records, owner/access metadata, backup readability,
+  interrupted update recovery and explicit previous-archive restoration.
+- Qualify current novice reasoning separately from historical agent results,
+  helper fixtures, host registration and public release authorization.
+- Retain independently graded parity on twelve new static requests and three
+  critical observations, with explicit unknown model/settings and access limits.
+- Strengthen the new lifecycle harness's refusal oracle after independent review;
+  verify complete installation/recovery-cache preservation without weakening
+  existing tests or changing runtime behavior.
+- Enforce the existing child deadline independently of a blocking authority
+  callback. Preserve the independently reproduced original failure and add actual
+  prohibited-effect, conservative late-completion and legitimate-flow regressions.
+  Callback cancellation, retries and larger authority budgets are not introduced.
+- Retain the first PR12 Windows concurrency failure and add sanitized owned-fixture
+  exception diagnostics without changing the scenario result or assertions.
+
 ## 1.0.0-rc.4 - Post-merge contention and release readiness
 
 - Convert actual SQLite BUSY/LOCKED control-state errors into a sanitized blocked

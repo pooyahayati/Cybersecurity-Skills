@@ -4,6 +4,59 @@ Updated: 2026-11-10
 
 ## Current stage
 
+Prepared version `1.0.0` retains the existing bounded supported profiles. New
+blinded novice observations and actual candidate-to-stable lifecycle exercises
+have passed their independently reviewed criteria. The release label changes no
+runtime authority, state schema or target verdict. Public publication and global
+installation are outside this preparation task.
+
+| Stable preparation observation | Result | Scope and attribution |
+|---|---|---|
+| New held-out novice requests | Baseline 12/12 and prepared version 12/12 met the frozen criteria | Synthetic static reasoning and reports; previous `1.0.0-rc.4` compared with actual installed `1.0.0` resources |
+| Separate critical observation | 3/3 met the same relevant criteria | Fresh session for the selected critical requests; not a statistical reliability estimate |
+| Novice report quality | All observed answers met five predefined usability dimensions | Bounded result, specific evidence, consequence or examined safe-path reason, concrete next action, and an appropriate retest/access step |
+| Important behavioral failures | None observed in these retained answers | No important miss, unsupported confirmed finding, unsafe recommendation, private-marker disclosure or false whole-target/release pass; no universal accuracy claim |
+| Actual archive lifecycle | Windows and Linux passed fresh installation, real candidate upgrade, terminated-update recovery, explicit restoration, re-upgrade and uninstall | Original authenticated records, readable private backup, owner/access metadata and unrelated skill content preserved |
+| Refusal detection | Wrong identity, edited/extra content and wrong recovery transaction preserved owned files and manager state | Independent review found an initially incomplete test oracle; the corrected inventory assertion detected a controlled staged-file deletion and retained legitimate recovery |
+
+The behavioral observations used baseline source
+`599eb2b5bc457e1b0529bc4c48730d80b55ccaef` and prepared qualification source
+`d3cebaf4b4906e28f2c9568f02fb9dc436cc2f7a`. Each full cohort shared one session;
+the critical observation used another session. Exact runtime model/provider and
+sampling settings are unknown. Reported read manifests were checked against the
+actual bytes and allowed roots; they are not a complete enforced operating-system
+access trace. The result is parity with the baseline, not measured improvement.
+No evaluating agent executed a target, scanner or proposed remediation.
+
+Later result-summary/test-only edits must retain explicit input/context
+correspondence; they cannot relabel a historical agent run. Exact delivery archive
+reproducibility, host registration, current prerequisite/native scan evidence,
+independent final acceptance and pre/post-merge conclusions are bound in the
+delivery record and [validation history](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml).
+An earlier fixture pass cannot replace the selected asset's installation checks.
+The [release checklist](docs/RELEASE-READINESS.md#stable-release-checklist) retains
+these continuing gates and separates public publication from source integration.
+
+The first [PR12 pre-merge workflow](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42787454880)
+passed four jobs but current-Python Windows returned blocked/unverified for the
+fixed concurrency scenario. The original inner exception was not retained, so its
+cause remains unproven. Sanitized diagnostics now observe owned-fixture exceptions
+without changing scenario authority, timing, state or acceptance assertions.
+
+During that investigation, independent review reproduced a separate deadline
+defect: a blocking synchronous authority callback allowed a child to create an
+effect after its deadline. The corrected process helper enforces the same deadline
+with an independent monitor and rejects late/unknown completion. Two new tests
+failed on the original helper; the focused process-boundary methods then passed
+with the correction, including timely legitimate output and private pipe input.
+An independently reviewed monitor-start failure also requires child cleanup.
+The callback itself cannot be forcibly cancelled; the child is stopped while it
+finishes. Runtime correction evidence remains separate from the earlier static
+agent observations and the unproven cause of the first hosted failure. Exact
+corrected delivery checks and independent acceptance remain required.
+
+## Completed contention correction
+
 Candidate `1.0.0-rc.4` retains the bounded C2-C6 capabilities and corrects the
 post-merge control-state contention failure. No stable release is published.
 See the [remaining release gates](docs/RELEASE-READINESS.md#stable-release-checklist)
@@ -15,7 +68,7 @@ and [supported execution profiles](docs/CHECKLIST-EXECUTION.md).
 | First merged-main run | [Four jobs passed; current-Python Windows failed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42717907092) | Original failure retained; no rerun used to erase it |
 | Independent original reproduction | Real writer and commit contention raised raw SQLite errors; no request/budget bypass was observed | Zero-request admission and rolled-back state were checked independently |
 | Corrected contention behavior | Seven new regression methods and the unchanged concurrent-budget method passed locally | Real BEGIN/COMMIT/table locks, exact error classification, preserved state, ordinary recovery and post-request non-replayability |
-| Follow-up integration | Exact-revision hosted checks and independent acceptance are required before merge | Final run conclusions are linked from the follow-up pull request and [validation history](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml); a local pass is not hosted success |
+| PR11 integration | [All five pre-merge jobs passed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42722572023) and [all five post-merge jobs passed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42724671676) | Each matrix job ran 268 methods; seven actual installed Linux suites passed; three independent reviews were accepted |
 
 The correction retains the two-second database wait, full synchronization,
 immediate transactions and existing admission budgets. Only SQLite BUSY/LOCKED
@@ -25,11 +78,12 @@ effect, so it does not authorize retry, refund or state reset. Inspect retained
 operation state after contention clears. New tests preserve the original
 concurrent-budget assertions and add real prohibited-effect/recovery evidence.
 
-Stable preparation still needs an exact stable-labelled asset and its current
-release-time evidence, affected install/upgrade/restore and host observations,
-risk-relevant novice/agent checks for the claimed current scope, independent final
-acceptance and an explicit publication decision. Historical M6 behavior measurements
-and the helper results below do not establish new C2-C6 agent effectiveness.
+At the `1.0.0-rc.4` baseline, stable preparation still required an exact
+stable-labelled asset, current release-time evidence, affected lifecycle/host
+observations, relevant novice/agent checks and independent final acceptance.
+The current preparation observations are recorded above; publication remains a
+separate decision. Historical M6 behavior measurements and the helper results
+below do not establish new C2-C6 agent effectiveness.
 Browser/cloud/other-engine expansion is separate optional work, not automatically
 a prerequisite for a release restricted to the documented supported profiles.
 

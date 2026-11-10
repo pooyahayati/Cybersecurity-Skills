@@ -172,21 +172,23 @@ target checklist items or authorize every candidate tool.
 
 ## Stable-release completion work
 
-M1-M6 and the selected C1-C6 profiles are implemented; this is not a claim that
-all target controls or platforms are qualified. The current candidate also fixes
-the observed post-merge SQLite contention error. Complete the ordered
-[stable-release checklist](docs/RELEASE-READINESS.md#stable-release-checklist):
+M1-M6 and the selected C1-C6 profiles are implemented within their documented
+boundaries. PR11 resolved the retained contention failure and passed all five
+checks before and after merge. Version `1.0.0` preparation adds new independently
+graded novice observations and real archive lifecycle qualification on Windows
+and Linux. [Status](STATUS.md) records their exact scope and historical identities.
 
-1. Resolve required failures and observe passing exact-revision platform and
-   installed-workflow checks; retain the original failures and independent review.
-2. Freeze the bounded release claim and perform relevant current-candidate
-   novice/agent exercises with independent expectations and explicit limitations.
-3. Prepare the exact stable-labelled source/archive, then verify affected
-   installation, upgrade/restoration and actual host registration behavior.
-4. Refresh selected prerequisite identities, scan final source/extracted bytes,
-   reconcile independent acceptance and verify archive/digest/source correspondence.
-5. Obtain explicit stable-publication authority for the concrete reviewed result,
-   publish it and verify the downloaded public asset and release metadata.
+Every selected delivery still binds the reproducible archive to source, actual
+installation/upgrade/recovery and host observations, current prerequisites/native
+scans, independent acceptance and passing exact-revision hosted checks. Later
+documentation-only changes may reuse unaffected evidence with explicit input and
+context correspondence; a version label cannot renew evidence. Follow the
+[release checklist](docs/RELEASE-READINESS.md#stable-release-checklist).
+
+The subsequent publication step needs authority for the concrete reviewed asset:
+publish its immutable version/source and digest, then verify the downloaded public
+asset and release metadata. That step and a global installation are separate from
+this source-preparation and integration task.
 
 Run only checks justified by changed inputs and release claims. Preserve previous
 evidence where it remains applicable; no universal test quota or compulsory

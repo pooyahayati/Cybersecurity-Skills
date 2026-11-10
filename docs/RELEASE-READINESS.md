@@ -1,8 +1,8 @@
 # Bounded release contract and operator guide
 
-The release-candidate series prepares the existing bounded controls for release.
-Version `1.0.0-rc.4` adds opt-in [C2-C6 execution profiles](CHECKLIST-EXECUTION.md)
-to the offline [checklist planning profile](CHECKLIST-COVERAGE.md). Their measured
+Prepared version `1.0.0` retains the candidate series' bounded controls and
+opt-in [C2-C6 execution profiles](CHECKLIST-EXECUTION.md)
+alongside the offline [checklist planning profile](CHECKLIST-COVERAGE.md). Their measured
 support boundaries remain separate from each target's unverified item outcomes.
 It is not a published stable release, a general vulnerability detector, a
 certification, a guarantee against compromise or permission to test a system.
@@ -47,11 +47,11 @@ The latter means general operational assessment qualification is not established
 it does not deny the individually documented implemented controls.
 
 The archive manifest and managed installation format remain schema 1. This
-candidate changes no M1-M5 state schemas, command authority or assessment data.
+preparation changes no M1-M5 state schemas, command authority or assessment data.
 Receipts stay outside the immutable install. Existing content-identity checks can
 invalidate prior assessment evidence after an upgrade: preserve historical state,
 create fresh required context and rerun affected checks. Do not rewrite history to
-make old evidence appear current. M1 re-resolves actual source; a candidate label
+make old evidence appear current. M1 re-resolves actual source; a version label
 does not make an unmerged archive the current official head.
 
 The old development manager rejects release-candidate/stable version syntax.
@@ -100,6 +100,13 @@ assessment, cloud scan or release publication. Uninstall preserves private state
 and unrelated skills. Sixteen retained archives are the existing bounded cache;
 reaching the limit requires a separate preservation/maintenance decision.
 
+Guarded subprocesses retain their selected deadline even when a synchronous
+authority callback blocks on I/O or control-state contention. An independent
+monitor terminates the child at the deadline; late or unknown completion cannot
+pass. The callback may take additional time to return and is not forcibly
+cancelled. Deadline blocking never grants replay, budget refund or a new intent;
+inspect retained operation state before any further authorized action.
+
 ## Qualification and release decision
 
 `tests/installed_workflow.py` builds an exact-commit archive and runs the existing
@@ -134,18 +141,19 @@ pull request is not that release decision and never an application-security pass
 
 ## Stable-release checklist
 
-This checklist records remaining work for a bounded first stable release. It
-does not authorize publication or expand operational support. The latest observed
-implementation and CI results are in [STATUS.md](../STATUS.md).
+This checklist records the acceptance gates for a bounded first stable release.
+Prepared `1.0.0` observations are in [STATUS.md](../STATUS.md); each final delivery
+must retain its actual asset and check identities. The checklist does not authorize
+publication or expand operational support.
 
-| Gate | Existing evidence | Remaining action and acceptance |
+| Gate | Existing evidence | Acceptance for the selected delivery |
 |---|---|---|
-| SR1: Required failures and CI | PR10 pre-merge checks passed; its post-merge Windows contention failure was independently reproduced and corrected | Accept the correction only with preserved original evidence, relevant positive/prohibited regressions, independent review and successful exact-revision hosted checks; follow the merged run to its conclusion |
-| SR2: Release scope and novice behavior | Historical M6 static/operator results and C2-C6 helper/current-tool fixtures have explicit limits | Freeze the supported release claim; exercise risk-relevant current-candidate novice requests and failure/degraded paths with independent expectations, usable reports and no unresolved important misses/unsafe actions; make no broader accuracy claim |
-| SR3: Exact stable-labelled asset | Candidate archive/inspection and version-channel handling are implemented and tested | Prepare a concrete stable version in both canonical version fields; build from the exact commit, inspect the complete archive, bind digest/source and verify reproducibility and affected version/package checks |
-| SR4: Installed lifecycle and host | Owned installation and prior lifecycle/host observations exist; installed M1-M5 and selected C2-C6 workflows run in CI | Exercise the actual selected release asset and relevant candidate-to-stable upgrade, private-state preservation, restoration/uninstall and supported-host registration; retain unaffected evidence only when bytes/context justify it |
-| SR5: Current prerequisites and security | Current-tool fixture records and native candidate source/package scans exist | Resolve current selected tools/rules/data at release preparation, review actual changes/licenses and scan the final source and extracted stable asset; no stale fallback or unexplained finding |
-| SR6: Independent final acceptance | Candidate security, contract and diagnostic reviews are separately retained | Bind final acceptance to the exact release tree, artifact, current evidence and stated limitations; any changed security boundary needs its own protective-effect evidence |
+| SR1: Required failures and CI | PR11 corrected the retained Windows contention failure; all five pre-merge and five post-merge jobs passed | Preserve that baseline; every subsequent delivered revision must satisfy its relevant checks and exact-revision hosted workflow |
+| SR2: Release scope and novice behavior | New blinded baseline/prepared-version observations each met 12/12 frozen static criteria; a separate critical observation met 3/3 | Preserve original oracles, outputs, exact package attribution and usability review; re-evaluate changed instructions when relevant; parity does not establish improvement or universal accuracy |
+| SR3: Exact stable-labelled asset | Both canonical fields declare `1.0.0`; exact-source archive/inspection and version-channel handling are implemented | Build from the exact selected commit, inspect the complete archive, bind digest/source and verify reproducibility and affected version/package checks |
+| SR4: Installed lifecycle and host | Actual reviewed candidate-to-stable lifecycle passed on Windows/Linux, including authenticated state, access and recovery; hosted installed workflows remain separate | Bind the selected asset to installation, upgrade, protected-state preservation, restoration/uninstall and supported-host registration; retain unaffected evidence only when bytes/context justify it |
+| SR5: Current prerequisites and security | Official identities were refreshed for selected external tools; no upstream code/binary/ruleset is newly vendored | Resolve current selected tools/rules/data at preparation, review actual changes/licenses and scan final source and extracted stable bytes; no stale fallback or unexplained finding |
+| SR6: Independent final acceptance | Independent behavioral grading and lifecycle review retain original observations and the corrected refusal-test gap | Bind final acceptance to the exact release tree, artifact, current evidence and limitations; helper, agent, host and scan evidence remain distinct |
 | SR7: Publication and public verification | No stable GitHub release is published | Obtain explicit authority for the concrete release, publish its immutable version/source and verified asset/digest, then verify the downloaded asset and release metadata; global installation is a separate action |
 
 The gates require adequate relevant evidence, not a compulsory full rerun of every

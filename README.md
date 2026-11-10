@@ -5,27 +5,35 @@ can go wrong, what customer data is at risk, how to fix a confirmed weakness, an
 how to verify the result. It works independently of the person, framework or
 coding assistant that created a project. It does not require another head skill.
 
-**Release candidate: `1.0.0-rc.4`. The bounded M1–M6 controls include exact-source
+**Prepared version: `1.0.0`. The bounded M1–M6 controls include exact-source
 packaging, owned installation/recovery and offline installation diagnosis;
 C2-C6 add the selected execution profiles below.**
-General active scanning and deployment approval remain unsupported. This is not
-a stable security-auditor release and does not establish that an application is secure.
+General active scanning and deployment approval remain unsupported. A prepared
+stable-labelled package is not a published release or proof that an application is secure.
 
 ## Delivery status and stable release
 
 The bounded C2-C6 implementation was merged in [PR10](https://github.com/pooyahayati/Cybersecurity-Skills/pull/10).
-All five checks passed before that merge. Its first post-merge run exposed an
-unhandled SQLite contention error on Windows; the other four jobs passed. This
-candidate handles that expected contention as a blocked operation, preserving the
-existing wait, authority, state and no-replay bounds. Original failure evidence is
-retained. Read [current verification and delivery](STATUS.md) for the correction's
-observations and the exact hosted check links.
+Its first post-merge run exposed a SQLite contention error on Windows. The
+[PR11 correction](https://github.com/pooyahayati/Cybersecurity-Skills/pull/11)
+preserves the wait, authority, state and no-replay bounds. All five checks passed
+both before and after that correction's merge; original failure evidence remains.
+Read [current verification and delivery](STATUS.md) for the exact observations.
 
 The [stable-release checklist](docs/RELEASE-READINESS.md#stable-release-checklist)
-separates remaining release work from optional future capabilities. A stable
-release still needs its exact stable-labelled artifact, current prerequisites and
-scans, affected installation/operator qualification, final independent acceptance
-and explicit publication authority. No stable GitHub release has been published.
+separates release qualification from optional future capabilities. Preparation
+qualifies the exact stable-labelled artifact, current prerequisites, installation
+and actual candidate upgrade, novice behavior and independent acceptance. Public
+publication and downloaded-asset verification remain a separate delivery decision.
+No stable GitHub release has been published.
+
+Current bounded observations include 12 independently graded novice requests for
+both the previous candidate and prepared version, plus three separate critical
+observations. All met their frozen criteria; this is parity, not a measured
+improvement or a general detection-accuracy claim. Actual archive upgrade and
+recovery also passed on Windows/Linux with authenticated private state and access
+preservation. [Status](STATUS.md) keeps static reasoning, executed lifecycle checks,
+historical runtime evidence and exact delivery gates separate.
 
 ## What this skill is for
 

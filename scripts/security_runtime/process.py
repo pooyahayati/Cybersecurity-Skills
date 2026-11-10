@@ -61,8 +61,24 @@ def bounded_process(argv, env, timeout, limit, *, guard=None, sink=None, capture
     writer = threading.Thread(target=feed, daemon=True) if input_data is not None else None
     if writer:
         writer.start()
+    deadline_stop, deadline_exceeded, deadline_error = (threading.Event() for _ in range(3))
+
+    def enforce_deadline():
+        # A synchronous authority check can block on I/O or a database lock.
+        # It must not suspend the independent child-effect deadline.
+        if not deadline_stop.wait(max(0, timeout - (time.monotonic() - started))):
+            deadline_exceeded.set()
+            try:
+                if process.poll() is None:
+                    process.kill()
+            except OSError:
+                deadline_error.set()
+
+    deadline_thread = threading.Thread(target=enforce_deadline, name="cyber-process-deadline", daemon=True) if guard is not None else None
     problem = None
     try:
+        if deadline_thread:
+            deadline_thread.start()
         while process.poll() is None:
             require(not overflow.is_set(), "process output limit exceeded")
             require(not read_error.is_set(), "cannot retain bounded execution evidence")
@@ -74,21 +90,30 @@ def bounded_process(argv, env, timeout, limit, *, guard=None, sink=None, capture
         problem = exc
         process.kill()
     finally:
-        process.wait(timeout=10)
-        if lifetime:
-            from .parent_guard import close_windows
-            close_windows(lifetime)
-        reader.join(timeout=10)
-        if writer:
-            writer.join(timeout=10)
+        try:
+            process.wait(timeout=10)
+        finally:
+            deadline_stop.set()
+            if deadline_thread and deadline_thread.ident is not None:
+                deadline_thread.join(timeout=10)
+            if lifetime:
+                from .parent_guard import close_windows
+                close_windows(lifetime)
+            reader.join(timeout=10)
+            if writer:
+                writer.join(timeout=10)
+    require(deadline_thread is None or not deadline_thread.is_alive(), "process deadline monitor did not close")
+    require(not deadline_error.is_set(), "cannot enforce process deadline")
     require(not reader.is_alive(), "process output stream did not close")
     require(writer is None or not writer.is_alive(), "process input stream did not close")
     if problem is not None:
         raise problem
+    require(not deadline_exceeded.is_set(), "process deadline exceeded")
     require(not overflow.is_set(), "process output limit exceeded")
     require(not read_error.is_set(), "cannot retain bounded execution evidence")
     if guard is not None:
         guard()
+        require(time.monotonic() - started <= timeout, "process deadline exceeded")
     return {"exit_code": process.returncode, "bytes": count[0],
             "sha256": fingerprint.hexdigest(), "elapsed_seconds": time.monotonic() - started,
             "content": bytes(content)}

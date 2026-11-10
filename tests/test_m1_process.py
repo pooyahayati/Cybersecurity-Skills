@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import sys
 import tempfile
+import threading
 import time
 import unittest
 from unittest.mock import patch
@@ -36,6 +37,43 @@ class ProcessBoundaryTests(unittest.TestCase):
         value = self.child("import sys; data=sys.stdin.buffer.read(); print(len(data))",
                            input_data=b"synthetic private input")
         self.assertEqual(value["content"].strip(), b"23")
+
+    def test_blocking_guard_cannot_allow_effect_after_child_deadline(self):
+        with tempfile.TemporaryDirectory(prefix="cyber-guard-deadline-") as directory:
+            marker = Path(directory) / "forbidden-effect"
+            code = "import time,pathlib; time.sleep(1.4); pathlib.Path(" + repr(str(marker)) + ").write_text('bad')"
+            with self.assertRaisesRegex(Blocked, "deadline"):
+                self.child(code, timeout=1, guard=lambda: time.sleep(1.8))
+            self.assertFalse(marker.exists())
+
+    def test_late_guard_cannot_certify_unobserved_timely_completion(self):
+        with self.assertRaisesRegex(Blocked, "deadline"):
+            self.child("print('completed')", timeout=0.2, guard=lambda: time.sleep(0.5))
+
+    def test_guarded_timely_effect_and_pipe_result_remain_available(self):
+        with tempfile.TemporaryDirectory(prefix="cyber-guard-timely-") as directory:
+            marker = Path(directory) / "allowed-effect"
+            code = "import pathlib,sys; pathlib.Path(" + repr(str(marker)) + ").write_text('allowed'); print(len(sys.stdin.buffer.read()))"
+            result = self.child(code, timeout=3, guard=lambda: time.sleep(0.01), input_data=b"owned input")
+            self.assertEqual(result["exit_code"], 0)
+            self.assertEqual(result["content"].strip(), b"11")
+            self.assertEqual(marker.read_text(), "allowed")
+
+    def test_deadline_monitor_start_failure_stops_owned_child(self):
+        with tempfile.TemporaryDirectory(prefix="cyber-guard-start-") as directory:
+            marker = Path(directory) / "forbidden-effect"
+            code = "import time,pathlib; time.sleep(0.4); pathlib.Path(" + repr(str(marker)) + ").write_text('bad')"
+            original_start = threading.Thread.start
+            def start(thread):
+                if thread.name == "cyber-process-deadline":
+                    raise RuntimeError("owned monitor startup failure")
+                return original_start(thread)
+            with patch("security_runtime.process.threading.Thread.start", new=start):
+                with self.assertRaisesRegex(RuntimeError, "owned monitor startup failure"):
+                    self.child(code, guard=lambda: None)
+            time.sleep(0.6)
+            self.assertFalse(marker.exists())
+            self.assertFalse(any(t.name == "cyber-process-deadline" for t in threading.enumerate()))
 
     def test_guard_rejection_stops_process(self):
         def stop():

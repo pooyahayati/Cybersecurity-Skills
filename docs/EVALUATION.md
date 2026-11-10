@@ -162,3 +162,21 @@ table-lock cases, unchanged authenticated-state checks, legitimate continuation,
 and actual pre-admission/no-replay HTTP observations. These are deterministic
 regressions, not a new agent-quality evaluation. Original hosted failure evidence
 remains historical and cannot be erased by a subsequent successful run.
+
+## First stable preparation
+
+Use the actual previous candidate archive as the frozen baseline and the privately
+installed stable-labelled package as candidate. Select new held-out requests after
+checking published examples for answer leakage. Keep evaluator inputs and frozen
+independent expectations separate, including in reachable package documentation.
+Record equivalent access and host budgets; report unexposed model/settings as
+unknown. Static agent reports are reasoning observations, not executions of the
+proposed tests, statistical reliability estimates or an improvement claim when
+the baseline performs equally well. Important unsafe decisions or missed required
+controls must be resolved against the original expectations before acceptance.
+
+The actual-archive lifecycle harness in [M6 qualification](M6-QUALIFICATION.md)
+adds candidate-to-stable upgrade evidence with authenticated state and access
+preservation. Keep those execution results separate from novice-report grading
+and host catalog discovery. Retain raw reports, access inventories and case
+answers privately; publish only a sanitized scope/result summary.
