@@ -20,6 +20,12 @@
   Callback cancellation, retries and larger authority budgets are not introduced.
 - Retain the first PR12 Windows concurrency failure and add sanitized owned-fixture
   exception diagnostics without changing the scenario result or assertions.
+- Preserve the subsequent PR12 post-merge deadline failure and distinguish actual
+  parent-observed timely child termination from delayed authority validation.
+  Keep unknown/late-exit refusal, final guard rejection, cleanup and the original
+  deadlines; add legitimate-path and final-revocation regressions. Preserve timely
+  observations across main-loop scheduling delays and stop the owned child
+  immediately when the independent deadline monitor fails.
 
 ## 1.0.0-rc.4 - Post-merge contention and release readiness
 

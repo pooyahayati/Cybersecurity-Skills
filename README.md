@@ -27,6 +27,13 @@ and actual candidate upgrade, novice behavior and independent acceptance. Public
 publication and downloaded-asset verification remain a separate delivery decision.
 No stable GitHub release has been published.
 
+[PR12](https://github.com/pooyahayati/Cybersecurity-Skills/pull/12) prepared the
+stable-labelled package and corrected independent child-deadline enforcement.
+Its first post-merge Windows run then refused an allowed redirect at the deadline.
+The follow-up distinguishes a parent-observed timely child exit from delayed
+authority validation while preserving unknown/late-exit refusal and final guards.
+See [status and retained failures](STATUS.md) for the evidence and delivery gates.
+
 Current bounded observations include 12 independently graded novice requests for
 both the previous candidate and prepared version, plus three separate critical
 observations. All met their frozen criteria; this is parity, not a measured

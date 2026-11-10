@@ -9,6 +9,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from security_runtime.common import Blocked, canonical
+import security_runtime.process as process_runtime
 from security_runtime.process import bounded_process
 from security_runtime.sandbox import Docker
 from security_runtime.sources import Http
@@ -47,8 +48,45 @@ class ProcessBoundaryTests(unittest.TestCase):
             self.assertFalse(marker.exists())
 
     def test_late_guard_cannot_certify_unobserved_timely_completion(self):
-        with self.assertRaisesRegex(Blocked, "deadline"):
-            self.child("print('completed')", timeout=0.2, guard=lambda: time.sleep(0.5))
+        original_start = threading.Thread.start
+        def delayed_monitor(thread):
+            if thread.name == "cyber-process-deadline":time.sleep(0.4)
+            return original_start(thread)
+        with patch("security_runtime.process.threading.Thread.start", new=delayed_monitor):
+            with self.assertRaisesRegex(Blocked, "deadline"):
+                self.child("print('completed')", timeout=0.2, guard=lambda: time.sleep(0.5))
+
+    def test_independently_observed_timely_child_survives_slow_guard(self):
+        with tempfile.TemporaryDirectory(prefix="cyber-observed-exit-") as directory:
+            marker = Path(directory) / "allowed-effect"
+            gate = Path(directory) / "guard-started"
+            code = "import pathlib,time\ngate=pathlib.Path(" + repr(str(gate)) + ")\nwhile not gate.exists(): time.sleep(0.01)\npathlib.Path(" + repr(str(marker)) + ").write_text('allowed')\nprint('completed')"
+            calls = [0]
+            def guard():
+                calls[0] += 1
+                if calls[0] == 1:
+                    gate.write_text("proceed")
+                    time.sleep(3.5)
+            result = self.child(code, timeout=3, guard=guard)
+            self.assertEqual(result["exit_code"], 0)
+            self.assertEqual(result["content"].strip(), b"completed")
+            self.assertEqual(marker.read_text(), "allowed")
+            self.assertGreaterEqual(calls[0], 2)
+
+    def test_final_guard_rejection_wins_after_observed_timely_exit(self):
+        with tempfile.TemporaryDirectory(prefix="cyber-observed-revoke-") as directory:
+            gate = Path(directory) / "guard-started"
+            code = "import pathlib,time\ngate=pathlib.Path(" + repr(str(gate)) + ")\nwhile not gate.exists(): time.sleep(0.01)\nprint('completed')"
+            calls = [0]
+            def guard():
+                calls[0] += 1
+                if calls[0] == 1:
+                    gate.write_text("proceed")
+                    time.sleep(3.5)
+                else:raise Blocked("owned final revocation")
+            with self.assertRaisesRegex(Blocked, "owned final revocation"):
+                self.child(code, timeout=3, guard=guard)
+            self.assertGreaterEqual(calls[0], 2)
 
     def test_guarded_timely_effect_and_pipe_result_remain_available(self):
         with tempfile.TemporaryDirectory(prefix="cyber-guard-timely-") as directory:
@@ -58,6 +96,52 @@ class ProcessBoundaryTests(unittest.TestCase):
             self.assertEqual(result["exit_code"], 0)
             self.assertEqual(result["content"].strip(), b"11")
             self.assertEqual(marker.read_text(), "allowed")
+
+    def test_resumed_main_observer_preserves_independent_timely_exit(self):
+        original_require = process_runtime.require
+        paused = threading.Event()
+        def checked(condition, message):
+            original_require(condition, message)
+            if message == "process output limit exceeded" and not paused.is_set():
+                paused.set()
+                time.sleep(1.3)
+        with patch.object(process_runtime, "require", new=checked):
+            result = self.child("import time; time.sleep(0.05); print('completed')",
+                                timeout=1, guard=lambda: None)
+        self.assertTrue(paused.is_set())
+        self.assertEqual(result["exit_code"], 0)
+        self.assertEqual(result["content"].strip(), b"completed")
+
+    def test_monitor_poll_error_stops_effect_while_guard_is_blocked(self):
+        with tempfile.TemporaryDirectory(prefix="cyber-monitor-error-") as directory:
+            marker = Path(directory) / "forbidden-effect"
+            gate = Path(directory) / "guard-started"
+            code = "import pathlib,time\ngate=pathlib.Path(" + repr(str(gate)) + ")\nwhile not gate.exists(): time.sleep(0.005)\ntime.sleep(1.4)\npathlib.Path(" + repr(str(marker)) + ").write_text('bad')"
+            original_popen = process_runtime.subprocess.Popen
+            injected = threading.Event()
+            children = []
+            def start(*args, **kwargs):
+                child = original_popen(*args, **kwargs)
+                children.append(child)
+                original_poll = child.poll
+                def poll():
+                    if threading.current_thread().name == "cyber-process-deadline" and gate.exists() and not injected.is_set():
+                        injected.set()
+                        raise OSError("owned monitor poll failure")
+                    return original_poll()
+                child.poll = poll
+                return child
+            def guard():
+                gate.write_text("proceed")
+                time.sleep(1.8)
+            with patch.object(process_runtime.subprocess, "Popen", new=start):
+                with self.assertRaisesRegex(Blocked, "cannot enforce process deadline"):
+                    self.child(code, timeout=1, guard=guard)
+            self.assertTrue(injected.is_set())
+            self.assertTrue(gate.exists())
+            self.assertFalse(marker.exists())
+            self.assertTrue(all(child.poll() is not None for child in children))
+            self.assertFalse(any(t.name == "cyber-process-deadline" for t in threading.enumerate()))
 
     def test_deadline_monitor_start_failure_stops_owned_child(self):
         with tempfile.TemporaryDirectory(prefix="cyber-guard-start-") as directory:
