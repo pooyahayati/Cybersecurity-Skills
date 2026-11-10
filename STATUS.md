@@ -4,6 +4,14 @@ Updated: 2026-11-10
 
 ## Current stage
 
+Version `1.0.0` is being prepared for the existing bounded supported profiles.
+Qualification covers new blinded novice requests, the actual `1.0.0-rc.4` archive
+as baseline, and exact stable-asset installation, upgrade and recovery. Results
+remain unverified until their independent observations are retained. Public
+publication and global installation are outside this preparation task.
+
+## Completed contention correction
+
 Candidate `1.0.0-rc.4` retains the bounded C2-C6 capabilities and corrects the
 post-merge control-state contention failure. No stable release is published.
 See the [remaining release gates](docs/RELEASE-READINESS.md#stable-release-checklist)
@@ -15,7 +23,7 @@ and [supported execution profiles](docs/CHECKLIST-EXECUTION.md).
 | First merged-main run | [Four jobs passed; current-Python Windows failed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42717907092) | Original failure retained; no rerun used to erase it |
 | Independent original reproduction | Real writer and commit contention raised raw SQLite errors; no request/budget bypass was observed | Zero-request admission and rolled-back state were checked independently |
 | Corrected contention behavior | Seven new regression methods and the unchanged concurrent-budget method passed locally | Real BEGIN/COMMIT/table locks, exact error classification, preserved state, ordinary recovery and post-request non-replayability |
-| Follow-up integration | Exact-revision hosted checks and independent acceptance are required before merge | Final run conclusions are linked from the follow-up pull request and [validation history](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml); a local pass is not hosted success |
+| PR11 integration | [All five pre-merge jobs passed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42722572023) and [all five post-merge jobs passed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42724671676) | Each matrix job ran 268 methods; seven actual installed Linux suites passed; three independent reviews were accepted |
 
 The correction retains the two-second database wait, full synchronization,
 immediate transactions and existing admission budgets. Only SQLite BUSY/LOCKED

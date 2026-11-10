@@ -65,7 +65,7 @@ objects. These controls follow the [Git command options](https://git-scm.com/doc
 and do not authenticate the repository's publisher.
 
 The ZIP has one `cybersecurity-skills/` root, fixed metadata and uncompressed,
-regular members. `PACKAGE.json` records the full source commit, development
+regular members. `PACKAGE.json` records the full source commit, declared
 version, exact relative filenames, byte sizes and SHA-256 values. The same source
 bytes and commit produce the same ZIP bytes. Limits are 512 payload files, 1 MiB
 per member, 8 MiB payload and 16 MiB archive. Duplicate JSON fields, members,
@@ -171,3 +171,29 @@ The ordered remaining release gates and current-candidate evidence limits are in
 the [stable-release checklist](RELEASE-READINESS.md#stable-release-checklist).
 Historical host or agent observations must retain their original version and
 scope; recheck affected release-asset behavior rather than relabelling them.
+
+## Actual candidate-to-stable lifecycle qualification
+
+`tests/release_lifecycle.py` accepts two actual, independently reviewed archive
+paths and digests: the previous candidate and the selected stable-labelled asset.
+It is a trusted first-party qualification harness, not an untrusted-archive
+inspection tool. It executes installed helpers only after archive verification.
+Keep the trusted manager outside the installation and retain the private output.
+
+```sh
+python -I -B tests/release_lifecycle.py --baseline-archive /private/previous.zip --baseline-sha256 REVIEWED_PREVIOUS_SHA256 --archive /private/stable.zip --sha256 REVIEWED_STABLE_SHA256
+```
+
+The harness observes fresh installation, actual candidate upgrade, refusal of
+wrong identities and edited content, termination during the real update,
+explicit recovery, restoration of the previous archive, re-upgrade and uninstall.
+It checks original authenticated private records through the installed versions,
+backup readability, exact retained bytes and owner/access metadata, unrelated
+skill preservation, and the installed checklist's unverified outcomes. It retains
+both successful and failed observations without publishing private records.
+
+This complements the existing synthetic-successor M6 regressions. An actual
+prior archive is not fabricated by relabelling the current payload. Restoration
+does not authorize stale operational execution. Host registration, current tools,
+agent reasoning, deployed targets and public release require their separate
+evidence; the lifecycle harness establishes none of those claims.

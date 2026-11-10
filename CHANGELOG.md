@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.0 - Bounded stable preparation
+
+- Prepare stable-labelled metadata while retaining the supported profiles,
+  independent runtime, strict currentness and unverified target outcomes.
+- Add actual reviewed candidate-to-stable lifecycle qualification, including
+  authenticated private records, owner/access metadata, backup readability,
+  interrupted update recovery and explicit previous-archive restoration.
+- Qualify current novice reasoning separately from historical agent results,
+  helper fixtures, host registration and public release authorization.
+
 ## 1.0.0-rc.4 - Post-merge contention and release readiness
 
 - Convert actual SQLite BUSY/LOCKED control-state errors into a sanitized blocked

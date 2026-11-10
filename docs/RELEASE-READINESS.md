@@ -1,7 +1,7 @@
 # Bounded release contract and operator guide
 
-The release-candidate series prepares the existing bounded controls for release.
-Version `1.0.0-rc.4` adds opt-in [C2-C6 execution profiles](CHECKLIST-EXECUTION.md)
+Prepared version `1.0.0` retains the candidate series' bounded controls and
+opt-in [C2-C6 execution profiles](CHECKLIST-EXECUTION.md)
 to the offline [checklist planning profile](CHECKLIST-COVERAGE.md). Their measured
 support boundaries remain separate from each target's unverified item outcomes.
 It is not a published stable release, a general vulnerability detector, a
@@ -47,11 +47,11 @@ The latter means general operational assessment qualification is not established
 it does not deny the individually documented implemented controls.
 
 The archive manifest and managed installation format remain schema 1. This
-candidate changes no M1-M5 state schemas, command authority or assessment data.
+preparation changes no M1-M5 state schemas, command authority or assessment data.
 Receipts stay outside the immutable install. Existing content-identity checks can
 invalidate prior assessment evidence after an upgrade: preserve historical state,
 create fresh required context and rerun affected checks. Do not rewrite history to
-make old evidence appear current. M1 re-resolves actual source; a candidate label
+make old evidence appear current. M1 re-resolves actual source; a version label
 does not make an unmerged archive the current official head.
 
 The old development manager rejects release-candidate/stable version syntax.
@@ -140,7 +140,7 @@ implementation and CI results are in [STATUS.md](../STATUS.md).
 
 | Gate | Existing evidence | Remaining action and acceptance |
 |---|---|---|
-| SR1: Required failures and CI | PR10 pre-merge checks passed; its post-merge Windows contention failure was independently reproduced and corrected | Accept the correction only with preserved original evidence, relevant positive/prohibited regressions, independent review and successful exact-revision hosted checks; follow the merged run to its conclusion |
+| SR1: Required failures and CI | PR11 corrected the retained Windows contention failure; all five pre-merge and five post-merge jobs passed | Preserve that baseline; every subsequent delivered revision must satisfy its relevant checks and exact-revision hosted workflow |
 | SR2: Release scope and novice behavior | Historical M6 static/operator results and C2-C6 helper/current-tool fixtures have explicit limits | Freeze the supported release claim; exercise risk-relevant current-candidate novice requests and failure/degraded paths with independent expectations, usable reports and no unresolved important misses/unsafe actions; make no broader accuracy claim |
 | SR3: Exact stable-labelled asset | Candidate archive/inspection and version-channel handling are implemented and tested | Prepare a concrete stable version in both canonical version fields; build from the exact commit, inspect the complete archive, bind digest/source and verify reproducibility and affected version/package checks |
 | SR4: Installed lifecycle and host | Owned installation and prior lifecycle/host observations exist; installed M1-M5 and selected C2-C6 workflows run in CI | Exercise the actual selected release asset and relevant candidate-to-stable upgrade, private-state preservation, restoration/uninstall and supported-host registration; retain unaffected evidence only when bytes/context justify it |

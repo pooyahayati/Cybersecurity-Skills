@@ -174,7 +174,9 @@ target checklist items or authorize every candidate tool.
 
 M1-M6 and the selected C1-C6 profiles are implemented; this is not a claim that
 all target controls or platforms are qualified. The current candidate also fixes
-the observed post-merge SQLite contention error. Complete the ordered
+the observed post-merge SQLite contention error, with all five checks successful
+before and after the PR11 merge. Version `1.0.0` preparation now addresses the
+remaining qualification and exact-asset gates in the ordered
 [stable-release checklist](docs/RELEASE-READINESS.md#stable-release-checklist):
 
 1. Resolve required failures and observe passing exact-revision platform and
