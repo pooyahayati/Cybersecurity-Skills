@@ -178,6 +178,12 @@ checks before and after merge. Version `1.0.0` preparation adds new independentl
 graded novice observations and real archive lifecycle qualification on Windows
 and Linux. [Status](STATUS.md) records their exact scope and historical identities.
 
+PR12 subsequently passed its pre-merge checks but failed the first post-merge
+Windows/Python 3.11 allowed-redirect scenario. The deadline-observation correction
+must close its independently reproduced legitimate-path and monitor-error
+defects, then pass new exact-source pre/post-merge and artifact gates. Retain the
+earlier failure; independent reproductions do not establish its hosted cause.
+
 Every selected delivery still binds the reproducible archive to source, actual
 installation/upgrade/recovery and host observations, current prerequisites/native
 scans, independent acceptance and passing exact-revision hosted checks. Later

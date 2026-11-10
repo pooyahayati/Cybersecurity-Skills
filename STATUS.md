@@ -41,7 +41,8 @@ The first [PR12 pre-merge workflow](https://github.com/pooyahayati/Cybersecurity
 passed four jobs but current-Python Windows returned blocked/unverified for the
 fixed concurrency scenario. The original inner exception was not retained, so its
 cause remains unproven. Sanitized diagnostics now observe owned-fixture exceptions
-without changing scenario authority, timing, state or acceptance assertions.
+without changing scenario authority, configured deadlines, state or acceptance
+assertions. Instrumentation can affect scheduling and elapsed time.
 
 During that investigation, independent review reproduced a separate deadline
 defect: a blocking synchronous authority callback allowed a child to create an
@@ -54,6 +55,33 @@ The callback itself cannot be forcibly cancelled; the child is stopped while it
 finishes. Runtime correction evidence remains separate from the earlier static
 agent observations and the unproven cause of the first hosted failure. Exact
 corrected delivery checks and independent acceptance remain required.
+
+PR12 was merged after [all five corrected pre-merge jobs passed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42792894719),
+including 272 methods per matrix job and seven installed Linux suites. Its first
+[post-merge run](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42797033299)
+passed four jobs but Windows/Python 3.11 refused an allowed redirect at the child
+deadline. The hosted child's actual exit time was not retained; its exact cause
+cannot be inferred from the exception alone. This remains a failed delivery gate,
+not an erased rerun or a stable-publication approval.
+
+Independent follow-up reproduced a separate legitimate-path defect: a parent
+observer saw a child terminate before the unchanged deadline, yet delayed valid
+guard completion caused refusal. The process helper now records actual timely
+termination through synchronized parent observations. Unknown or late first
+observations still fail, including a deliberately delayed-monitor fixture. Final
+guard rejection still wins after timely child exit, and earlier prohibited-effect
+and monitor-start cleanup checks remain. Overall helper latency may include a
+later callback return; it is not reported as child runtime. The original and
+corrected observations are retained separately from hosted causation. The selected
+follow-up delivery must satisfy fresh exact-source/platform and asset gates.
+
+Further independent probes found and reproduced two intermediate defects: a
+resumed main observer could reject an already-observed timely exit, and a monitor
+poll error could allow a late child effect while the guard was blocked. The
+correction preserves the timely observation across main-loop scheduling delays
+and immediately terminates the owned child when monitoring fails. Failure remains
+sticky; final guard rejection, unknown-exit refusal and cleanup are still required.
+Both original failures and actual-effect regressions are retained privately.
 
 ## Completed contention correction
 

@@ -62,27 +62,52 @@ def bounded_process(argv, env, timeout, limit, *, guard=None, sink=None, capture
     if writer:
         writer.start()
     deadline_stop, deadline_exceeded, deadline_error = (threading.Event() for _ in range(3))
+    timely_exit = threading.Event()
+    observation_lock = threading.Lock()
+
+    def observe_exit():
+        # Observe termination before taking the timestamp. A late cached return
+        # code cannot establish that the child finished within its deadline.
+        with observation_lock:
+            code = process.poll()
+            observed = time.monotonic()
+            if not timely_exit.is_set() and not deadline_exceeded.is_set():
+                if observed - started > timeout:
+                    deadline_exceeded.set()
+                elif code is not None:
+                    timely_exit.set()
+            return code, observed
 
     def enforce_deadline():
         # A synchronous authority check can block on I/O or a database lock.
         # It must not suspend the independent child-effect deadline.
-        if not deadline_stop.wait(max(0, timeout - (time.monotonic() - started))):
-            deadline_exceeded.set()
-            try:
-                if process.poll() is None:
-                    process.kill()
-            except OSError:
-                deadline_error.set()
+        try:
+            while not deadline_stop.is_set():
+                code, observed = observe_exit()
+                if deadline_exceeded.is_set():
+                    if code is None:process.kill()
+                    return
+                if timely_exit.is_set():return
+                deadline_stop.wait(min(0.01, max(0, timeout - (observed - started))))
+        except OSError:
+            deadline_error.set()
+            # Reporting an unavailable monitor after a blocked guard returns
+            # is too late: stop the owned child as soon as enforcement fails.
+            try:process.kill()
+            except OSError:pass
 
     deadline_thread = threading.Thread(target=enforce_deadline, name="cyber-process-deadline", daemon=True) if guard is not None else None
     problem = None
     try:
         if deadline_thread:
             deadline_thread.start()
-        while process.poll() is None:
+        while (observe_exit()[0] if deadline_thread else process.poll()) is None:
             require(not overflow.is_set(), "process output limit exceeded")
             require(not read_error.is_set(), "cannot retain bounded execution evidence")
-            require(time.monotonic() - started <= timeout, "process deadline exceeded")
+            require(not deadline_error.is_set(), "cannot enforce process deadline")
+            require(not deadline_exceeded.is_set(), "process deadline exceeded")
+            require(time.monotonic() - started <= timeout or
+                    deadline_thread is not None and timely_exit.is_set(), "process deadline exceeded")
             if guard is not None:
                 guard()
             time.sleep(0.05)
@@ -92,6 +117,8 @@ def bounded_process(argv, env, timeout, limit, *, guard=None, sink=None, capture
     finally:
         try:
             process.wait(timeout=10)
+            if deadline_thread:
+                observe_exit()
         finally:
             deadline_stop.set()
             if deadline_thread and deadline_thread.ident is not None:
@@ -113,7 +140,7 @@ def bounded_process(argv, env, timeout, limit, *, guard=None, sink=None, capture
     require(not read_error.is_set(), "cannot retain bounded execution evidence")
     if guard is not None:
         guard()
-        require(time.monotonic() - started <= timeout, "process deadline exceeded")
+        require(timely_exit.is_set(), "process deadline exceeded")
     return {"exit_code": process.returncode, "bytes": count[0],
             "sha256": fingerprint.hexdigest(), "elapsed_seconds": time.monotonic() - started,
             "content": bytes(content)}

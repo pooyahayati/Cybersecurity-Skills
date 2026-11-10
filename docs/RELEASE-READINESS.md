@@ -102,9 +102,15 @@ reaching the limit requires a separate preservation/maintenance decision.
 
 Guarded subprocesses retain their selected deadline even when a synchronous
 authority callback blocks on I/O or control-state contention. An independent
-monitor terminates the child at the deadline; late or unknown completion cannot
-pass. The callback may take additional time to return and is not forcibly
-cancelled. Deadline blocking never grants replay, budget refund or a new intent;
+monitor terminates a still-running child at the deadline or on monitor failure.
+Failure is retained even if cleanup subsequently observes termination. Actual termination must
+be observed by the parent before that deadline; a late poll or cached return code
+cannot establish timely completion. A recorded timely exit can remain valid while
+a synchronous callback finishes later, provided every final authority guard still
+succeeds. Unknown or late completion remains blocked. The callback is not forcibly
+cancelled, and the returned helper elapsed time includes validation/cleanup rather
+than measuring child runtime alone. Deadline blocking never grants replay, budget
+refund or a new intent;
 inspect retained operation state before any further authorized action.
 
 ## Qualification and release decision
