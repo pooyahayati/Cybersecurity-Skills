@@ -1,445 +1,162 @@
 # Cybersecurity Skills
 
-A standalone, modular security skill for developers who need to understand what
-can go wrong, what customer data is at risk, how to fix a confirmed weakness, and
-how to verify the result. It works independently of the person, framework or
-coding assistant that created a project. It does not require another head skill.
+A standalone skill for AI coding assistants that helps developers review code,
+websites and delivery environments, protect customer data, investigate weaknesses,
+and propose fixes with concrete retests. It works with existing projects regardless
+of how they were built. No other head skill is required.
 
-**Prepared version: `1.0.0`. The bounded M1–M6 controls include exact-source
-packaging, owned installation/recovery and offline installation diagnosis;
-C2-C6 add the selected execution profiles below.**
-General active scanning and deployment approval remain unsupported. A prepared
-stable-labelled package is not a published release or proof that an application is secure.
+**Stable release: [1.0.0](https://github.com/pooyahayati/Cybersecurity-Skills/releases/tag/v1.0.0).**
+This release supports the bounded operations below. It does not certify that an
+application is secure or provide unrestricted penetration testing.
 
-## Delivery status and stable release
+## Install
 
-The bounded C2-C6 implementation was merged in [PR10](https://github.com/pooyahayati/Cybersecurity-Skills/pull/10).
-Its first post-merge run exposed a SQLite contention error on Windows. The
-[PR11 correction](https://github.com/pooyahayati/Cybersecurity-Skills/pull/11)
-preserves the wait, authority, state and no-replay bounds. All five checks passed
-both before and after that correction's merge; original failure evidence remains.
-Read [current verification and delivery](STATUS.md) for the exact observations.
+You need an AI coding assistant that supports `SKILL.md` and trusted Python 3.11+
+for the helpers. Windows and Linux are tested. Git is used below to obtain the
+trusted management tool; no third-party Python packages are needed.
 
-The [stable-release checklist](docs/RELEASE-READINESS.md#stable-release-checklist)
-separates release qualification from optional future capabilities. Preparation
-qualifies the exact stable-labelled artifact, current prerequisites, installation
-and actual candidate upgrade, novice behavior and independent acceptance. Public
-publication and downloaded-asset verification remain a separate delivery decision.
-No stable GitHub release has been published.
+1. Download **`cybersecurity-skills-1.0.0.zip`** and its **`.sha256`** file from
+   [the release](https://github.com/pooyahayati/Cybersecurity-Skills/releases/tag/v1.0.0).
+   The automatically generated GitHub source archives are different files.
+2. Review the publisher and release notes. Obtain the management tool in a
+   separate directory, outside the installation you will manage:
 
-[PR12](https://github.com/pooyahayati/Cybersecurity-Skills/pull/12) prepared the
-stable-labelled package and corrected independent child-deadline enforcement.
-Its first post-merge Windows run then refused an allowed redirect at the deadline.
-The follow-up distinguishes a parent-observed timely child exit from delayed
-authority validation while preserving unknown/late-exit refusal and final guards.
-See [status and retained failures](STATUS.md) for the evidence and delivery gates.
+   ```sh
+   git clone --branch v1.0.0 --depth 1 https://github.com/pooyahayati/Cybersecurity-Skills.git trusted-cybersecurity-skills
+   cd trusted-cybersecurity-skills
+   ```
 
-Current bounded observations include 12 independently graded novice requests for
-both the previous candidate and prepared version, plus three separate critical
-observations. All met their frozen criteria; this is parity, not a measured
-improvement or a general detection-accuracy claim. Actual archive upgrade and
-recovery also passed on Windows/Linux with authenticated private state and access
-preservation. [Status](STATUS.md) keeps static reasoning, executed lifecycle checks,
-historical runtime evidence and exact delivery gates separate.
+3. Choose an **existing, host-supported skills directory**, such as a project's
+   `.agents/skills`, and a **new private management path that does not yet exist**.
+   Keep management state outside the checkout, installed skill and skills directory.
+   Use your own absolute paths below; Windows paths such as `C:/Users/you/...` work.
 
-## What this skill is for
+   ```sh
+   python -I -B scripts/m6_package.py inspect --archive /absolute/downloads/cybersecurity-skills-1.0.0.zip --sha256 799f02bbee3129220f7fbfaa3d25c0888ee9b3f9a17283396ca21606168a69a4
+   python -I -B scripts/m6_package.py install --archive /absolute/downloads/cybersecurity-skills-1.0.0.zip --sha256 799f02bbee3129220f7fbfaa3d25c0888ee9b3f9a17283396ca21606168a69a4 --skills-root /absolute/project/.agents/skills --state /absolute/private/cybersecurity-package-manager
+   python -I -B scripts/m6_package.py diagnose --skills-root /absolute/project/.agents/skills --state /absolute/private/cybersecurity-package-manager
+   ```
 
-This skill helps a novice developer organize and substantiate reviews of source code,
-APIs, deployed websites, sensitive data, customer isolation, infrastructure and
-delivery. Its workflow connects supported findings across these surfaces instead of
-treating a clean scanner result as sufficient evidence. A useful finding identifies
-the affected code or environment, attack prerequisites, customer impact, evidence,
-counterevidence, a concrete fix, and checks that preserve legitimate behavior.
+   Stop if inspection or installation is blocked. Do not force an overwrite or
+   replace an existing skill directory manually. See the
+   [upgrade, recovery and uninstall commands](docs/M6-QUALIFICATION.md#owned-installation-lifecycle).
 
-Source-only, URL-only and combined reviews have different coverage. A public URL
-does not reveal private source code, cloud permissions or backup recoverability.
-The skill must retain those unknowns, distinguish staging from production, and
-explain next steps in plain language. [Measured bounded results](STATUS.md) follow
-the [evaluation protocol](docs/EVALUATION.md); full-application detection accuracy
-and remediation quality remain unestablished.
+4. Reload your assistant's skill catalog or start a new session, then select
+   `cybersecurity-skills`. In hosts supporting explicit skill mentions, use
+   `$cybersecurity-skills`.
 
-Today the package provides eleven domain guidance modules, a bounded intake and
-assessment ledger, useful private reports, and a foundation for acquiring and
-running reviewed components. M3 adds finite source leads and evidence-bound fixes;
-M4 adds bounded runtime/configuration observations; M5 adds bounded resilience
-checks; C2-C6 add the selected current-data, actual-application and recovery
-profiles. These help an agent investigate and justify a review; they do not
-automatically establish application security.
+Inspection verifies the package bytes, not publisher identity or currentness.
+Before an assessment, the skill still checks the current approved head, selected
+tools and rule/advisory data. Missing current evidence blocks the affected work.
+Keep the trusted management checkout available for future recovery.
 
-## Checklist coverage and implementation gaps
+## Start your first review
 
-The [36-item security checklist profile](docs/CHECKLIST-COVERAGE.md) maps every
-item in the Security Audit section of the service checklist to existing bounded
-support, minimum evidence, acceptance criteria, legitimate/prohibited test ideas
-and explicit remaining work. It does not claim all checks are implemented or that
-a target has passed. Capability, applicability and assessment outcome are separate.
+Give the assistant the project path, what you own or may test, the environment
+(local, staging or production), and the most important data or user roles.
+Start with a source-only review:
 
-From a trusted checkout or installed package, prepare an offline plan:
+```text
+Use $cybersecurity-skills to review my project at [absolute project path].
+Start with selected source files and an offline coverage plan. Focus on login,
+customer data and isolation between users. Do not contact the deployed site yet.
+Explain confirmed findings, unverified leads, concrete fixes, legitimate behavior
+to preserve, and the checks needed to verify each fix. Keep evidence private.
+```
+
+For a deployed site, provide an explicit URL/route scope, test accounts when
+needed, permitted methods and request/time limits. The agent should explain what
+can be checked with the available access and retain unsupported areas as gaps.
+Load tests, mutations, recovery actions and production access need their own
+appropriate scope; a URL alone does not authorize them.
+
+A useful report identifies the affected file or route, evidence and confidence,
+customer impact, corrective steps and a retest. Source-only, URL-only and combined
+reviews have different coverage. A proposed fix is not a verified deployed fix.
+
+For a quick offline planning check, run this from the trusted checkout or installed
+skill directory:
 
 ```sh
 python -I -B scripts/security_checklist.py plan --format markdown
 ```
 
-All 36 items start with unknown applicability and unverified outcomes. This command
-does not execute target code, contact a website, install a tool or create an
-assessment result. Keep saved plans and actual evidence in the owner's private
-assessment area. The existing M2 evidence ledger and M1-M5 execution methods remain
-the source of actual observations; one broad control cannot close every child item.
+It produces a 36-item plan with unverified outcomes. It does not scan a target,
+contact a website or install a tool. Your assistant can then follow the
+[assessment and private-report guide](docs/M2-OPERATIONS.md) or the
+[supported execution profiles](docs/CHECKLIST-EXECUTION.md).
 
-[C1-C6 implementation phases](docs/CHECKLIST-ROADMAP.md) retain separate acceptance
-gates. C1 supplies the complete planning inventory; the opt-in C2-C6 profiles now
-provide additional observations within the exact boundaries below. Neither a
-profile result nor a generated checklist qualifies general penetration testing.
+## Security operations
 
-## C2-C6 execution profiles
-
-Use [the execution and operator guide](docs/CHECKLIST-EXECUTION.md) to select a
-profile, prepare private scope and independent expectations, resolve current
-resources, execute within explicit authority and explain the resulting evidence.
-The agent should translate findings into affected code/routes, customer impact,
-correction steps and a retest that preserves legitimate behavior.
-
-| Stage | Available operation | Important limit |
+| Area | Available work | Coverage boundary |
 |---|---|---|
-| C2 | Current Trivy plus independently current official OCI advisory data; exact npm lock v2/v3 matching and selected-inventory SBOM | No installed/shipped identity, reachability, malicious-package or unsupported-ecosystem claim |
-| C3 | Explicit bounded HTTP methods, admitted HTML navigation and offline current ZAP passive checks | No browser/JavaScript, automatic login or general active scan; alerts are leads |
-| C4 | Real HTTP/SQLite positive, prohibited and variant scenarios; valid actor, response and persisted-state predicates; original/fixed comparison | Qualified Python/SQLite fixture profile; each real project needs independent business rules and coverage |
-| C5 | Effective local Python-container settings and source/database/URL binding, authenticated Actions defaults, approved-key Cosign provenance | No remote cloud/host qualification, keyless/transparency claim or deployment approval |
-| C6 | Actual instrumented target/log/receiver transport; private backup capture, application-UID access probe, selected authenticated read-service restore and compromised-access rejection | Finite transport/SQLite profile; other read/write workflows remain unverified; measured restore duration and committed-event loss are not production outage RTO or time-based RPO |
+| Architecture and source code | Trust-boundary review, finite Python/JS/TS/PHP source leads, reviewed fix candidates | Selected source and syntax forms; no whole-program detection guarantee |
+| Identity, sessions and customer isolation | Source reasoning, scoped role comparisons and selected HTTP/SQLite scenarios | Project-specific actor and business rules are required; no automatic login or general MFA validation |
+| Sensitive data and secrets | Source/configuration leads, selected rotation/deletion scenarios, private redacted reports | Other stores, complete data flows and arbitrary sensitive prose need separate review |
+| Dependencies and artifacts | Selected npm inventory/advisory matching, inventory SBOM, approved-key Cosign verification | Declared inventory does not establish shipped reachability; no keyless/transparency claim |
+| Websites and APIs | Explicit bounded HTTP capture/navigation, role comparisons and offline ZAP passive leads | No browser/JavaScript execution or unrestricted active scan |
+| Infrastructure and DevOps | Selected IaC/container/configuration leads and authenticated Actions defaults | Local qualified profiles; no general cloud-account or remote-host assessment |
+| Pre-release and post-release | Selected source/artifact/service correspondence and scoped deployed observations | No automatic deployment approval or production mutation |
+| Load and concurrency | Bounded read workloads, latency/errors and selected HTTP/SQLite state checks | Explicit budgets; no distributed or heavy production capacity claim |
+| Recovery and incidents | Disposable SQLite restores, selected read-service recovery, instrumented event transport and private incident chronology | No general outage RTO/RPO, automatic containment or real notification service |
+| Fix verification and evidence | Original/fixed comparisons, legitimate and denied cases, counterevidence and invalidation | Independent expectations required; incomplete or stale evidence cannot become a pass |
+| AI features | Guidance for prompt injection, tool authority and sensitive context | Specialized AI runtime assessment remains unavailable |
 
-All tools remain opt-in and separately reviewed. Currentness failures stop the
-affected operation. Actual evidence stays private; historical reports retain
-incomplete attempts, remediation and missing coverage without renewing a pass.
-The [status record](STATUS.md) distinguishes implementation, qualification and
-GitHub delivery; this is still a release candidate.
-
-## M6 qualification and skill packages
-
-Use the [M6 guide](docs/M6-QUALIFICATION.md) to build a deterministic package from
-an exact Git commit, inspect it against a separately reviewed digest, and manage
-an explicitly selected installation. No package code or installation hook runs
-during verification. Update/uninstall refuse unmanaged content and local edits;
-private pending transactions support recovery after interrupted directory moves.
-Unrelated skills and assessment data remain outside the managed inventory.
-
-Behavioral evaluation compares frozen realistic synthetic requests against the
-previous version, without revealing expected answers to evaluating agents. It
-records concrete findings, examined safe paths, missed issues, false alarms,
-unsafe actions, proposed fix quality and novice-report usefulness. Actual package
-and operator workflows remain separate from static agent reasoning. See
-[status](STATUS.md) for observed results and limitations; no security percentage,
-universal detection guarantee or unobserved model setting is invented.
-
-Package identity does not establish freshness or security. Every assessment
-keeps M1 current-version checks. This task prepares a release candidate;
-merging it does not publish a stable release or update a user's installed skill.
-
-The [release and operator guide](docs/RELEASE-READINESS.md) defines the supported
-capabilities, platform matrix, version/channel contract, prerequisite boundaries,
-upgrade from development versions and explicit rollback. Use `m6_package.py
-diagnose` to check managed installed bytes without network or candidate execution;
-its result separately reports that freshness, host discovery and runtime readiness
-are not established. Actual installed M1-M5 and selected C2/C4/C5/C6 workflows, plus selected
-host catalog discovery, are qualification checks, with observed results recorded in [status](STATUS.md).
-
-## Implemented M5 capacity, recovery and incident checks
-
-- Run a current reviewed native k6 binary with generated private broker tickets.
-  A trusted collector enforces one exact GET/HEAD route, destination/TLS checks,
-  total requests, admission rate, concurrency, time, byte limits and stopping.
-  Target code and credentials never enter k6. M1 execution stays offline.
-- Measure actual read latency percentiles, matching successful RPS, errors,
-  overload and generator completion. Failed or incomplete workloads cannot pass.
-  Choose explicit phases for baseline/load/stress/spike/soak/breakpoint questions;
-  heavy production work is unsupported and short samples do not prove capacity.
-- Inspect exact standalone SQLite artifacts in M1. Detect duplicate/null
-  transaction keys, missing rows and altered typed values against a reviewed
-  expected state. Restore a backup and a separate rollback snapshot into disposable
-  databases; an existing but corrupt backup fails. Original data is preserved.
-- Measure disposable restore time and report declared data-loss intervals
-  separately. Correlate a fresh, observed receiver acknowledgment with a recovery
-  challenge. Missing/revoked evidence remains visible and retracts dependent results.
-- Preserve explicitly selected incident bytes privately, append authenticated
-  chronology and verify custody on export. Separate facts, hypotheses and proposed
-  actions. Reports hide raw evidence and private notes and give corrective steps.
-
-These are bounded observations. Resource saturation, live database linkage,
-actual capture time, whole-service RTO/RPO and end-to-end notification delivery
-need additional evidence. No containment, deployment rollback, customer message
-or recurring monitoring is performed. The agent prepares the contracts and
-explains these limits to the developer. See [M5 operations](docs/M5-OPERATIONS.md)
-and [M5 contracts](docs/M5-RESILIENCE.md).
-
-## Implemented M4 runtime, infrastructure and delivery checks
-
-- Collect explicit GET/HEAD observations through a separate trusted collector.
-  Bind exact routes, actors, address pins, verified TLS, approved redirects, expiry
-  and persistent request/time/body budgets. No crawling, proxy inheritance or
-  automatic retries. Unknown outcomes consume their single-use intent.
-- Compare the same protected resource for an owner, other user, other tenant or
-  anonymous actor. Authenticated actors need observed complete identity predicates
-  and distinct credential bindings. Preserve the positive control; a denial with
-  the owner's complete body fails even when its status is 403.
-- Inspect selected Terraform/Kubernetes/IAM JSON, Dockerfile and CI workflow forms
-  for finite storage, privilege, secret and permission leads. Optionally run the
-  current reviewed Trivy binary for embedded secret/misconfiguration rules inside
-  M1. No target hooks/configuration, external check cache or vulnerability DB is
-  silently used. Unsupported files and absence of reported results stay explicit.
-- Read one exact local container and its image identity, minimizing recorded
-  configuration. Compare it with the declared deployment artifact and required
-  role evidence for a pre/post-release correspondence record. Wrong or expired
-  artifacts and failed role checks block that result.
-- Revalidate evidence and retract dependent results after changes or revocation.
-  Produce private JSON and readable Markdown with locations, correction steps,
-  producer identities and remaining coverage gaps.
-
-These are observations with explicit limits. Server identity assertions are not
-independent identity attestation. Local Docker evidence does not prove which
-container served a URL, all replicas, source-to-image provenance or deployment of
-an M3 fix. Remote host/cloud administration, capacity testing and automatic target
-changes remain unavailable. Use [M4 operations](docs/M4-OPERATIONS.md) and review
-[the exact support boundaries](docs/M4-RUNTIME-SECURITY.md).
-
-## Implemented M3 source review and fixes
-
-- Inspect selected Python syntax trees and JS/TS/PHP tokens inside M1 isolation.
-  Six limited rule families flag direct dynamic execution, object deserialization,
-  selected constructed queries, literal credentials, weakened cookies and sensitive
-  logging. The [support matrix](docs/M3-SOURCE-REMEDIATION.md) lists exact language
-  forms and omissions. Comments, safe near-matches and failed parsing are tested.
-- Review architecture, identity/session, application, data lifecycle, business,
-  dependency and secret boundaries through attributed source traces. Bind actors,
-  assets, concrete locations, guards, effects, abuse cases and counterevidence.
-- Optionally use the reviewed current Addy hardening resource through M1. No
-  external skill is required or installed automatically. Dependency traces need
-  exact inventory and a current reviewed advisory-data component; matching remains
-  reviewer judgment. Installed WordPress/WooCommerce versions remain unverified.
-- Propose exact-hash replacements only for selected files and export a separate
-  private candidate. Original source is preserved. Review and apply that candidate
-  through the project's authorized development process.
-- Run frozen legitimate, denied and related-variant cases on original/candidate
-  Python probe entrypoints. Compare actual response and entire serialized state;
-  missing cases, deny-everyone fixes, deny-after-write and partial fixes fail.
-- Require reviewer assessment before accepting a fix for its declared serialized
-  model. Changed source/candidates, revoked evidence and stale dependencies reopen
-  the result. Reports omit raw source and test payloads and retain unsupported gaps.
-
-The probe deliberately executes target Python only in M1 isolation. Its finite
-response/state model can be falsified by malicious subject code, so it does not
-verify actual database state, installed identity or production protection. No
-overall security pass is generated. See [M3 operations](docs/M3-OPERATIONS.md).
-
-## Implemented M2 assessment records
-
-- Accept source-only, URL-only and combined scope. Read only explicitly selected
-  regular files; do not run project code, installation hooks or website requests.
-- Discover file-language and structured dependency/version declarations. Keep
-  installed versions unknown. Corroborate WordPress hints with a package declaration
-  and source-version marker; treat AI dependencies as planning hints.
-- Retain declared actors, assets, flows and capabilities with explicit provenance.
-  Separate selected source digests from declared deployed artifacts and environments.
-- Route planning across the eleven modules using observed declarations and known
-  scope. Unknown capability or an unsupported claim of absence cannot hide a gap.
-- Inventory twelve partial control templates, expanded by surface, environment
-  and actor. Keep applicability, progress and outcome separate. Standard references
-  name a historical edition/chapter; this is not comprehensive ASVS certification.
-- Bind evidence to relevant files, model facts and environments. Authenticate M1
-  operation records and all producer-mounted inputs; reject fake flags, wrong targets,
-  changed output, revoked authority and stale data. Recheck validity on use/export.
-- Preserve findings, severity/confidence rationales, counterevidence and rejected
-  claims. Group explicit shared root causes without deleting conflicting members.
-  Validate attack-chain links without treating a relationship as a working exploit.
-- Generate private JSON and Markdown with priority, customer impact, location,
-  evidence, fix guidance, legitimate behavior to preserve and retest instructions.
-  Redact declared sensitive values and common credential/personal-data patterns;
-  escape untrusted Markdown. Review remaining sensitive prose before sharing.
-
-M2 records observations; they are not an automated verdict. Manual judgments remain
-labeled as such, process completion does not mark a control reviewed, and every
-report keeps `security_verdict: not_established`. Missing access stays visible.
-See [M2 operations](docs/M2-OPERATIONS.md) for exact commands, limits and contracts.
-
-## Implemented M1 controls
-
-- Resolve the publisher-designated latest stable GitHub release. Use the exact
-  default-branch commit only after confirming that no stable release exists.
-- Check enrolled numeric repository/owner identities, immutable Git objects,
-  selected file hashes and official SHA-256 release-asset digests. A displayed
-  version string cannot establish the identity of the executed bytes.
-- Acquire bounded resources into quarantine, reject unsafe archive/file paths,
-  and execute no installation hooks. Require review of instructions, dependencies,
-  permissions, licensing, compatibility and provenance.
-- Activate an accepted candidate atomically. A failed update preserves the old
-  pointer but cannot make that old version pass a new current-version check.
-- Require the head itself and every selected component to pass current preflight.
-  Reload an updated head from its accepted bundle. Bind exact resources for a
-  bounded run; recheck on new runs, resumes and changed module selections.
-- Treat rule/feed freshness separately from binary identity, including expiry
-  during a run. Unavailable or invalid upstream evidence blocks affected execution.
-- Authorize exact input snapshots, components, entrypoints, arguments, expiry and
-  shared call/time budgets using private authenticated records.
-- Execute offline in a local Linux Docker container with read-only snapshots,
-  a cleared environment, non-root identity, dropped capabilities, no-new-privileges,
-  and bounded memory, CPU, processes, scratch space, output and elapsed time.
-- Interrupt on cancellation, revocation or expiry. A container-side deadline
-  remains effective if the controller exits. Recover owned interrupted operations
-  without resetting budgets or deleting unrelated containers.
-
-See [the control-plane design](docs/M1-CONTROL-PLANE.md) for the trust model and
-[the operator guide](docs/M1-OPERATIONS.md) for commands, inputs and failure handling.
+The [complete coverage map](docs/CHECKLIST-COVERAGE.md) describes all 36 checklist
+items, evidence requirements and remaining gaps. Guidance and scanner leads are
+kept separate from confirmed findings.
 
 ## Auxiliary skills and tools
 
-**No third-party assessment skill is automatically active.** The controller
-can acquire explicitly enrolled resources, but a catalog entry does not provide
-a reviewed assessment adapter or permission to invoke it. This table distinguishes
-development use, implemented opt-in adapters and planned runtime composition.
+Nothing in this table is installed or activated automatically. Selected resources
+must pass identity, currentness, license, instruction and permission review.
 
-| Skill or tool | Purpose | Current use/status |
+| Resource | Use | Status |
 |---|---|---|
-| `vibe-coding-skill` | Development workflow, evidence and delivery controls | Used to develop this repository; no product runtime dependency |
-| `skill-creator` | Skill packaging and independent behavioral evaluation | Development only |
-| `security-and-hardening` | Review of material security boundaries | Development specialist; optional product source-review adapter through M1 |
-| `api-and-interface-design` | Review of scope, evidence and report contracts | Development specialist; no product runtime dependency |
-| [briiirussell cybersecurity skills](https://github.com/briiirussell/cybersecurity-skills) | Broad security methods and triage | Disabled candidate; select individual resources after review |
-| [Trail of Bits skills](https://github.com/trailofbits/skills) | Deep source review and post-fix verification | Disabled candidate |
-| [Cloudflare security audit skill](https://github.com/cloudflare/security-audit-skill) | Source evidence and refutation methods | Disabled candidate |
-| [Addy Osmani agent skills](https://github.com/addyosmani/agent-skills) | Focused secure-development guidance | M3 supports selected hardening guidance after current enrollment/review; disabled by default |
-| [WordPress agent skills](https://github.com/WordPress/agent-skills) | Platform-specific WordPress/WooCommerce methods | Disabled candidate; relevant only on platform evidence |
-| [OpenAI skills](https://github.com/openai/skills) | Historical skill catalog | Deprecated upstream; disabled; not a source for new enrollment |
-| [OpenAI plugins](https://github.com/openai/plugins) | Selected current Codex Security resources | Disabled candidate; host/protocol compatibility and per-resource licensing require review |
-| [Trivy](https://github.com/aquasecurity/trivy) | Secret/configuration leads and selected dependency advisories | M4 plus C2 opt-in current Linux binary and separately current official Trivy DB; offline M1; not bundled |
-| [Semgrep](https://github.com/semgrep/semgrep) | Source analysis | Disabled candidate; edition/rule licenses require review |
-| [ZAP](https://github.com/zaproxy/zaproxy) | Passive analysis of admitted private HTTP captures | C3 opt-in current stable image/core/reviewed add-ons; generated offline plan; no active scan or browser |
-| [OSV-Scanner](https://github.com/google/osv-scanner) | Dependency/advisory alternative for a demonstrated coverage gap | Disabled C2 candidate; current data and outbound disclosures require review |
-| [testssl.sh](https://github.com/testssl/testssl.sh) | Selected TLS configuration checks | Disabled C3 candidate; stable channel and bounded target requests required |
-| [Prowler](https://github.com/prowler-cloud/prowler) | Supported cloud-account posture | Disabled C5 candidate; explicit resource and read authority required |
-| [Checkov](https://github.com/bridgecrewio/checkov) | Additional IaC coverage if needed | Disabled C5 candidate; avoid duplicating sufficient Trivy coverage |
-| [Cosign](https://github.com/sigstore/cosign) | Artifact signature and provenance verification | C5 opt-in current Linux verifier; separately reviewed public key/build policy; no transparency/keyless claim |
-| [Betterleaks](https://github.com/betterleaks/betterleaks) | Secret-history scanning candidate | Disabled; review stable/development channels and prohibit implicit credential validation or revocation |
-| [k6](https://github.com/grafana/k6) | Load, concurrency and capacity measurements | M5 opt-in current reviewed x64 native binary; generated broker workload only; not bundled |
-| Python standard library | Controller, source verification, signed state, bounded HTTP/TLS and tests | Implemented; host Python 3.11+ required |
-| Docker and official `python:3-slim` image | Local offline isolation | Implemented backend; image resolved to a reviewed current immutable digest |
+| [Addy security and hardening](https://github.com/addyosmani/agent-skills/tree/main/skills/security-and-hardening) | Focused secure-development guidance | Optional reviewed source-review resource; disabled by default |
+| [Trivy](https://github.com/aquasecurity/trivy) | Secret/configuration leads and selected current advisory data | Opt-in adapter; binary and advisory data checked separately |
+| [ZAP](https://github.com/zaproxy/zaproxy) | Passive analysis of admitted HTTP captures | Opt-in offline profile; no browser or active scan |
+| [k6](https://github.com/grafana/k6) | Bounded load and concurrency measurements | Opt-in generated workload through the trusted request broker |
+| [Cosign](https://github.com/sigstore/cosign) | Approved-key artifact/provenance verification | Opt-in profile with reviewed key and policy |
+| Docker and official Python image | Bounded offline execution | Required only for operations using that backend; actual isolation must pass preflight |
+| [Vibe Coding Skill](https://github.com/pooyahayati/Vibe-Coding-Skill), security and interface specialists | Engineering and review of this repository | Development tools; not dependencies of the installed skill |
 
-Candidate selection rationale is in [source review](docs/SOURCE_REVIEW.md).
-Original domain guidance remains useful without an external specialist. The head
-owns scope, evidence and final decisions; a specialist cannot grant itself more access.
+Other catalog entries are disabled candidates. See the
+[source review](docs/SOURCE_REVIEW.md) and [catalog](config/sources.json) for their
+status. Docker, scanners and their data are not bundled with this package.
 
-## Security operations and coverage
+## Practical limits
 
-“Guidance” is written methodology, not an implemented scanner. Planned operations
-must not be reported as performed merely because they appear in this table.
+- Keep credentials, customer data, reports and assessment state outside the skill
+  and outside Git. Review reports for sensitive prose before sharing them.
+- Explicit target authority, current prerequisites and finite budgets remain
+  required. Unavailable access or stale resources leave the affected work blocked.
+- Package checks and reported findings are not a whole-application security
+  verdict. The trusted operator, host account and Docker daemon remain part of the
+  trust boundary; same-account compromise is outside local record protection.
+- The stable release preserves `bounded-qualification` and `operational: false`:
+  supported individual operations are qualified; general operational assessment
+  is not. Global installation, autonomous routing and unlisted platforms are not
+  implied by the release.
 
-| Area | Operations/checks | Available now | Delivery boundary |
-|---|---|---|---|
-| Component supply chain | Current source, publisher identity, content integrity, review and activation | Implemented M1 controls | Exact accepted resources only |
-| Execution safety | Immutable snapshots, no egress, resource budgets, cancellation, recovery | Implemented M1 controls | Local Linux Docker; offline only |
-| Intake and coverage | Selected-file discovery, passive URL scope, actors/assets/flows, module routing and explicit unknowns | Implemented M2 records | No target execution, crawling or network probe |
-| Architecture | Assets, trust boundaries, data flows, attack chains and insecure design | M2 records and M3 source traces | Attributed review of selected source/context |
-| Identity and access | Sessions, recovery, roles, ownership and tenant separation | M3/M4 plus C4 actual selected HTTP/SQLite actor, response and protected-state scenarios | Synthetic proof predicates; complete enrollment, MFA providers and token lifecycle need project-specific evidence |
-| Sensitive/customer data | Secrets, leaks, storage, logs, retention and deletion | M3 source leads; C4 selected secret rotation and SQLite data-copy deletion scenarios | Other stores, provider key management, full data flows and legal compliance require separate evidence |
-| Application and API code | Injection, XSS, SSRF, uploads, traversal, deserialization and API controls | M3 finite source rules; C3 admitted HTML navigation/passive leads; C4 selected HTTP/SQLite scenarios | No whole-program analysis, browser or arbitrary active payloads; file fixtures use SQLite content and metadata |
-| Business logic | Abuse cases, authorization order and concurrent idempotency | M3/M5 plus C4 actual HTTP and independently observed SQLite state | Synthetic business cases; real payment providers and unselected tables/replicas remain unverified |
-| Dependencies and artifacts | Exact component/advisory matching, SBOM and publisher/build policy | M1/M3/M4 plus C2 npm/Trivy data and C5 approved-key Cosign | Selected declared inventory only; shipped identity and keyless/transparency remain unverified |
-| Infrastructure and DevOps | Host/cloud access, storage exposure, IaC, containers and CI/CD secrets | M4 leads/Trivy; C5 finite effective local container/source/database policy and authenticated Actions defaults | Selected local profile and hosted defaults only; remote accounts, egress and runner behavior remain unverified |
-| Pre-release and release | Artifact/environment identity, staging checks, deployment controls and rollback readiness | M4 correspondence; C5 selected live service binding and Cosign approved-key artifact/builder/source verification | No general ingress proof, keyless/transparency claim, release approval or rollback execution |
-| Post-release web/API | Scoped production verification, authenticated role comparisons and exposure checks | M4 exact reads; C3 separately admitted bounded capture/navigation and offline ZAP passive analysis | No browser, general active scan or monitoring; explicit target scope, credentials and budgets required |
-| Capacity and concurrency | Concurrent users versus RPS, latency/errors and state invariants | M5 bounded read workloads plus C4 concurrent synthetic HTTP writes/SQLite state | Small explicit budgets; target resource saturation and distributed capacity remain unverified |
-| Recovery and incidents | Backup access, usable restore, measured loss/time, audit hops and private custody | M5 plus C6 actual instrumented transport and selected authenticated SQLite read-service recovery | Explicit qualified platform/profile; other workflows, real notifications, production cutover and universal RTO/RPO remain unverified |
-| AI features | Prompt injection, tool authority, sensitive context, output handling and tenant isolation | M2 planning and M3 general source reasoning | Specialized AI runtime assessment remains unavailable |
-| Findings and fixes | Counterevidence, private candidates and original/fixed preservation tests | M2/M3 plus C4 equivalent actual HTTP/SQLite scenarios and historical C2-C6 reports | Independent project rules required; no automatic source overwrite or production claim |
-| Evidence privacy and validity | Redaction, provenance, actor/environment/source bindings, selective invalidation | Implemented M2 controls | Private state; redaction cannot recognize arbitrary sensitive prose |
-| Skill qualification and packaging | Blind baseline/candidate cases, exact-source archives, owned installation/update/uninstall, recovery and offline diagnosis | M6 bounded release-candidate workflow | Finite measured cases; no universal protection, publisher authentication or automatic global update |
+## Documentation
 
-## Getting started
+| Need | Guide |
+|---|---|
+| Release identity, support, upgrade and recovery | [Release guide](docs/RELEASE-READINESS.md) |
+| Current-version checks and bounded execution | [M1 operations](docs/M1-OPERATIONS.md) |
+| Scope, evidence and private reports | [M2 operations](docs/M2-OPERATIONS.md) |
+| Code review and fixes | [M3 operations](docs/M3-OPERATIONS.md) |
+| Web, infrastructure and release observations | [M4 operations](docs/M4-OPERATIONS.md) |
+| Load, recovery and incidents | [M5 operations](docs/M5-OPERATIONS.md) |
+| Additional supported execution profiles | [Checklist execution](docs/CHECKLIST-EXECUTION.md) |
+| Measured results and retained limitations | [Status](STATUS.md) |
+| Future work and contributions | [Roadmap](ROADMAP.md) · [Contributing](CONTRIBUTING.md) |
 
-Read [current status](STATUS.md), [the roadmap](ROADMAP.md) and [SKILL.md](SKILL.md).
-For local repository checks, use an existing Python 3.11+ interpreter:
-
-```bash
-python -B scripts/validate_project.py
-python -B -m unittest discover -s tests -v
-python -B tests/m2_workflow.py
-```
-
-No third-party Python packages are needed. These commands inspect this repository
-and synthetic fixtures; they do not assess your application. Structural validation
-returns `structure_valid` with `operational_assessment: false` and
-`freshness_verified: false`. Actual source/preflight checks are separate commands.
-
-For M1, start with [the operator guide](docs/M1-OPERATIONS.md). You need private
-state outside this package and every target; a trusted local Docker CLI; a Linux
-daemon with cgroup v2 and required resource/seccomp controls; and network access
-to GitHub and Docker's official registry for acquisition/preflight. Target code
-has no external network access. There is no unrestricted native fallback.
-
-For M2, follow [the intake and evidence guide](docs/M2-OPERATIONS.md). The offline
-ledger itself needs only Python and private state; it does not certify that its
-components are current. An agent should prepare scope/observation records from
-available evidence and explain missing access. Every actual tool execution still
-requires M1 current-version preflight and authorization. No external assessment
-skill is downloaded or installed merely to create a plan or report.
-
-For M3, follow [the source review and remediation guide](docs/M3-OPERATIONS.md).
-The agent prepares the private scope, review and behavior contracts, runs the
-bounded operations and explains findings, fixes and remaining uncertainty. Use
-`m3_review.py` for new M3 cases, including their M2 observations/findings. A changed
-engine needs a new assessment rather than silently migrating historical records.
-
-For M4, follow [the runtime and infrastructure guide](docs/M4-OPERATIONS.md).
-Use `m4_review.py` for new combined cases; it also exposes the supported M3 source
-methods. The agent prepares private scope/authority records and explains access
-gaps. HTTP collection requires a current reviewed head and explicit target
-authority; source scanners additionally require M1 Docker and reviewed tools.
-Credentials and complete response contents never belong in project files.
-
-The controller is an operator interface, not a one-command automatic audit. It
-requires concrete source and execution contracts. An authorized operator can reuse
-an existing scope; the package does not ask for confirmation on every bounded call.
-
-Run the real isolation regression suite against synthetic data with:
-
-```bash
-python -B tests/docker_integration.py --docker /absolute/path/to/docker
-python -B tests/m3_workflow.py --docker /absolute/path/to/docker
-python -B tests/m4_workflow.py --docker /absolute/path/to/docker
-```
-
-It fails if isolation is unavailable and creates only its own disposable state,
-inputs and labeled containers. See [contribution instructions](CONTRIBUTING.md)
-for platform details and [status](STATUS.md) for observed results.
-The M4 workflow also resolves the current official Trivy release; it fails if
-freshness/acquisition is unavailable. Its network targets are owned loopback
-fixtures, not customer sites. TLS unit fixtures require an existing OpenSSL
-executable (including Git for Windows' bundled executable).
-
-## Trust and limitations
-
-The operator, controller, OS account, local Docker daemon and enrolled publisher
-identities are trusted. HMAC records protect against unauthenticated edits, not
-an attacker with the same account/key or host/Docker authority. Keep those powers
-outside an untrusted agent's tool access. Containers share a kernel; this backend
-is not a guarantee against kernel or daemon vulnerabilities.
-
-The source adapter supports public GitHub repositories and digest-bearing release
-assets. Available GitHub signature metadata is recorded; this is not independent
-signature/transparency-log verification. The official Python image uses a
-stable-major channel and digest, not GitHub's release-selection policy. Host
-Python/Docker are observed prerequisites, not automatically upgraded products.
-
-M1 has no advisory subscription, unattended updater, scheduled monitoring,
-network-enabled scanner, production load test or automatic remediation. Explicit
-revocation stops affected work; operator-supplied incident/revocation information
-remains necessary. C2 separately acquires current official Trivy advisory data on
-demand for its supported inventory, without subscribing to alerts or updating
-dependencies automatically. C3 has a separate bounded traffic authority; it does
-not enable networking in M1. Blocked coverage stays visible.
-
-All maintained project documentation is English. Keep credentials, customer data,
-raw output, private SQLite records and evidence outside Git. Retention/deletion
-are operator responsibilities; do not publish output automatically. Only synthetic
-fixtures belong here. Original project code uses [MIT](LICENSE);
-[third-party notices](THIRD_PARTY_NOTICES.md) describe adoption obligations.
+The release ZIP is fixed to its published source commit. This repository's main
+branch can contain later documentation updates; it is not the identity of an
+already published archive. Original project code is [MIT](LICENSE); see
+[third-party notices](THIRD_PARTY_NOTICES.md) for adopted-resource obligations.
 
 ## Author and license
 

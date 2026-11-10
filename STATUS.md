@@ -4,11 +4,48 @@ Updated: 2026-11-10
 
 ## Current stage
 
-Prepared version `1.0.0` retains the existing bounded supported profiles. New
-blinded novice observations and actual candidate-to-stable lifecycle exercises
-have passed their independently reviewed criteria. The release label changes no
-runtime authority, state schema or target verdict. Public publication and global
-installation are outside this preparation task.
+Stable version [1.0.0](https://github.com/pooyahayati/Cybersecurity-Skills/releases/tag/v1.0.0)
+was published on 2026-11-10. The public ZIP and checksum were downloaded without
+account credentials and verified byte-for-byte against the approved private
+artifact. The complete manifest and all 117 payload files match the released
+source. Publication changes no runtime authority, state schema or target verdict;
+global installation and customer assessments remain separate operations.
+
+| Published release | Verified identity |
+|---|---|
+| GitHub tag | `v1.0.0`, stable and designated latest at publication |
+| Frozen source | `4e5c838c8c854bba1b5243e850a3db18dde9faff` |
+| Download | [cybersecurity-skills-1.0.0.zip](https://github.com/pooyahayati/Cybersecurity-Skills/releases/download/v1.0.0/cybersecurity-skills-1.0.0.zip) |
+| Archive SHA-256 | `799f02bbee3129220f7fbfaa3d25c0888ee9b3f9a17283396ca21606168a69a4` |
+| Public verification | Archive and checksum bytes match; API asset digests, tag target, package version and complete payload agree |
+| Released-source checks | [Five pre-merge jobs passed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42820796453) and [five post-merge jobs passed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42824285014); 276 tests per matrix job and seven installed Linux suites |
+| Final preparation | Two independent reviews accepted; exact archive reproducibility, Windows/Linux upgrade/recovery and host metadata checks passed; fresh native secret/configuration scans passed |
+
+The archive remains fixed to this source. Later main-branch documentation updates
+improve installation and first use without replacing the published bytes. See the
+[README](README.md) and [release guide](docs/RELEASE-READINESS.md). A stable release
+does not establish general application-security qualification.
+
+The first [PR14 documentation workflow](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42839689219)
+passed three jobs but failed two Windows fixtures: recovery evidence had expired
+before its final checks, and an allowed redirect reached the child deadline.
+The hosted operation timings were not retained, so exact scheduling causes remain
+unproven. Follow-up test-only maintenance gives recovery evidence a 60-second
+lifetime and the redirect-scope fixture a five-second request budget. The actual
+runtime and published archive are unchanged. Recovery's three-second requests,
+60-second recovery limit, wrong-state/elapsed failure assertions, redirect scope,
+aggregate budgets and separate hard-deadline regressions remain protected.
+An added test verifies expired prior evidence cannot change recovery/traffic
+records or restored/backup bytes, trigger a probe or send a request. Independent
+controlled observations preserve the original failure and demonstrate these
+boundaries; they do not establish the original hosted timing. Subsequent delivery
+still requires its own exact-revision checks in the
+[validation history](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml).
+
+## Stable preparation and retained observations
+
+New blinded novice observations and actual candidate-to-stable lifecycle exercises
+passed their independently reviewed criteria within the existing bounded profiles.
 
 | Stable preparation observation | Result | Scope and attribution |
 |---|---|---|
@@ -54,15 +91,16 @@ An independently reviewed monitor-start failure also requires child cleanup.
 The callback itself cannot be forcibly cancelled; the child is stopped while it
 finishes. Runtime correction evidence remains separate from the earlier static
 agent observations and the unproven cause of the first hosted failure. Exact
-corrected delivery checks and independent acceptance remain required.
+corrected delivery checks and independent acceptance were subsequently completed
+for PR13, with the separate observations recorded above.
 
 PR12 was merged after [all five corrected pre-merge jobs passed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42792894719),
 including 272 methods per matrix job and seven installed Linux suites. Its first
 [post-merge run](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42797033299)
 passed four jobs but Windows/Python 3.11 refused an allowed redirect at the child
 deadline. The hosted child's actual exit time was not retained; its exact cause
-cannot be inferred from the exception alone. This remains a failed delivery gate,
-not an erased rerun or a stable-publication approval.
+cannot be inferred from the exception alone. This remains a retained failed
+historical run; the subsequent corrected delivery has its own passing checks.
 
 Independent follow-up reproduced a separate legitimate-path defect: a parent
 observer saw a child terminate before the unchanged deadline, yet delayed valid
@@ -72,8 +110,8 @@ observations still fail, including a deliberately delayed-monitor fixture. Final
 guard rejection still wins after timely child exit, and earlier prohibited-effect
 and monitor-start cleanup checks remain. Overall helper latency may include a
 later callback return; it is not reported as child runtime. The original and
-corrected observations are retained separately from hosted causation. The selected
-follow-up delivery must satisfy fresh exact-source/platform and asset gates.
+corrected observations are retained separately from hosted causation. PR13 then
+satisfied the exact-source/platform and asset gates listed above.
 
 Further independent probes found and reproduced two intermediate defects: a
 resumed main observer could reject an already-observed timely exit, and a monitor
@@ -86,7 +124,8 @@ Both original failures and actual-effect regressions are retained privately.
 ## Completed contention correction
 
 Candidate `1.0.0-rc.4` retains the bounded C2-C6 capabilities and corrects the
-post-merge control-state contention failure. No stable release is published.
+post-merge control-state contention failure. No stable release had been published
+at that historical baseline.
 See the [remaining release gates](docs/RELEASE-READINESS.md#stable-release-checklist)
 and [supported execution profiles](docs/CHECKLIST-EXECUTION.md).
 
@@ -109,8 +148,8 @@ concurrent-budget assertions and add real prohibited-effect/recovery evidence.
 At the `1.0.0-rc.4` baseline, stable preparation still required an exact
 stable-labelled asset, current release-time evidence, affected lifecycle/host
 observations, relevant novice/agent checks and independent final acceptance.
-The current preparation observations are recorded above; publication remains a
-separate decision. Historical M6 behavior measurements and the helper results
+Current publication and preparation observations are recorded above. Historical
+M6 behavior measurements and the helper results
 below do not establish new C2-C6 agent effectiveness.
 Browser/cloud/other-engine expansion is separate optional work, not automatically
 a prerequisite for a release restricted to the documented supported profiles.

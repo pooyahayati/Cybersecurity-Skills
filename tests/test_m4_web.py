@@ -58,14 +58,17 @@ class WebTests(unittest.TestCase):
         other = Server()
         try:
             self.server.handler = lambda path, token: (302, {"Location": "/final"}, b"") if path == "/start" else (200, {}, b"safe")
-            self.world.authorize(self.world.authorization([self.world.route(path="start", redirects=["final"])]))
+            # This case tests redirect scope; hard-deadline regressions are separate.
+            self.world.authorize(self.world.authorization([self.world.route(path="start", redirects=["final"])], timeout_seconds=5))
             self.assertTrue(self.world.execute()["expectation_matched"])
             self.assertEqual([c["path"] for c in self.server.calls], ["/start", "/final"])
+            self.assertEqual(self.world.state.get("web-authority", "web-audit")["seconds_used"], 10)
             self.server.handler = lambda path, token: (302, {"Location": other.url}, b"")
-            self.world.authorize(self.world.authorization(name="escape"))
+            self.world.authorize(self.world.authorization(name="escape", timeout_seconds=5))
             with self.assertRaises(Blocked): self.world.execute(authorization="escape")
             self.assertEqual(other.calls, [])
             self.assertEqual(self.world.state.get("web-authority", "escape")["requests_used"], 1)
+            self.assertEqual(self.world.state.get("web-authority", "escape")["seconds_used"], 5)
         finally: other.close()
 
     def test_unapproved_path_never_contacted_and_budget_cannot_reset(self):

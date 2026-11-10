@@ -162,12 +162,14 @@ No third-party skill is required at runtime and no installer contacts a service.
 
 The follow-up [release-readiness guide](RELEASE-READINESS.md) defines supported
 version channels, offline diagnosis, installed-runtime checks and upgrade limits.
-This milestone prepares a candidate. Stable publication still needs
-explicit release authority, exact-asset verification, current prerequisites,
-supported-scope results and no unresolved required control failure. Neither
+The milestone established candidate qualification; stable `1.0.0` was subsequently
+published and its public downloads verified against the approved artifact.
+Every later stable publication still needs explicit release authority, exact-asset
+verification, current prerequisites, supported-scope results and no unresolved
+required control failure. Neither
 package verification nor structural validation issues an application-security pass.
 
-The ordered remaining release gates and current-candidate evidence limits are in
+The continuing release gates and exact published-asset evidence limits are in
 the [stable-release checklist](RELEASE-READINESS.md#stable-release-checklist).
 Historical host or agent observations must retain their original version and
 scope; recheck affected release-asset behavior rather than relabelling them.

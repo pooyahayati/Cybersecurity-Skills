@@ -11,6 +11,7 @@ import sys
 import threading
 import time
 import unittest
+from unittest.mock import patch
 from urllib.request import Request,build_opener,ProxyHandler,urlopen
 
 from c26_support import ScenarioWorld
@@ -96,10 +97,12 @@ class RecoveryTests(unittest.TestCase):
     def request(self,key,deployment,actor,body=None,path='state'):
         base=self.app.url if deployment=='local' else self.restored_url
         raw=b'' if body is None else canonical(body)
+        # Completed evidence must remain valid across the multi-step restore.
+        # The actual request deadline and the recovery deadline stay separate.
         self.control.traffic.authorize(self.case,{'schema_version':1,'id':key,'deployment':deployment,'profile':'scenario',
             'addresses':['127.0.0.1'],'network':'loopback','ca_sha256':None,'routes':[{'id':key,'url':base+path,'method':'GET' if body is None else 'POST',
             'credential':actor,'body_sha256':sha256(raw),'effect':'read' if body is None else 'synthetic-write'}],
-            'limits':{'requests':1,'seconds':10,'response_bytes':4096,'total_body_bytes':8192,'timeout_seconds':3,'interval_ms':100,'concurrency':1,'expires_at':time.time()+120}})
+            'limits':{'requests':1,'seconds':60,'response_bytes':4096,'total_body_bytes':8192,'timeout_seconds':3,'interval_ms':100,'concurrency':1,'expires_at':time.time()+120}})
         return self.control.traffic.execute(self.case,key,key,raw,self.credentials)['operation']
     def capture(self,max_loss=1):
         spec={'id':'restore','application_binding':'source','oracle':{'path':str(self.app.database),'tables':{'events':['id','data']}},
@@ -165,6 +168,30 @@ class RecoveryTests(unittest.TestCase):
         result=service.finish(self.case,'restore',positive,negative,'owned-proof','restored')
         self.assertEqual(result['outcome'],'failed')
         self.assertFalse(result['checks']['restored_state']);self.assertFalse(result['checks']['recovery_within_budget'])
+        self.assertGreater(result['measured_service_recovery_seconds'],60)
+        self.assertTrue(all(value for key,value in result['checks'].items()
+                            if key not in {'restored_state','recovery_within_budget'}))
+
+    def test_expired_prior_authority_blocks_recovery_without_effects(self):
+        self.capture();positive,negative=self.restore()
+        service=self.control.service_recovery;traffic=self.control.traffic
+        record=self.store.get('service-recovery','restore')
+        protected=[('service-recovery','restore'),('backup-access-operation','owned-proof')]
+        for key in ('prior','rotate','positive','negative'):
+            authority=self.store.get('traffic-authority',key)
+            protected.append(('traffic-authority',key))
+            protected.extend(('traffic-operation',operation) for operation in authority['intents'].values())
+        before={pair:self.store.get(*pair) for pair in protected}
+        files={name:(self.store.root/record[name]).read_bytes() for name in ('backup','restored')}
+        prior=self.store.get('traffic-authority','prior')
+        traffic.clock=lambda:prior['first_request_at']+prior['spec']['limits']['seconds']
+        with patch.object(service,'backup_probe',side_effect=AssertionError('unexpected backup probe')), \
+                patch.object(traffic,'_request',side_effect=AssertionError('unexpected request')):
+            with self.assertRaisesRegex(Blocked,'traffic wall-clock budget exhausted'):
+                service.finish(self.case,'restore',positive,negative,'owned-proof','restored')
+        self.assertEqual({pair:self.store.get(*pair) for pair in protected},before)
+        self.assertEqual({name:(self.store.root/record[name]).read_bytes() for name in files},files)
+        self.assertEqual(self.store.get('service-recovery','restore')['status'],'restored-awaiting-service')
 
 
 if __name__=='__main__':unittest.main()

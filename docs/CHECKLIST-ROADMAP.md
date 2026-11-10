@@ -156,11 +156,13 @@ private receipts, not fixed version requirements in this roadmap.
 C1 planning and the selected C2-C6 profiles are merged. Their measured support
 boundaries and the subsequently observed contention failure/correction are in
 [STATUS.md](../STATUS.md). Their exit requirements below are retained unchanged;
-implementation does not close a target checklist item. Remaining stable release
+implementation does not close a target checklist item. Continuing release
 gates are tracked separately in the [release checklist](RELEASE-READINESS.md#stable-release-checklist).
-Prepared `1.0.0` adds new bounded novice observations and actual candidate upgrade
+Stable `1.0.0` adds new bounded novice observations and actual candidate upgrade
 qualification. These do not replace a target's per-item evidence or expand the
-supported profiles; public publication remains a separate decision.
+supported profiles. The authorized stable release is published and its public
+ZIP/checksum downloads match the approved archive. Future publication remains a
+separate explicit delivery decision.
 
 ## Release decision
 
