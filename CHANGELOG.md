@@ -9,6 +9,11 @@
   interrupted update recovery and explicit previous-archive restoration.
 - Qualify current novice reasoning separately from historical agent results,
   helper fixtures, host registration and public release authorization.
+- Retain independently graded parity on twelve new static requests and three
+  critical observations, with explicit unknown model/settings and access limits.
+- Strengthen the new lifecycle harness's refusal oracle after independent review;
+  verify complete installation/recovery-cache preservation without weakening
+  existing tests or changing runtime behavior.
 
 ## 1.0.0-rc.4 - Post-merge contention and release readiness
 

@@ -27,6 +27,14 @@ and actual candidate upgrade, novice behavior and independent acceptance. Public
 publication and downloaded-asset verification remain a separate delivery decision.
 No stable GitHub release has been published.
 
+Current bounded observations include 12 independently graded novice requests for
+both the previous candidate and prepared version, plus three separate critical
+observations. All met their frozen criteria; this is parity, not a measured
+improvement or a general detection-accuracy claim. Actual archive upgrade and
+recovery also passed on Windows/Linux with authenticated private state and access
+preservation. [Status](STATUS.md) keeps static reasoning, executed lifecycle checks,
+historical runtime evidence and exact delivery gates separate.
+
 ## What this skill is for
 
 This skill helps a novice developer organize and substantiate reviews of source code,

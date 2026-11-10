@@ -163,17 +163,24 @@ print(json.dumps({'authenticated_read':True,'module':str(module.__file__)}))
             assert inventory(unrelated) == unrelated_before, "unrelated skill changed"
             assert access_identity(manager) == manager_access, "manager access changed"
 
+        def refused(*args):
+            owned_before, manager_before = inventory(skills), inventory(manager)
+            cli(*args, expected=2)
+            assert inventory(skills) == owned_before, "refusal changed owned installation files"
+            assert inventory(manager) == manager_before, "refusal changed recovery/cache state"
+            preserved()
+
         update = ("update", "--archive", archive, "--sha256", archive_digest)
-        cli(*update, "--expected-installed-sha256", "0" * 64, *options, expected=2)
+        refused(*update, "--expected-installed-sha256", "0" * 64, *options)
         installed_bytes(target, old_manifest, old_files)
-        cli("update", "--archive", archive, "--sha256", "0" * 64,
-            "--expected-installed-sha256", baseline_digest, *options, expected=2)
+        refused("update", "--archive", archive, "--sha256", "0" * 64,
+                "--expected-installed-sha256", baseline_digest, *options)
         installed_bytes(target, old_manifest, old_files)
         edited = target / "LICENSE"
         original = edited.read_bytes()
         edited.write_bytes(original + b"\nOwned local edit must survive refusal.\n")
         edited_before = inventory(target)
-        cli(*update, "--expected-installed-sha256", baseline_digest, *options, expected=2)
+        refused(*update, "--expected-installed-sha256", baseline_digest, *options)
         assert inventory(target) == edited_before
         preserved()
         # Explicitly restore only this fixture's edit after observing preservation.
@@ -181,7 +188,7 @@ print(json.dumps({'authenticated_read':True,'module':str(module.__file__)}))
         extra = target / "owned-extra-note.txt"
         extra.write_bytes(b"Owned unmanaged note must survive refusal.\n")
         extra_before = inventory(target)
-        cli(*update, "--expected-installed-sha256", baseline_digest, *options, expected=2)
+        refused(*update, "--expected-installed-sha256", baseline_digest, *options)
         assert inventory(target) == extra_before
         preserved()
         assert extra.resolve().parent == target.resolve() and target.parent == skills
@@ -218,8 +225,10 @@ Manager(sys.argv[2],sys.argv[3]).change('update',sys.argv[4],sys.argv[5],sys.arg
                     child.kill()
                     child.wait(timeout=10)
         pending = cli("status", *options)["pending_transaction"]
-        cli("diagnose", *options, expected=2)
-        cli("recover", "--transaction", "0" * 32, *options, expected=2)
+        assert pending["operation"] == "update"
+        assert pending["old"] == baseline_digest and pending["new"] == archive_digest
+        refused("diagnose", *options)
+        refused("recover", "--transaction", "0" * 32, *options)
         assert cli("status", *options)["pending_transaction"] == pending
         preserved()
         recovered = cli("recover", "--transaction", pending["id"], *options)
@@ -248,7 +257,7 @@ Manager(sys.argv[2],sys.argv[3]).change('update',sys.argv[4],sys.argv[5],sys.arg
         private_probe(target, state)
         preserved()
         cli(*update, "--expected-installed-sha256", baseline_digest, *options)
-        cli("uninstall", "--expected-installed-sha256", baseline_digest, *options, expected=2)
+        refused("uninstall", "--expected-installed-sha256", baseline_digest, *options)
         installed_bytes(target, new_manifest, new_files)
         preserved()
         cli("uninstall", "--expected-installed-sha256", archive_digest, *options)

@@ -179,6 +179,8 @@ paths and digests: the previous candidate and the selected stable-labelled asset
 It is a trusted first-party qualification harness, not an untrusted-archive
 inspection tool. It executes installed helpers only after archive verification.
 Keep the trusted manager outside the installation and retain the private output.
+Run it from the reviewed source checkout; tests are not included in the installed
+skill package.
 
 ```sh
 python -I -B tests/release_lifecycle.py --baseline-archive /private/previous.zip --baseline-sha256 REVIEWED_PREVIOUS_SHA256 --archive /private/stable.zip --sha256 REVIEWED_STABLE_SHA256
