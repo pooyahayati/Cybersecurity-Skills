@@ -1,5 +1,7 @@
 """Synthetic Windows timing diagnosis; never substitutes for required checks."""
 import contextlib
+import ctypes
+import gc
 import hashlib
 import io
 import json
@@ -141,17 +143,26 @@ class DiagnosticResult(unittest.TextTestResult):
         try: return super().stopTest(test)
         finally: TEST[0] = None
 
+def counters():
+    return {'ctypes_pointer_cache': len(getattr(ctypes, '_pointer_type_cache', {})), 'gc_count': list(gc.get_count()), 'gc_stats': gc.get_stats()}
+
+def gc_observer(phase, info):
+    event(CURRENT[0], 'gc_' + phase, generation=info.get('generation'), collected=info.get('collected'), uncollectable=info.get('uncollectable'))
+
 def run_phase(name, instrumented):
     before = len(ALL_ROWS)
+    counters_before = counters()
     started = time.monotonic()
     log = io.StringIO()
     with contextlib.ExitStack() as stack:
         if instrumented:
+            gc.callbacks.append(gc_observer)
+            stack.callback(gc.callbacks.remove, gc_observer)
             for owner, attribute, replacement in [(m4_support.RuntimeWorld, 'execute', execute), (web_module.WebController, 'guard', guard), (web_module, 'selected_tree', tree), (m4_support.Server, '__init__', server), (process_module.subprocess, 'Popen', ObservedPopen)]:
                 stack.enter_context(patch.object(owner, attribute, replacement))
         result = unittest.TextTestRunner(stream=log, verbosity=2, resultclass=DiagnosticResult).run(unittest.defaultTestLoader.loadTestsFromTestCase(target.DeliveryTests))
     restored = m4_support.RuntimeWorld.execute is original_execute and web_module.WebController.guard is original_guard and web_module.selected_tree is original_tree and m4_support.Server.__init__ is original_server and subprocess.Popen is original_popen
-    phase = {'name': name, 'instrumented': instrumented, 'tests': result.testsRun, 'success': result.wasSuccessful(), 'errors': len(result.errors), 'failures': len(result.failures), 'seconds': time.monotonic()-started, 'wrappers_restored': restored, 'routes': ALL_ROWS[before:]}
+    phase = {'name': name, 'instrumented': instrumented, 'tests': result.testsRun, 'success': result.wasSuccessful(), 'errors': len(result.errors), 'failures': len(result.failures), 'seconds': time.monotonic()-started, 'wrappers_restored': restored, 'routes': ALL_ROWS[before:], 'counters_before': counters_before, 'counters_after': counters()}
     REPORT['phases'].append(phase)
     print(log.getvalue(), flush=True)
     print('DIAGNOSTIC_PHASE ' + json.dumps({k:v for k,v in phase.items() if k != 'routes'}), flush=True)
