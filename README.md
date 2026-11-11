@@ -74,6 +74,12 @@ A useful report identifies the affected file or route, evidence and confidence,
 customer impact, corrective steps and a retest. Source-only, URL-only and combined
 reviews have different coverage. A proposed fix is not a verified deployed fix.
 
+For the most useful review, describe the rules your application must preserve:
+which roles may access which records, what data is sensitive, and which recent
+changes worry you. These details help the assistant assess your actual business
+rules and explain what remains unverified. Ask it to prioritize findings by impact
+and show how to retest each proposed fix.
+
 For a quick offline planning check, run this from the trusted checkout or installed
 skill directory:
 
@@ -108,22 +114,28 @@ kept separate from confirmed findings.
 
 ## Auxiliary skills and tools
 
-Nothing in this table is installed or activated automatically. Selected resources
-must pass identity, currentness, license, instruction and permission review.
+The skill provides its own instructions and helpers. The table distinguishes
+supported optional tools, candidate skills and tools used to develop this project.
+No upstream skill is enabled by default. Nothing is installed or activated
+automatically; selected resources must pass identity, currentness, license,
+instruction and permission review.
 
-| Resource | Use | Status |
+| Resource | Purpose | Relationship to this skill |
 |---|---|---|
-| [Addy security and hardening](https://github.com/addyosmani/agent-skills/tree/main/skills/security-and-hardening) | Focused secure-development guidance | Optional reviewed source-review resource; disabled by default |
 | [Trivy](https://github.com/aquasecurity/trivy) | Secret/configuration leads and selected current advisory data | Opt-in adapter; binary and advisory data checked separately |
 | [ZAP](https://github.com/zaproxy/zaproxy) | Passive analysis of admitted HTTP captures | Opt-in offline profile; no browser or active scan |
 | [k6](https://github.com/grafana/k6) | Bounded load and concurrency measurements | Opt-in generated workload through the trusted request broker |
 | [Cosign](https://github.com/sigstore/cosign) | Approved-key artifact/provenance verification | Opt-in profile with reviewed key and policy |
 | Docker and official Python image | Bounded offline execution | Required only for operations using that backend; actual isolation must pass preflight |
+| [Addy security and hardening](https://github.com/addyosmani/agent-skills/tree/main/skills/security-and-hardening) | Focused secure-development guidance | Candidate source-review resource; disabled by default |
+| [Cloudflare security audit](https://github.com/cloudflare/security-audit-skill) | Source-grounded evidence, coverage and independent finding verification | Research candidate; not integrated or enabled |
 | [Vibe Coding Skill](https://github.com/pooyahayati/Vibe-Coding-Skill), security and interface specialists | Engineering and review of this repository | Development tools; not dependencies of the installed skill |
 
-Other catalog entries are disabled candidates. See the
-[source review](docs/SOURCE_REVIEW.md) and [catalog](config/sources.json) for their
-status. Docker, scanners and their data are not bundled with this package.
+The [upstream source review](docs/SOURCE_REVIEW.md) is a maintainer research log:
+it explains why repositories were considered and what requires review before
+adoption. A listing there does not mean the skill uses that repository. The
+[source catalog](config/sources.json) records candidate enrollment settings.
+Docker, scanners and their data are not bundled with this package.
 
 ## Practical limits
 
@@ -134,24 +146,9 @@ status. Docker, scanners and their data are not bundled with this package.
 - Package checks and reported findings are not a whole-application security
   verdict. The trusted operator, host account and Docker daemon remain part of the
   trust boundary; same-account compromise is outside local record protection.
-- The stable release preserves `bounded-qualification` and `operational: false`:
-  supported individual operations are qualified; general operational assessment
-  is not. Global installation, autonomous routing and unlisted platforms are not
-  implied by the release.
-
-## Documentation
-
-| Need | Guide |
-|---|---|
-| Release identity, support, upgrade and recovery | [Release guide](docs/RELEASE-READINESS.md) |
-| Current-version checks and bounded execution | [M1 operations](docs/M1-OPERATIONS.md) |
-| Scope, evidence and private reports | [M2 operations](docs/M2-OPERATIONS.md) |
-| Code review and fixes | [M3 operations](docs/M3-OPERATIONS.md) |
-| Web, infrastructure and release observations | [M4 operations](docs/M4-OPERATIONS.md) |
-| Load, recovery and incidents | [M5 operations](docs/M5-OPERATIONS.md) |
-| Additional supported execution profiles | [Checklist execution](docs/CHECKLIST-EXECUTION.md) |
-| Measured results and retained limitations | [Status](STATUS.md) |
-| Future work and contributions | [Roadmap](ROADMAP.md) · [Contributing](CONTRIBUTING.md) |
+- Qualification covers the supported individual operations, not a general
+  operational assessment. The release does not imply automatic global
+  installation, autonomous routing or support for unlisted platforms.
 
 The release ZIP is fixed to its published source commit. This repository's main
 branch can contain later documentation updates; it is not the identity of an
