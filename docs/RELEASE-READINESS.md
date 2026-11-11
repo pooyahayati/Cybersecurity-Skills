@@ -1,12 +1,22 @@
 # Bounded release contract and operator guide
 
-Published stable version `1.0.0` retains the candidate series' bounded controls and
+Version `1.1.0` retains the candidate series' bounded controls and
 opt-in [C2-C6 execution profiles](CHECKLIST-EXECUTION.md)
 alongside the offline [checklist planning profile](CHECKLIST-COVERAGE.md). Their measured
 support boundaries remain separate from each target's unverified item outcomes.
 It is not a general vulnerability detector, a certification, a guarantee against
 compromise or permission to test a system.
 Read [observed results](../STATUS.md) before selecting a capability.
+
+## Version 1.1.0 delivery
+
+The additive package includes optional reviewed Cloudflare source guidance and
+the Windows immutable file-information layout fix. It changes no package/state
+schema, execution authority or process deadline. See the
+[integration guide](CLOUDFLARE-INTEGRATION.md) for its supported role and the
+[README](../README.md#upgrade-an-existing-managed-installation) for upgrade steps.
+Exact qualification, publication status and public asset identities are recorded
+in [STATUS](../STATUS.md). A stable version label alone is not publication approval.
 
 ## Published 1.0.0 identity
 
@@ -52,7 +62,7 @@ and `MAJOR.MINOR.PATCH`, where release major and candidate number start at one.
 Numbers use ASCII digits without leading zeroes. Prefixes, build metadata,
 arbitrary prerelease names and floating labels are unsupported. Archive and skill
 metadata must agree. These label rules apply to package metadata; the GitHub tag
-for this release is `v1.0.0`. Candidate/stable packages must include lifecycle/support
+for version `1.1.0` is `v1.1.0`. Candidate/stable packages must include lifecycle/support
 content. The skill header accepts only its documented plain-scalar fields and
 one `metadata` mapping with one author and version; duplicate keys, YAML aliases,
 tags, quoted/block scalars, invalid controls/separators, trailing colons and

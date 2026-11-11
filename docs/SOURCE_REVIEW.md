@@ -10,7 +10,7 @@ the current source, adopted paths and licenses before any integration.
 |---|---|---|
 | [briiirussell/cybersecurity-skills](https://github.com/briiirussell/cybersecurity-skills) | Broad application/API assessment, business logic, finding triage, secrets, dependencies, cloud/container/CI reviews | Adapt evidence paths, scope and authorization defaults; review individual skills rather than importing the collection |
 | [trailofbits/skills](https://github.com/trailofbits/skills) | Deep source context, differential review, false-positive checks, variant analysis and post-patch validation | Review CC-BY-SA-4.0 obligations; adapt heavy workflow assumptions and retain unresolved findings rather than forcing binary outcomes |
-| [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill) | Evidence quality, refutation and source-bound coverage | Opt-in source-guidance adapter implemented on main; no full upstream audit, runtime execution or patching; not in published `1.0.0` |
+| [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill) | Evidence quality, refutation and source-bound coverage | Opt-in source-guidance adapter in `1.1.0`; no full upstream audit, runtime execution or patching; absent from `1.0.0` |
 | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | Secure-development baseline and focused hardening guidance | The security-auditor persona is not a complete assessment lifecycle; reconcile composition and approval defaults |
 | [openai/skills](https://github.com/openai/skills) | Historical reference only | Upstream declares this catalog deprecated; disabled and unsuitable for new enrollment |
 | [openai/plugins](https://github.com/openai/plugins/tree/main/plugins/codex-security) | Selected threat-model, source-review and validation resources | Current successor candidate, not a drop-in independent runtime; review host/protocol requirements and exact resource licensing |
@@ -40,8 +40,8 @@ and independent confirmation requirements are not implemented by this adapter.
 Do not infer those capabilities from a source-guidance trace.
 
 The [integration guide](CLOUDFLARE-INTEGRATION.md) documents currentness, resource
-selection, native trace provenance, license obligations and the unreleased-head
-boundary. This is a compatibility/adoption decision, not a comparative finding-
+selection, native trace provenance, license obligations and the published-head
+requirement. This is a compatibility/adoption decision, not a comparative finding-
 detection benchmark or proof that every upstream instruction is safe.
 
 ## Checklist-driven candidate decisions

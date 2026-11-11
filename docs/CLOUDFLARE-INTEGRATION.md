@@ -2,21 +2,20 @@
 
 ## Availability and purpose
 
-The main branch implements an opt-in adapter for
+Version `1.1.0` includes an opt-in adapter for
 [Cloudflare's security-audit skill](https://github.com/cloudflare/security-audit-skill).
 It helps an assistant inspect source trust boundaries, examine counterevidence
 and explain findings. It supplies reviewed guidance to the independent mother
 skill; it is not an autonomous Cloudflare audit engine or an accuracy guarantee.
 
-This addition is **unreleased**. The immutable published `1.0.0` archive does not
-contain it. The current-head policy still selects the latest stable mother-skill
-release: a modified main checkout cannot pass that public head check merely by
-retaining version `1.0.0`. Ordinary operational use awaits a separately qualified
-release containing this adapter. Disposable fixture-publisher qualification is
-not a public-currentness bypass. Do not override the policy or replace the stable
-archive to try the adapter.
+The immutable `1.0.0` archive does not contain this adapter. Install a published
+stable release containing it; publication and download observations are recorded
+in [STATUS](../STATUS.md). The current-head policy selects the latest stable
+mother-skill release. Neither an unpublished version label nor disposable
+fixture-publisher qualification bypasses that check. Do not override the policy
+or replace an existing published archive to try the adapter.
 
-An eventual upgrade changes the source-review engine identity. Preserve historical
+Upgrading from `1.0.0` changes the source-review engine identity. Preserve historical
 evidence and create new assessment IDs after upgrading; old cases cannot be
 relabeled as current. Existing native and Addy command inputs remain compatible
 for new cases. See the [release/upgrade contract](RELEASE-READINESS.md).

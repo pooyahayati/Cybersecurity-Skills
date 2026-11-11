@@ -174,10 +174,14 @@ the [stable-release checklist](RELEASE-READINESS.md#stable-release-checklist).
 Historical host or agent observations must retain their original version and
 scope; recheck affected release-asset behavior rather than relabelling them.
 
-## Actual candidate-to-stable lifecycle qualification
+## Actual baseline-to-stable lifecycle qualification
 
 `tests/release_lifecycle.py` accepts two actual, independently reviewed archive
-paths and digests: the previous candidate and the selected stable-labelled asset.
+paths and digests: a previous release candidate or stable release, and the selected
+stable-labelled asset. The qualification pair must move forward in version and
+use distinct source revisions. A same-core release candidate may advance to its
+stable version. This selection rule does not remove explicit historical
+restoration from the lifecycle exercise or change the package manager's policy.
 It is a trusted first-party qualification harness, not an untrusted-archive
 inspection tool. It executes installed helpers only after archive verification.
 Keep the trusted manager outside the installation and retain the private output.
@@ -188,8 +192,9 @@ skill package.
 python -I -B tests/release_lifecycle.py --baseline-archive /private/previous.zip --baseline-sha256 REVIEWED_PREVIOUS_SHA256 --archive /private/stable.zip --sha256 REVIEWED_STABLE_SHA256
 ```
 
-The harness observes fresh installation, actual candidate upgrade, refusal of
-wrong identities and edited content, termination during the real update,
+The harness records the baseline version/channel and observes fresh installation,
+actual baseline upgrade, refusal of wrong identities and edited content,
+termination during the real update,
 explicit recovery, restoration of the previous archive, re-upgrade and uninstall.
 It checks original authenticated private records through the installed versions,
 backup readability, exact retained bytes and owner/access metadata, unrelated

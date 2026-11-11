@@ -28,6 +28,29 @@ def versioned(files, version):
 
 
 class ReleaseTests(unittest.TestCase):
+    def test_release_lifecycle_accepts_candidate_and_stable_forward_baselines(self):
+        from release_lifecycle import validate_release_pair
+        for before, after in [("1.0.0-rc.6", "1.0.0"), ("1.0.0", "1.1.0"),
+                              ("1.9.9", "1.10.0")]:
+            with self.subTest(before=before, after=after):
+                validate_release_pair({"version": before, "source_revision": "a" * 40},
+                                      {"version": after, "source_revision": "b" * 40})
+
+    def test_release_lifecycle_refuses_invalid_pairs_before_creating_installation(self):
+        from release_lifecycle import run
+        for before, after, source in [("0.7.0-dev", "1.1.0", "b"),
+                ("1.0.0", "1.1.0-rc.1", "b"), ("1.1.0", "1.0.0", "b"),
+                ("1.1.0", "1.1.0", "b"), ("1.2.0-rc.1", "1.1.0", "b"),
+                ("1.0.0", "1.1.0", "a")]:
+            with self.subTest(before=before, after=after, source=source):
+                records = [(None, {"version": before, "source_revision": "a" * 40}, {}),
+                           (None, {"version": after, "source_revision": source * 40}, {})]
+                with patch("release_lifecycle.read_archive", side_effect=records), \
+                        patch("release_lifecycle.tempfile.mkdtemp") as create:
+                    with self.assertRaises(AssertionError):
+                        run(Path("old.zip"), "a" * 64, Path("new.zip"), "b" * 64)
+                    create.assert_not_called()
+
     def test_ambiguous_frontmatter_blocks_packaging_install_and_structure(self):
         import io
         import zipfile

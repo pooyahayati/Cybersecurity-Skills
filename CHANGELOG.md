@@ -1,6 +1,14 @@
 # Changelog
 
-## Unreleased maintenance
+## 1.1.0 - 2026-11-11
+
+- Prepare the additive stable package containing optional Cloudflare guidance.
+  Preserve the `1.0.0` release, package/state schemas and bounded capability scope.
+- Extend actual release lifecycle qualification to reviewed stable baselines as
+  well as release candidates. Reject non-forward qualification pairs before
+  installation; keep explicit restoration and every refusal/recovery assertion.
+- Explain fresh installation and upgrade using the same owned management state,
+  reviewed new/installed digests and fresh assessment identities after upgrading.
 
 - Reuse the immutable Windows file-information structure so repeated captures
   do not retain a new ctypes pointer type for every file. Files, handles, path
@@ -14,7 +22,7 @@
   packets and invalid authority before trace writes. Preserve public adapter/mode
   enums during report redaction while continuing to mask private prose.
 - Document MIT license compatibility, acquired-versus-distributed resources,
-  qualified scope and the unreleased main versus immutable `1.0.0` boundary.
+  qualified scope and the new package versus immutable `1.0.0` boundary.
 - Simplify the main-branch README around managed installation, first review,
   supported security operations, optional tools and linked specialist guides.
 - Record the public release and successful anonymous download verification while
@@ -24,7 +32,7 @@
   expired-evidence refusal with unchanged records, files and no probe/request.
 - Use a five-second request budget only in the redirect-scope fixture, retaining
   aggregate limits and checking consumed time. Hard-deadline regressions remain
-  unchanged. These test-only changes do not replace the published archive.
+  unchanged. These test-only changes did not replace the published `1.0.0` archive.
 
 ## 1.0.0 - 2026-11-10
 
