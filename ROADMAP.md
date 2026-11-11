@@ -221,11 +221,14 @@ delivery. [Status](STATUS.md) records measured verification and delivery; the
 [integration guide](docs/CLOUDFLARE-INTEGRATION.md) explains use.
 
 The integration was merged in PR16 with all five post-merge checks passing.
-The user then authorized stable `1.1.0`. Its preparation qualifies the exact
-package, fresh installation, actual `1.0.0` upgrade/recovery, current native scans,
-independent review and hosted checks before publication; the public download must
-then match that approved artifact. Published `1.0.0` remains immutable. Actual
-completion and artifact identities belong in [STATUS](STATUS.md).
+The authorized stable `1.1.0` was then published after exact-package Windows/Linux
+installation and actual `1.0.0` upgrade/recovery checks, current native scans,
+independent security/interface acceptance and all five pre-merge and post-merge
+jobs passed. Anonymous public ZIP/checksum downloads match the approved artifact;
+current-head resolution selects the new release. Published `1.0.0` remains
+immutable. [STATUS](STATUS.md) records exact identities, evidence and limits.
+Future capability work remains separately scoped; this release does not authorize
+customer scans, global installation or deployment.
 
 Recheck upstream changes, license constraints, advisories, tool/rule data and
 behavior regressions. Open maintenance work from observed changes. Scheduled

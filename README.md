@@ -5,8 +5,9 @@ websites and delivery environments, protect customer data, investigate weaknesse
 and propose fixes with concrete retests. It works with existing projects regardless
 of how they were built. No other head skill is required.
 
-**Version 1.1.0** includes optional Cloudflare source-review guidance. Install only a
-[published stable release](https://github.com/pooyahayati/Cybersecurity-Skills/releases).
+**[Stable version 1.1.0](https://github.com/pooyahayati/Cybersecurity-Skills/releases/tag/v1.1.0)**
+includes optional Cloudflare source-review guidance. Use the named release package
+and follow the managed installation or upgrade steps below.
 The skill supports the bounded operations below. It does not certify that an
 application is secure or provide unrestricted penetration testing.
 

@@ -2,7 +2,10 @@
 
 ## 1.1.0 - 2026-11-11
 
-- Prepare the additive stable package containing optional Cloudflare guidance.
+- Publish stable `1.1.0` containing optional Cloudflare guidance from source
+  `03db99364cab9c845a8a9aa01fc5f04469f0845a`. Anonymous public ZIP/checksum
+  downloads match the approved artifact; Windows/Linux installation and actual
+  `1.0.0` upgrade/recovery, independent review and pre/post-merge checks passed.
   Preserve the `1.0.0` release, package/state schemas and bounded capability scope.
 - Extend actual release lifecycle qualification to reviewed stable baselines as
   well as release candidates. Reject non-forward qualification pairs before
@@ -25,8 +28,8 @@
   qualified scope and the new package versus immutable `1.0.0` boundary.
 - Simplify the main-branch README around managed installation, first review,
   supported security operations, optional tools and linked specialist guides.
-- Record the public release and successful anonymous download verification while
-  retaining the exact published source and archive identities.
+- Record the initial `1.0.0` public release and its anonymous download verification
+  while retaining that original published source and archive identity.
 - Give multi-step recovery fixtures a 60-second evidence lifetime while keeping
   their three-second request and 60-second recovery limits distinct. Add explicit
   expired-evidence refusal with unchanged records, files and no probe/request.

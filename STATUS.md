@@ -2,15 +2,44 @@
 
 Updated: 2026-11-11
 
-## Version 1.1.0 release preparation
+## Current stage: stable 1.1.0 published
 
-The user has authorized a new stable release containing the already merged
-Cloudflare adapter and Windows metadata-allocation fix. Version `1.1.0` is selected
-for this additive change. The existing published `1.0.0` remains immutable.
-Exact-asset installation, actual `1.0.0` upgrade/recovery on Windows/Linux, current
-native source/artifact scans, independent review and required hosted delivery
-checks must pass before publication. Public download verification is a later
-observed gate, not an implication of this preparation entry.
+Stable [1.1.0](https://github.com/pooyahayati/Cybersecurity-Skills/releases/tag/v1.1.0) was published on 2026-11-11 with the optional Cloudflare
+source-guidance adapter and Windows file-capture resource fix. Both public assets
+were downloaded without account credentials and matched the approved private
+files byte-for-byte. Official current-head resolution selects this stable release.
+The original `1.0.0` tag and both assets were rechecked and remain unchanged.
+
+| Published release | Verified identity or observation |
+|---|---|
+| Tag | `v1.1.0`, stable and designated latest at verification |
+| Frozen source | `03db99364cab9c845a8a9aa01fc5f04469f0845a` |
+| Download | [cybersecurity-skills-1.1.0.zip](https://github.com/pooyahayati/Cybersecurity-Skills/releases/download/v1.1.0/cybersecurity-skills-1.1.0.zip) |
+| Archive SHA-256 | `e8c1b70a2b5688968073e7e98a9b2b6c92cf3f5b7fef31c1990f65c12b4d68c5` |
+| Public verification | Named ZIP and checksum match approved bytes; API asset digests, tag target, manifest and all 121 payload files agree |
+| Exact-source delivery | [Five pre-merge jobs passed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/43012740002) and [five post-merge jobs passed](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/43017438636), both first attempt; four matrices each ran 293 tests, and seven installed Linux suites passed |
+| Final artifact | Reproducible archive; all five post-merge hosted package observations match the approved source and ZIP digest |
+| Installation and upgrade | Actual published `1.0.0` to this exact `1.1.0` archive passed on Windows/Linux: fresh install, wrong-identity/local-edit/unmanaged-file refusals, private state/access/backup preservation, interrupted-upgrade recovery, explicit restoration and uninstall |
+| Retained lifecycle evidence | Each final platform run retained 28 operations and 56 hash-verified output logs; seven expected refusals remained refusals |
+| Review and scans | Two independent final reviews accepted; current native source/extracted-artifact secret/configuration scans reported no findings; no required finding remains open |
+| Public guide check | Actual public tag clone and named downloaded ZIP passed the documented fresh install, diagnosis and managed `1.0.0` upgrade in owned Windows directories; the prior recovery checkout was preserved |
+| Host registration | Exact final package discovered at its owned project path; metadata only, no model invocation, autonomous routing or runtime-readiness claim |
+
+An initial private Linux collector used a temporary in-memory evidence directory
+that disappeared after container exit. Its actual process result remains retained
+without claiming missing raw records. The corrected owned-volume collector and
+final run preserve and verify all records before removing only their owned
+container/volume. Independent review also corrected a README clone-directory
+collision by retaining the previous recovery checkout and using a new versioned
+checkout. Neither correction weakened product assertions or execution limits.
+The local focused suite passed 29 tests with one existing Windows symlink-fixture
+skip; full hosted Linux coverage is separately recorded above.
+
+The immutable release archive remains bound to the frozen source above. Later
+main-branch status documentation does not replace that artifact. These observations
+qualify the package within its supported scope, not customer-application security
+or new model detection accuracy. Historical agent observations remain separately
+attributed below. No global installation, customer assessment or deployment occurred.
 
 ## Cloudflare integration qualification
 
@@ -27,7 +56,7 @@ orchestrator, Node validators and artifact-promotion system are not executed or
 qualified. See [the scope and usage guide](docs/CLOUDFLARE-INTEGRATION.md).
 
 This capability is absent from the published `1.0.0` archive and included in the
-`1.1.0` preparation. Main cannot bypass the stable-head currentness check. Use a
+published `1.1.0`. Main cannot bypass the stable-head currentness check. Use a
 published qualified release; test publishers establish only the declared qualification
 scope. Delivery acceptance uses exact-revision pre-merge and post-merge checks in
 the [validation history](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml).
@@ -92,7 +121,7 @@ before the unchanged assertion passed all 65 CLI commands and 26 operations.
 The first failure remains recorded with its cause unproven; it is not relabelled
 as a successful run or proof that the Windows resource fix caused it.
 
-## Current stage
+## Historical 1.0.0 publication
 
 Stable version [1.0.0](https://github.com/pooyahayati/Cybersecurity-Skills/releases/tag/v1.0.0)
 was published on 2026-11-10. The public ZIP and checksum were downloaded without
