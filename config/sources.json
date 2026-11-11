@@ -26,9 +26,9 @@
       "id": "cloudflare-audit",
       "kind": "skill",
       "repository": "https://github.com/cloudflare/security-audit-skill",
-      "status": "candidate",
+      "status": "adapter-available",
       "enabled": false,
-      "purpose": "Source audit evidence and refutation methods."
+      "purpose": "Optional reviewed source-guidance packets and attributable traces; no upstream full-audit execution."
     },
     {
       "id": "addy-hardening",

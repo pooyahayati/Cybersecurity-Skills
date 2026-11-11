@@ -18,7 +18,7 @@ def main(argv=None):
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("init")
     commands.add_parser("create").add_argument("file", type=Path)
-    for name in ("scan", "trace", "propose", "test", "accept", "observe", "finding", "decide", "coverage", "link"):
+    for name in ("scan", "guidance", "trace", "propose", "test", "accept", "observe", "finding", "decide", "coverage", "link"):
         command = commands.add_parser(name)
         command.add_argument("assessment")
         command.add_argument("file", type=Path)

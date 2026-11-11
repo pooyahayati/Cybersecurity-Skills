@@ -90,6 +90,13 @@ coverage gap. A critical advisory or revoked component invalidates affected work
 
 ## Foundation impact analysis
 
+The optional Cloudflare source-guidance adapter now consumes current reviewed M1
+components through an authenticated, case/domain/run-bound packet. Native M3
+traces retain its resource/review provenance without executing upstream code or
+confirming findings automatically. The mother head owns authority and remediation.
+See [the integration contract](CLOUDFLARE-INTEGRATION.md); this main-branch addition
+does not change the immutable published `1.0.0` package.
+
 The initial change affects instructions, catalogs, documentation, a read-only
 validator and development CI. It does not inspect a customer's application, fetch
 upstream skills, execute target code or enforce runtime authorization. The main

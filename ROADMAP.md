@@ -210,6 +210,20 @@ and customer execution remain separately authorized actions.
 
 ## Maintenance after a stable release
 
+### Optional Cloudflare source-guidance integration
+
+Implement the current reviewed official skill as a subordinate, read-only guidance
+module: license/compatibility review, explicit resource selection, authenticated
+case/domain/run provenance and native source traces. Preserve independent mother
+authority, strict freshness, meaningful negative/legitimate tests and evidence
+limitations. Full upstream orchestration and Node validation are outside this
+delivery. [Status](STATUS.md) records measured verification and delivery; the
+[integration guide](docs/CLOUDFLARE-INTEGRATION.md) explains use.
+
+The code is a main-branch addition, not a replacement for the released `1.0.0`
+archive. A subsequent separately authorized release must qualify its own package,
+installation/upgrade and public artifact before ordinary stable-head use.
+
 Recheck upstream changes, license constraints, advisories, tool/rule data and
 behavior regressions. Open maintenance work from observed changes. Scheduled
 assessment or production monitoring requires a separate explicit configuration;

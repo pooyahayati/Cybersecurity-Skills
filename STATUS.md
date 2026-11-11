@@ -1,6 +1,50 @@
 # Project status
 
-Updated: 2026-11-10
+Updated: 2026-11-11
+
+## Unreleased Cloudflare integration
+
+Main adds an opt-in `cloudflare-audit` source-guidance adapter. Official publisher
+identity and current source are resolved through the existing controller, with
+license/instruction review before activation. Private packets select relevant
+resources and bind case, source, domain, run, authority and review hashes. Native
+traces retain that provenance; they remain `operator_source_review` and cannot
+establish a whole-application verdict or automatically confirm a finding.
+
+The reviewed upstream MIT license permits the adapter with retained notices;
+upstream content is acquired privately and not vendored. Its full six-phase
+orchestrator, Node validators and artifact-promotion system are not executed or
+qualified. See [the scope and usage guide](docs/CLOUDFLARE-INTEGRATION.md).
+
+This capability is absent from the published `1.0.0` archive. Main cannot bypass
+the stable-head currentness check: normal operational use awaits a separately
+qualified release. Test publishers establish only the declared qualification
+scope. Delivery acceptance uses exact-revision pre-merge and post-merge checks in
+the [validation history](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml).
+
+| Integration observation | Measured scope |
+|---|---|
+| Adapter regressions | 13 focused tests passed, including scoped positive use, actual operation/authorization inventory preservation, resource/review changes, cancellation, expiry and public-enum redaction |
+| Independent security probes | Six additional boundary probes passed; a controlled inserted operation demonstrated the corrected denial-test oracle detects state changes |
+| Existing source workflow | 65 public CLI commands and 26 real bounded operations passed on synthetic source; incomplete/deny-all/deny-after-write fixes remain rejected and legitimate behavior preserved |
+| Actual upstream acquisition | Official current resolution, all acquired files against original Git objects, explicit six-area review and an unmocked public guidance CLI passed; no target operation ran |
+| Bounded agent observation | Previous instructions and candidate each met the frozen criteria for four synthetic requests: vulnerable/safe source, required-unavailable guidance and source/deployment mismatch |
+
+The agent comparison used separate fresh participants with actual prior/candidate
+instructions, supplied static-review preconditions and no expected answers. It
+measures these single source-reasoning observations only, not model reliability,
+new packet admission or superiority in detection. Exact model/sampling settings
+were not exposed. Currentness/helper behavior is established separately above.
+
+Initial observations remain retained: an incomplete common-resource selection,
+public-enum masking and a denial-test oracle that did not observe actual operation
+records were corrected and rechecked. One local existing test stopped correctly
+when a documentation edit changed its bound head during execution; its frozen
+rerun passed. A transient upstream acquisition failure blocked without fallback;
+the original network cause is unproven. A later byte-comparison failure was traced
+to Windows checkout line endings; exact Git-object comparison and explicit text
+equivalence passed. None of these failures was converted into a pass by weakening
+execution, authority or source-identity controls.
 
 ## Current stage
 

@@ -1,0 +1,12 @@
+{
+  "id": "cloudflare-audit",
+  "kind": "skill",
+  "repository": "cloudflare/security-audit-skill",
+  "repository_id": 1273427276,
+  "owner_id": 314135,
+  "include": ["LICENSE", "skills/security-audit"],
+  "asset": null,
+  "max_download_bytes": 2097152,
+  "max_unpacked_bytes": 8388608,
+  "data_max_age_seconds": null
+}
