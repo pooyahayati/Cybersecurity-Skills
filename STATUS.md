@@ -54,6 +54,15 @@ passed six original tests but exposed ctypes pointer-cache growth from 3 to
 establishes resource accumulation; a focused pass does not establish the cause
 of the earlier full-suite deadline failures.
 
+The [original ordered-suite diagnosis](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42997115836)
+then reproduced the same failure: 290 tests, one error. After 389,199 retained
+pointer-cache entries, a generation-two collection paused the parent for
+4.328 seconds during the owner-identity request. The process-poll gap matched
+that interval; no fixture request was handled, and the first observed child exit
+was 124, consistent with its own watchdog. This establishes the observed failure
+path. Instrumentation can affect timing; the original two attempts did not retain
+equivalent observations, so their exact chronology is not asserted.
+
 The fix reuses only the immutable Windows structure layout, retaining per-read
 file opening, path/handle/metadata checks, current bytes and all original process
 deadlines. A real-file regression rewrites 128 values and checks 256 fresh byte
@@ -62,6 +71,16 @@ Python 3.12, it rejected the old code's growth from 21 to 277 entries and passed
 with the fix. Ordered-suite timing diagnostics and final uninstrumented delivery
 checks are retained separately in the [integration review](https://github.com/pooyahayati/Cybersecurity-Skills/pull/16);
 diagnostic results never replace required pre-merge or post-merge checks.
+The new regression's allocation counter applies to the affected legacy Windows
+dictionary cache. An initial Python 3.15 run exposed an opaque cache without a
+length API; the portable test retains all real-file assertions on every runtime.
+
+One local installed-package workflow stopped at its final proposal with the
+public CLI's generic refusal. The original inner reason was not retained. A
+same-package diagnostic repetition that only retained unexpected child output
+before the unchanged assertion passed all 65 CLI commands and 26 operations.
+The first failure remains recorded with its cause unproven; it is not relabelled
+as a successful run or proof that the Windows resource fix caused it.
 
 ## Current stage
 

@@ -252,6 +252,11 @@ class ParsingTests(unittest.TestCase):
             sample.write_bytes(b"warm-up")
             self.assertEqual(read_file(root, "sample"), b"warm-up")
             pointer_cache = getattr(ctypes, "_pointer_type_cache", None)
+            # The retained-allocation counter applies to the legacy Windows
+            # dictionary cache; newer CPython exposes an opaque private object.
+            # Fresh-file and handle-lifetime assertions run on every runtime.
+            if os.name != "nt" or not isinstance(pointer_cache, dict):
+                pointer_cache = None
             before = len(pointer_cache) if pointer_cache is not None else None
             for index in range(128):
                 content = ("fresh capture " + str(index)).encode("ascii")
@@ -261,7 +266,7 @@ class ParsingTests(unittest.TestCase):
                 self.assertEqual(read_file(root, "sample"), content)
                 self.assertEqual(read_file(root, "sample", hash_only=True),
                                  hashlib.sha256(content).hexdigest())
-            if os.name == "nt" and pointer_cache is not None:
+            if pointer_cache is not None:
                 self.assertLessEqual(len(pointer_cache), before,
                                      "file captures retained new ctypes pointer types")
             sample.unlink()
