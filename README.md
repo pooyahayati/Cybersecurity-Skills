@@ -5,8 +5,9 @@ websites and delivery environments, protect customer data, investigate weaknesse
 and propose fixes with concrete retests. It works with existing projects regardless
 of how they were built. No other head skill is required.
 
-**Stable release: [1.0.0](https://github.com/pooyahayati/Cybersecurity-Skills/releases/tag/v1.0.0).**
-This release supports the bounded operations below. It does not certify that an
+**Version 1.1.0** includes optional Cloudflare source-review guidance. Install only a
+[published stable release](https://github.com/pooyahayati/Cybersecurity-Skills/releases).
+The skill supports the bounded operations below. It does not certify that an
 application is secure or provide unrestricted penetration testing.
 
 ## Install
@@ -15,15 +16,15 @@ You need an AI coding assistant that supports `SKILL.md` and trusted Python 3.11
 for the helpers. Windows and Linux are tested. Git is used below to obtain the
 trusted management tool; no third-party Python packages are needed.
 
-1. Download **`cybersecurity-skills-1.0.0.zip`** and its **`.sha256`** file from
-   [the release](https://github.com/pooyahayati/Cybersecurity-Skills/releases/tag/v1.0.0).
+1. Download **`cybersecurity-skills-1.1.0.zip`** and its **`.sha256`** file from
+   [the release](https://github.com/pooyahayati/Cybersecurity-Skills/releases/tag/v1.1.0).
    The automatically generated GitHub source archives are different files.
 2. Review the publisher and release notes. Obtain the management tool in a
    separate directory, outside the installation you will manage:
 
    ```sh
-   git clone --branch v1.0.0 --depth 1 https://github.com/pooyahayati/Cybersecurity-Skills.git trusted-cybersecurity-skills
-   cd trusted-cybersecurity-skills
+   git clone --branch v1.1.0 --depth 1 https://github.com/pooyahayati/Cybersecurity-Skills.git trusted-cybersecurity-skills-1.1.0
+   cd trusted-cybersecurity-skills-1.1.0
    ```
 
 3. Choose an **existing, host-supported skills directory**, such as a project's
@@ -32,11 +33,14 @@ trusted management tool; no third-party Python packages are needed.
    Use your own absolute paths below; Windows paths such as `C:/Users/you/...` work.
 
    ```sh
-   python -I -B scripts/m6_package.py inspect --archive /absolute/downloads/cybersecurity-skills-1.0.0.zip --sha256 799f02bbee3129220f7fbfaa3d25c0888ee9b3f9a17283396ca21606168a69a4
-   python -I -B scripts/m6_package.py install --archive /absolute/downloads/cybersecurity-skills-1.0.0.zip --sha256 799f02bbee3129220f7fbfaa3d25c0888ee9b3f9a17283396ca21606168a69a4 --skills-root /absolute/project/.agents/skills --state /absolute/private/cybersecurity-package-manager
+   python -I -B scripts/m6_package.py inspect --archive /absolute/downloads/cybersecurity-skills-1.1.0.zip --sha256 REVIEWED_ARCHIVE_SHA256
+   python -I -B scripts/m6_package.py install --archive /absolute/downloads/cybersecurity-skills-1.1.0.zip --sha256 REVIEWED_ARCHIVE_SHA256 --skills-root /absolute/project/.agents/skills --state /absolute/private/cybersecurity-package-manager
    python -I -B scripts/m6_package.py diagnose --skills-root /absolute/project/.agents/skills --state /absolute/private/cybersecurity-package-manager
    ```
 
+   Replace `REVIEWED_ARCHIVE_SHA256` with the 64-character digest in the reviewed
+   release's checksum file. The helper checks the downloaded bytes against it;
+   a checksum alone does not authenticate the publisher.
    Stop if inspection or installation is blocked. Do not force an overwrite or
    replace an existing skill directory manually. See the
    [upgrade, recovery and uninstall commands](docs/M6-QUALIFICATION.md#owned-installation-lifecycle).
@@ -49,6 +53,29 @@ Inspection verifies the package bytes, not publisher identity or currentness.
 Before an assessment, the skill still checks the current approved head, selected
 tools and rule/advisory data. Missing current evidence blocks the affected work.
 Keep the trusted management checkout available for future recovery.
+
+### Upgrade an existing managed installation
+
+Download and review the new release, and obtain its trusted management checkout
+as above in a new directory. Retain the previous management checkout for recovery;
+do not delete or overwrite it. Run the new tool outside the skill being upgraded.
+Reuse the **same skills root
+and private management path** from the original installation; do not create a
+second manager or overwrite the installed directory manually.
+
+```sh
+python -I -B scripts/m6_package.py diagnose --skills-root /absolute/project/.agents/skills --state /absolute/private/cybersecurity-package-manager
+python -I -B scripts/m6_package.py update --archive /absolute/downloads/cybersecurity-skills-1.1.0.zip --sha256 REVIEWED_ARCHIVE_SHA256 --expected-installed-sha256 OBSERVED_INSTALLED_SHA256 --skills-root /absolute/project/.agents/skills --state /absolute/private/cybersecurity-package-manager
+python -I -B scripts/m6_package.py diagnose --skills-root /absolute/project/.agents/skills --state /absolute/private/cybersecurity-package-manager
+```
+
+Replace `OBSERVED_INSTALLED_SHA256` with `installed_archive_sha256` from the first
+diagnosis. Preserve private assessment state and backups outside the installation.
+Local edits, extra files or an identity mismatch block the update for review.
+Reload the skill afterward and start new assessment IDs: old evidence remains
+historical, and currentness checks must pass again. See the
+[recovery guide](docs/M6-QUALIFICATION.md#owned-installation-lifecycle) if an update
+is interrupted.
 
 ## Start your first review
 
@@ -128,7 +155,7 @@ instruction and permission review.
 | [Cosign](https://github.com/sigstore/cosign) | Approved-key artifact/provenance verification | Opt-in profile with reviewed key and policy |
 | Docker and official Python image | Bounded offline execution | Required only for operations using that backend; actual isolation must pass preflight |
 | [Addy security and hardening](https://github.com/addyosmani/agent-skills/tree/main/skills/security-and-hardening) | Focused secure-development guidance | Candidate source-review resource; disabled by default |
-| [Cloudflare security audit](https://github.com/cloudflare/security-audit-skill) | Source trust boundaries, counterevidence and focused review guidance | Opt-in guidance adapter on main, unreleased; absent from `1.0.0`; no upstream full-audit execution |
+| [Cloudflare security audit](https://github.com/cloudflare/security-audit-skill) | Source trust boundaries, counterevidence and focused review guidance | Opt-in guidance adapter starting with `1.1.0`; no upstream full-audit execution |
 | [Vibe Coding Skill](https://github.com/pooyahayati/Vibe-Coding-Skill), security and interface specialists | Engineering and review of this repository | Development tools; not dependencies of the installed skill |
 
 The [upstream source review](docs/SOURCE_REVIEW.md) is a maintainer research log:
@@ -142,8 +169,8 @@ The [Cloudflare integration guide](docs/CLOUDFLARE-INTEGRATION.md) explains its
 license, resource selection, private guidance packets and source traces. The
 adapter keeps the mother skill in control of access, confirmation and fixes. It
 requires current reviewed upstream resources and cannot silently use an older
-copy. Public operational use awaits a qualified release containing the adapter;
-the current-head check must not be bypassed to run unpublished main code.
+copy. Use a published release containing the adapter and pass the ordinary
+current-head checks; a version label in an unpublished checkout is insufficient.
 
 ## Practical limits
 

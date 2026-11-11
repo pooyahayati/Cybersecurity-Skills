@@ -60,12 +60,21 @@ def inventory(root):
     return result
 
 
+def validate_release_pair(old_manifest, new_manifest):
+    """Select a forward qualification; restoration is exercised separately."""
+    old_channel = channel(old_manifest["version"])
+    assert old_channel in {"release-candidate", "stable"}
+    assert channel(new_manifest["version"]) == "stable"
+    assert old_manifest["source_revision"] != new_manifest["source_revision"]
+    old_core = tuple(map(int, old_manifest["version"].split("-", 1)[0].split(".")))
+    new_core = tuple(map(int, new_manifest["version"].split(".")))
+    assert old_core < new_core or (old_channel == "release-candidate" and old_core == new_core)
+
+
 def run(baseline, baseline_digest, archive, archive_digest):
     _, old_manifest, old_files = read_archive(baseline, baseline_digest)
     _, new_manifest, new_files = read_archive(archive, archive_digest)
-    assert channel(old_manifest["version"]) == "release-candidate"
-    assert channel(new_manifest["version"]) == "stable"
-    assert old_manifest["source_revision"] != new_manifest["source_revision"]
+    validate_release_pair(old_manifest, new_manifest)
     private = Path(tempfile.mkdtemp(prefix="cyber-release-lifecycle-")).resolve(strict=True)
     assert not private.is_relative_to(ROOT.resolve())
     print(json.dumps({"private_evidence": str(private)}), flush=True)
@@ -268,6 +277,7 @@ Manager(sys.argv[2],sys.argv[3]).change('update',sys.argv[4],sys.argv[5],sys.arg
             "baseline_source": old_manifest["source_revision"], "baseline_version": old_manifest["version"],
             "baseline_archive_sha256": baseline_digest, "source_revision": new_manifest["source_revision"],
             "version": new_manifest["version"], "archive_sha256": archive_digest,
+            "baseline_channel": channel(old_manifest["version"]),
             "fresh_install": True, "actual_candidate_upgrade": True, "actual_controller_termination": True,
             "interrupted_upgrade_recovered": True, "explicit_baseline_restoration": True,
             "private_authenticated_state_preserved": True, "private_backup_readable": True,

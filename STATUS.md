@@ -2,7 +2,17 @@
 
 Updated: 2026-11-11
 
-## Unreleased Cloudflare integration
+## Version 1.1.0 release preparation
+
+The user has authorized a new stable release containing the already merged
+Cloudflare adapter and Windows metadata-allocation fix. Version `1.1.0` is selected
+for this additive change. The existing published `1.0.0` remains immutable.
+Exact-asset installation, actual `1.0.0` upgrade/recovery on Windows/Linux, current
+native source/artifact scans, independent review and required hosted delivery
+checks must pass before publication. Public download verification is a later
+observed gate, not an implication of this preparation entry.
+
+## Cloudflare integration qualification
 
 Main adds an opt-in `cloudflare-audit` source-guidance adapter. Official publisher
 identity and current source are resolved through the existing controller, with
@@ -16,9 +26,9 @@ upstream content is acquired privately and not vendored. Its full six-phase
 orchestrator, Node validators and artifact-promotion system are not executed or
 qualified. See [the scope and usage guide](docs/CLOUDFLARE-INTEGRATION.md).
 
-This capability is absent from the published `1.0.0` archive. Main cannot bypass
-the stable-head currentness check: normal operational use awaits a separately
-qualified release. Test publishers establish only the declared qualification
+This capability is absent from the published `1.0.0` archive and included in the
+`1.1.0` preparation. Main cannot bypass the stable-head currentness check. Use a
+published qualified release; test publishers establish only the declared qualification
 scope. Delivery acceptance uses exact-revision pre-merge and post-merge checks in
 the [validation history](https://github.com/pooyahayati/Cybersecurity-Skills/actions/workflows/validate.yml).
 

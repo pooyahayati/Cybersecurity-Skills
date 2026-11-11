@@ -220,9 +220,12 @@ limitations. Full upstream orchestration and Node validation are outside this
 delivery. [Status](STATUS.md) records measured verification and delivery; the
 [integration guide](docs/CLOUDFLARE-INTEGRATION.md) explains use.
 
-The code is a main-branch addition, not a replacement for the released `1.0.0`
-archive. A subsequent separately authorized release must qualify its own package,
-installation/upgrade and public artifact before ordinary stable-head use.
+The integration was merged in PR16 with all five post-merge checks passing.
+The user then authorized stable `1.1.0`. Its preparation qualifies the exact
+package, fresh installation, actual `1.0.0` upgrade/recovery, current native scans,
+independent review and hosted checks before publication; the public download must
+then match that approved artifact. Published `1.0.0` remains immutable. Actual
+completion and artifact identities belong in [STATUS](STATUS.md).
 
 Recheck upstream changes, license constraints, advisories, tool/rule data and
 behavior regressions. Open maintenance work from observed changes. Scheduled
