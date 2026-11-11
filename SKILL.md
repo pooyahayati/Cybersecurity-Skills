@@ -182,6 +182,11 @@ authoritative. These instructions do not create an operating-system sandbox.
 
 ## Conditional references
 
+- When Cloudflare is explicitly selected for a relevant source-review domain,
+  read [its bounded guidance adapter](references/integrations/cloudflare-audit.md).
+  Use focused guidance mode under this head, including during comprehensive
+  mother-owned audits. Require the current reviewed packet and attributable trace;
+  never launch its full workflow or treat a missing required component as a pass.
 - Before active testing, mutation, or handling private evidence, read
   [scope and execution safety](references/scope-and-safety.md).
 - Before selecting any external skill or tool, read

@@ -47,6 +47,8 @@ REQUIRED_FILES = (
     "docs/CHECKLIST-COVERAGE.md", "docs/CHECKLIST-ROADMAP.md",
     "docs/CHECKLIST-EXECUTION.md", "scripts/c26_review.py", "scripts/c2_worker.py",
     "scripts/c3_zap_worker.py", "scripts/c5_worker.py", "config/trivy-db-source.json", "config/cosign-source.json",
+    "config/cloudflare-source.json", "scripts/security_assessment/specialists.py",
+    "references/integrations/cloudflare-audit.md", "docs/CLOUDFLARE-INTEGRATION.md",
 )
 
 
@@ -198,12 +200,23 @@ def validate(root: Path) -> dict:
                 and source["id"] not in source_ids, "invalid or duplicate source ID")
         source_ids.add(source["id"])
         require(source["kind"] in ("skill", "tool"), "unsupported source kind")
-        require(source["status"] in ("candidate", "deprecated") and source["enabled"] is False,
-                "foundation sources cannot be activated")
+        require(source["status"] in ("candidate", "deprecated", "adapter-available") and source["enabled"] is False,
+                "catalog sources cannot be activated automatically")
+        if source["status"] == "adapter-available":
+            require(source["id"] == "cloudflare-audit" and source["kind"] == "skill"
+                    and source["repository"] == "https://github.com/cloudflare/security-audit-skill",
+                    "source has no declared guidance adapter")
         require(isinstance(source["repository"], str)
                 and REPOSITORY.fullmatch(source["repository"]) is not None,
                 "source must use a canonical GitHub HTTPS repository URL")
         require(nonempty(source["purpose"]), "source purpose is missing")
+
+    from security_runtime.sources import source_spec
+    from security_assessment.specialists import recipe
+    require(source_spec(reader.json("config/cloudflare-source.json")) == recipe(reader.root),
+            "invalid Cloudflare acquisition recipe")
+    require(any(s["id"] == "cloudflare-audit" and s["status"] == "adapter-available" for s in sources["sources"]),
+            "Cloudflare guidance adapter is absent from the catalog")
 
     for name in REQUIRED_FILES:
         reader.read(name)
@@ -262,6 +275,7 @@ def validate(root: Path) -> dict:
             "version": project["version"], "modules": len(identifiers),
             "candidate_sources": sum(item["status"] == "candidate" for item in sources["sources"]),
             "deprecated_sources": sum(item["status"] == "deprecated" for item in sources["sources"]),
+            "available_guidance_adapters": sum(item["status"] == "adapter-available" for item in sources["sources"]),
             "files_checked": len(reader.contents),
             "assessment_control_templates": len(controls["controls"]),
             "security_checklist_items": len(checklist["controls"]),

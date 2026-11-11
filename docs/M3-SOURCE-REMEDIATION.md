@@ -12,6 +12,7 @@ This development milestone does not qualify a whole application as secure.
 | `builtin-source` | M1-isolated Python AST inspection and JS/TS/PHP lexical inspection of every selected file | Six finite rule families; findings are leads needing validation |
 | `builtin-review` | Attributed source traces for architecture, application, identity, data, business, dependencies and secrets | Operator/agent reasoning, with exact source/context and current M1 component bindings |
 | `addy-hardening` | Optional source-review guidance from `addyosmani/agent-skills`, selected through M1 enrollment, review and current-run preflight | Only `skills/security-and-hardening/SKILL.md` and explicitly reviewed supporting resources; no upstream code/hooks executed |
+| `cloudflare-audit` | Optional current reviewed guidance packet and native source trace, bound to case/domain/run, resource and review hashes | Read-only guidance; no full upstream audit or automatic confirmation; unreleased main addition |
 | Python serialized-model probe | Explicitly authorized execution of `security_probe(request, state)` inside M1 isolation; host compares observed JSON against frozen expectations | Synthetic, finite response/state model; no database, installed-platform or deployed-environment verification |
 
 The upstream catalog remains disabled by default. The Addy adapter is implemented
@@ -19,8 +20,10 @@ but not installed, vendored or globally activated. Include the publisher's LICEN
 and review the exact acquired resources, permission changes and supporting links.
 Its repository's MIT license was inspected during M3 development; each newly
 acquired revision still needs its own license review. A link inside a skill does
-not authorize another download or operation. Other catalog adapters remain future
-work. The mother skill retains scope, evidence acceptance and execution authority.
+not authorize another download or operation. The [Cloudflare adapter](CLOUDFLARE-INTEGRATION.md)
+adds a separately selected subordinate guidance role with its own current source,
+reviewed license and packet contract. Other unimplemented catalog adapters remain
+future work. The mother skill retains scope, evidence acceptance and execution authority.
 
 ## Static analysis and its limits
 

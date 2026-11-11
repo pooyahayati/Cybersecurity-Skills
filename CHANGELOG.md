@@ -2,6 +2,19 @@
 
 ## Unreleased maintenance
 
+- Reuse the immutable Windows file-information structure so repeated captures
+  do not retain a new ctypes pointer type for every file. Files, handles, path
+  identity, content and authority are still checked afresh; process deadlines
+  are unchanged. Add a repeated-capture regression with changing real bytes.
+- Add an optional Cloudflare source-guidance adapter, current official acquisition
+  recipe, conditional instructions and private case/domain/run-bound packets.
+  Native traces retain upstream/resource/review provenance and remain attributed
+  judgments. No full upstream audit, Node execution or automatic findings.
+- Reject unavailable/stale resources, missing or changed reviews, cross-scope
+  packets and invalid authority before trace writes. Preserve public adapter/mode
+  enums during report redaction while continuing to mask private prose.
+- Document MIT license compatibility, acquired-versus-distributed resources,
+  qualified scope and the unreleased main versus immutable `1.0.0` boundary.
 - Simplify the main-branch README around managed installation, first review,
   supported security operations, optional tools and linked specialist guides.
 - Record the public release and successful anonymous download verification while

@@ -11,6 +11,7 @@ from .contracts import choice, items, version
 from .redaction import markdown, redact
 from .service import Assessment
 from .source_rules import RULES
+from . import specialists
 
 
 DOMAINS = {"architecture", "application", "identity", "data", "business", "dependencies", "secrets"}
@@ -124,18 +125,40 @@ class SourceReview(Assessment):
             tx.put("source-review", key, ledger)
         return {"status": "recorded", "lead_count": len(output["leads"]), "security_verdict": "not_established"}
 
+    def guidance(self, key, value):
+        specialists.request(value)
+        controller = Controller(self.store, self.package, clock=self.clock)
+        run, _auth = controller.guard(value["run"])
+        candidate_id = run["bindings"].get(specialists.COMPONENT)
+        require(candidate_id is not None, "Cloudflare was not selected at preflight")
+        # A new guidance request checks upstream anew; a retained packet is frozen
+        # for its bounded run. Never hold a state transaction during network I/O.
+        freshness = controller.check_current(candidate_id)
+        with self.store.transaction() as tx:
+            case = self._case(tx, key)
+            self._current(case)
+            ledger = self._ledger(tx, key)
+            packets = ledger.setdefault("guidance", {})
+            require(value["id"] not in packets and len(packets) < 32, "guidance ID reused or limit reached")
+            result = specialists.packet(controller, tx, case, key, value, freshness)
+            packets[value["id"]] = result
+            tx.put("source-review", key, ledger)
+        return specialists.expose(controller, result)
+
     def trace(self, key, value):
-        fields(value, {"id", "run", "adapter", "domain", "actor", "assets", "locations", "entrypoint", "untrusted_input", "guard", "sink", "abuse_case", "counterevidence", "conclusion", "next_step", "dependency"})
+        fields(value, {"id", "run", "adapter", "domain", "actor", "assets", "locations", "entrypoint", "untrusted_input", "guard", "sink", "abuse_case", "counterevidence", "conclusion", "next_step", "dependency"}, {"guidance"})
         identifier(value["id"])
         choice(value["domain"], DOMAINS)
-        choice(value["adapter"], {"builtin-review", "addy-hardening"})
+        choice(value["adapter"], {"builtin-review", "addy-hardening", specialists.COMPONENT})
+        require(("guidance" in value) == (value["adapter"] == specialists.COMPONENT), "guidance is required only for Cloudflare traces")
+        if "guidance" in value: identifier(value["guidance"])
         choice(value["conclusion"], {"supported_issue", "no_issue_observed", "inconclusive"})
         for field in ("entrypoint", "untrusted_input", "guard", "sink", "abuse_case", "counterevidence", "next_step"): text(value[field], 4096)
         controller = Controller(self.store, self.package)
         run, auth = controller.guard(value["run"])
         head = controller.candidate(run["bindings"]["head"])
         require(head["manifest"] == selected_tree(self.package, HEAD_RESOURCES), "head changed during review")
-        if value["adapter"] != "builtin-review":
+        if value["adapter"] == "addy-hardening":
             candidate_id = run["bindings"].get("addy-hardening")
             require(candidate_id is not None, "selected specialist was not preflighted")
             candidate = controller.candidate(candidate_id)
@@ -168,8 +191,16 @@ class SourceReview(Assessment):
                 require(Path(dependency["lock_path"]).name in supported[dependency["ecosystem"]], "unsupported lockfile format")
                 require(any(f["kind"] == "package" and f["name"] == dependency["package"] and f["version"] == dependency["version"] and f["version_basis"] == "lockfile" and dependency["lock_path"] in f["paths"] for f in case["discovery"]["facts"]), "dependency is not an observed exact lockfile entry")
             ledger = self._ledger(tx, key)
+            guidance_digest = None
+            if value["adapter"] == specialists.COMPONENT:
+                packet = ledger.get("guidance", {}).get(value["guidance"])
+                require(packet is not None, "guidance packet is unavailable")
+                specialists.validate(Controller(self.store, self.package, clock=self.clock), tx, case, key, packet, value["run"], value["domain"])
+                guidance_digest = digest(packet)
             require(value["id"] not in ledger["traces"] and len(ledger["traces"]) < 128, "trace ID reused or limit reached")
             ledger["traces"][value["id"]] = {"spec": copy.deepcopy(value), "scope_sha256": case["scope_sha256"], "source_sha256": digest(case["source"]["manifest"]), "components": copy.deepcopy(run["bindings"]), "component_digests": {component: digest(tx.get("candidate", candidate)) for component, candidate in run["bindings"].items()}, "authorization": run["authorization"], "authority_sha256": digest(auth["spec"]), "observed_at": self.clock(), "expires_at": self.clock() + 31 * 86400, "origin": "operator_source_review"}
+            if guidance_digest is not None:
+                ledger["traces"][value["id"]]["guidance_sha256"] = guidance_digest
             tx.put("source-review", key, ledger)
         return {"status": "recorded", "origin": "operator_source_review", "security_verdict": "not_established"}
 
@@ -313,7 +344,18 @@ class SourceReview(Assessment):
                     if candidate is not None and candidate["kind"] == "data":
                         source = tx.get("source", component)
                         valid = valid and source is not None and self.clock() < candidate["resolved"]["identity"]["published_at"] + source["spec"]["data_max_age_seconds"]
-                traces.append({"id": name, "valid": valid, "origin": trace["origin"], "run": trace["spec"]["run"], "authorization": trace["authorization"], "observed_at": trace["observed_at"], "source_manifest_sha256": trace["source_sha256"], "components": [{"component": component, "candidate": candidate} for component, candidate in trace["components"].items()], **{k: v for k, v in trace["spec"].items() if k not in ("run", "id")}})
+                guidance = None
+                if trace["spec"]["adapter"] == specialists.COMPONENT:
+                    packet = ledger.get("guidance", {}).get(trace["spec"]["guidance"])
+                    try:
+                        require(packet is not None and digest(packet) == trace["guidance_sha256"], "guidance packet changed")
+                        specialists.validate(Controller(self.store, self.package, clock=self.clock), tx, case, key, packet, trace["spec"]["run"], trace["spec"]["domain"])
+                    except (OSError, ValueError, KeyError, TypeError): valid = False
+                    if packet is not None:
+                        guidance = {"packet_sha256": trace["guidance_sha256"], "mode": packet["mode"], "upstream": packet["upstream"], "resources": packet["resources"], "currentness_checked_at": packet["currentness_checked_at"], "freshness_basis": "checked_at_packet_creation; no upstream check while rendering", "validity_basis": "unchanged resources and reviews within the original active authorized run"}
+                row = {"id": name, "valid": valid, "origin": trace["origin"], "run": trace["spec"]["run"], "authorization": trace["authorization"], "observed_at": trace["observed_at"], "source_manifest_sha256": trace["source_sha256"], "components": [{"component": component, "candidate": candidate} for component, candidate in trace["components"].items()], **{k: v for k, v in trace["spec"].items() if k not in ("run", "id")}}
+                if guidance is not None: row["guidance_provenance"] = guidance
+                traces.append(row)
             for name, proposal in ledger["proposals"].items():
                 qualifies = False
                 try:
@@ -348,6 +390,13 @@ class SourceReview(Assessment):
                 lines += ["- " + field + ": " + markdown(trace[field])]
             for field in ("actor", "entrypoint", "untrusted_input", "guard", "sink", "abuse_case", "counterevidence", "conclusion", "next_step"):
                 lines.append("- " + field + ": " + markdown(trace[field]))
+            lines += ["- Adapter: " + markdown(trace["adapter"])]
+            if "guidance_provenance" in trace:
+                guidance = trace["guidance_provenance"]
+                for field in ("packet_sha256", "mode", "currentness_checked_at", "freshness_basis", "validity_basis"):
+                    lines += ["- " + field + ": " + markdown(guidance[field])]
+                lines += ["- Upstream: " + markdown(guidance["upstream"])]
+                lines += ["- Resource: " + markdown(p) + "; SHA-256: " + markdown(h) for p, h in guidance["resources"].items()]
         for proposal in report["proposals"]:
             lines += ["", "## Patch proposal " + markdown(proposal["id"]), "", "Finding: " + markdown(proposal["finding"]), "", "Accepted for declared serialized model: " + str(proposal["accepted"]), "", markdown(proposal["rationale"]), "", "Changed files: " + markdown(", ".join(proposal["changed"])), "", "Oracle: " + markdown(proposal["oracle_basis"]), "", "Limit: " + markdown(proposal["limitations"])]
             for field in ("original_manifest_sha256", "candidate_manifest_sha256", "behavior_sha256"):

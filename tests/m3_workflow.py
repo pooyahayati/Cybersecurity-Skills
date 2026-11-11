@@ -8,12 +8,16 @@ from pathlib import Path
 import subprocess
 import sys
 import time
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import workflow_package
 from m3_support import ReviewWorld, ROOT, GOOD, PARTIAL, DENY_ALL, DENY_AFTER_WRITE, ORIGINAL, behavior
 from security_runtime.common import canonical, require, sha256
 from security_runtime.sandbox import Docker, LABEL
+from security_runtime.sources import GitHub
+from security_assessment import specialists
+from runtime_support import acceptance
 
 
 def run_suite(executable):
@@ -54,6 +58,38 @@ def run_suite(executable):
         cli("observe", world.observation())
         cli("finding", world.finding())
         outcomes.append("real static worker and forged producer rejection")
+        # Qualify the installed guidance adapter against a declared synthetic
+        # publisher. Real official-currentness acquisition is a separate check.
+        spec = specialists.recipe(ROOT)
+        world.publisher.contents["cloudflare-audit"] = {p: b"Synthetic reviewed source guidance.\n"
+            for p in specialists.resources("identity", ["data"])}
+        world.runtime.enroll(spec)
+        cf = world.runtime.prepare("cloudflare-audit")["candidate"]
+        world.runtime.review(acceptance(cf))
+        world.runtime.activate(cf)
+        original_run = world.state.get("operation", operation)["run"]
+        auth = copy.deepcopy(world.state.get("authorization", world.state.get("run", original_run)["authorization"])["spec"])
+        auth.update(id="guidance-check", components=["m3", "cloudflare-audit"])
+        world.runtime.authorize(auth)
+        cf_run = world.runtime.begin(auth["id"])["run"]
+        request = {"id": "identity-guide", "run": cf_run, "domain": "identity", "topics": ["data"]}
+        with patch.object(GitHub, "resolve", side_effect=world.publisher.resolve):
+            world.control.guidance("demo", request)
+        trace = {"id": "cloudflare-review", "run": cf_run, "adapter": "cloudflare-audit", "guidance": request["id"],
+            "domain": "identity", "actor": "owner", "assets": ["records"], "locations": [{"path": "app.py", "line": 1}],
+            "entrypoint": "Selected synthetic function", "untrusted_input": "Caller record ID", "guard": "Inspect owner and tenant before access",
+            "sink": "Synthetic record", "abuse_case": "Cross-owner access", "counterevidence": "No separate middleware in this fixture",
+            "conclusion": "inconclusive", "next_step": "Validate legitimate and denied effects", "dependency": None}
+        cli("trace", dict(trace, guidance="forged"), success=False)
+        cli("trace", trace)
+        result = cli("plan")
+        require(result["traces"][0]["valid"] and result["traces"][0]["origin"] == "operator_source_review"
+                and result["traces"][0]["guidance_provenance"]["mode"] == "source-guidance", "packaged guidance trace lost provenance")
+        world.runtime.cancel(cf_run)
+        cli("trace", dict(trace, id="cancelled"), success=False)
+        require(not cli("plan")["traces"][0]["valid"], "cancelled guidance remained valid")
+        require({p: (world.target / p).read_bytes() for p in original} == original, "guidance changed target source")
+        outcomes.append("installed Cloudflare guidance provenance, forged packet and cancellation checks")
         cases = behavior()["cases"]
         baseline = batch(world.target, cases)
         for name, source, accepted in (("partial", PARTIAL, False), ("deny-all", DENY_ALL, False), ("deny-after-write", DENY_AFTER_WRITE, False), ("complete", GOOD, True)):

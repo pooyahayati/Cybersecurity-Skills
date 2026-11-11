@@ -32,6 +32,9 @@ Optionally enroll `addy-hardening` as `kind: skill` from its official numeric
 repository/owner identities with `include` containing `LICENSE`,
 `skills/security-and-hardening` and only supporting resources actually needed and
 reviewed. M1 acquisition does not install it globally. Never auto-enable a catalog.
+For optional `cloudflare-audit`, follow the [Cloudflare integration guide](CLOUDFLARE-INTEGRATION.md)
+and its reviewed source recipe. Prepare a domain-specific guidance packet before
+the trace; the adapter remains source-only and adds no upstream execution path.
 For dependency review, also enroll the chosen authoritative advisory snapshot as
 `kind: data` with an explicit age limit; matching versions/advisories needs review.
 

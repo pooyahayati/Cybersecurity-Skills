@@ -10,7 +10,7 @@ Route from facts about trust boundaries and functionality. A keyword is a lead,
 not proof of a platform. Keep relevant unknowns visible and investigate them; do
 not treat an empty discovery result as evidence that a capability is absent.
 
-## Future adapter interface
+## Adapter interface
 
 Before activation, an external adapter must declare canonical source, exact
 selected resources, source policy, supported platforms, runtime requirements,
@@ -39,6 +39,12 @@ unsupported required checks remain blocked. Never simulate a specialist result.
 Keep unresolved findings distinct from rejected false positives. Independent
 verification requires an actually separate review, not a renamed self-review.
 
-The assessment source catalog deliberately has no executable command or enabled
-adapter. Candidate metadata is research input only. Adding an operational adapter
-requires code, safety tests, behavioral evidence and an explicit capability change.
+The source catalog has no executable commands or automatic activation.
+`candidate` and `deprecated` entries are research metadata. `adapter-available`
+currently identifies only the optional [Cloudflare source-guidance integration](integrations/cloudflare-audit.md).
+It remains `enabled: false`; selection occurs only in private per-assessment
+authorization and review. Catalog availability is not run authorization or a published-release
+claim. Adding another adapter requires code, safety tests, relevant behavioral
+evidence and an explicit capability change. When a specialist was selected as
+required, unavailable freshness or compatibility blocks it; do not silently fall
+back to original guidance while claiming the requested specialist was used.

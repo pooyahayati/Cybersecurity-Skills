@@ -128,14 +128,22 @@ instruction and permission review.
 | [Cosign](https://github.com/sigstore/cosign) | Approved-key artifact/provenance verification | Opt-in profile with reviewed key and policy |
 | Docker and official Python image | Bounded offline execution | Required only for operations using that backend; actual isolation must pass preflight |
 | [Addy security and hardening](https://github.com/addyosmani/agent-skills/tree/main/skills/security-and-hardening) | Focused secure-development guidance | Candidate source-review resource; disabled by default |
-| [Cloudflare security audit](https://github.com/cloudflare/security-audit-skill) | Source-grounded evidence, coverage and independent finding verification | Research candidate; not integrated or enabled |
+| [Cloudflare security audit](https://github.com/cloudflare/security-audit-skill) | Source trust boundaries, counterevidence and focused review guidance | Opt-in guidance adapter on main, unreleased; absent from `1.0.0`; no upstream full-audit execution |
 | [Vibe Coding Skill](https://github.com/pooyahayati/Vibe-Coding-Skill), security and interface specialists | Engineering and review of this repository | Development tools; not dependencies of the installed skill |
 
 The [upstream source review](docs/SOURCE_REVIEW.md) is a maintainer research log:
 it explains why repositories were considered and what requires review before
 adoption. A listing there does not mean the skill uses that repository. The
-[source catalog](config/sources.json) records candidate enrollment settings.
+[source catalog](config/sources.json) distinguishes research candidates from the
+available opt-in guidance adapter; all remain disabled by default.
 Docker, scanners and their data are not bundled with this package.
+
+The [Cloudflare integration guide](docs/CLOUDFLARE-INTEGRATION.md) explains its
+license, resource selection, private guidance packets and source traces. The
+adapter keeps the mother skill in control of access, confirmation and fixes. It
+requires current reviewed upstream resources and cannot silently use an older
+copy. Public operational use awaits a qualified release containing the adapter;
+the current-head check must not be bypassed to run unpublished main code.
 
 ## Practical limits
 
@@ -151,7 +159,7 @@ Docker, scanners and their data are not bundled with this package.
   installation, autonomous routing or support for unlisted platforms.
 
 The release ZIP is fixed to its published source commit. This repository's main
-branch can contain later documentation updates; it is not the identity of an
+branch can contain later documentation and unreleased capabilities; it is not the identity of an
 already published archive. Original project code is [MIT](LICENSE); see
 [third-party notices](THIRD_PARTY_NOTICES.md) for adopted-resource obligations.
 
