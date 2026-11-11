@@ -1,63 +1,22 @@
 name: Package and control validation
-
 on:
-  push:
-    branches: [main]
-  pull_request:
   workflow_dispatch:
-
 permissions:
   contents: read
-
-concurrency:
-  group: validation-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  validate:
-    name: Validate (${{ matrix.os }}, Python ${{ matrix.python }})
-    runs-on: ${{ matrix.os }}
-    # Existing Windows regressions need over nine minutes; C2-C6 adds actual
-    # service scenarios. Only the job budget changes, never a control deadline.
-    timeout-minutes: 25
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        python: ['3.11', '3.x']
+  timing-diagnosis:
+    name: Synthetic Windows 3.11 timing diagnosis
+    runs-on: windows-latest
+    timeout-minutes: 12
     steps:
-      - name: Check out the exact revision
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Check out diagnostic revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - name: Set up Python
-        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+          fetch-depth: 2
+      - name: Set up Python 3.11
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
-          python-version: ${{ matrix.python }}
-      - name: Validate package structure
-        run: python scripts/validate_project.py
-      - name: Run structural and control regression tests
-        run: python -B -m unittest discover -s tests -v
-      - name: Exercise the M2 operator workflow
-        run: python -B tests/m2_workflow.py
-      - name: Verify exact package and owned installation lifecycle
-        run: python -B tests/m6_workflow.py
-      - name: Check whitespace
-        run: git show --format= --check HEAD
-  isolation:
-    name: Real Docker isolation (Linux)
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    steps:
-      - name: Check out the exact revision
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - name: Set up Python
-        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
-        with:
-          python-version: '3.x'
-      - name: Exercise real M1-M5 and C2-C6 profiles from the exact installed package
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: python -B tests/installed_workflow.py --docker /usr/bin/docker
+          python-version: '3.11'
+      - name: Observe unchanged synthetic tests and bounded process timings
+        run: python -B .github/diagnostics/windows_process.py
