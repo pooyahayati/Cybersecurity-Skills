@@ -15,10 +15,26 @@ the Windows immutable file-information layout fix. It changes no package/state
 schema, execution authority or process deadline. See the
 [integration guide](CLOUDFLARE-INTEGRATION.md) for its supported role and the
 [README](../README.md#upgrade-an-existing-managed-installation) for upgrade steps.
-Exact qualification, publication status and public asset identities are recorded
-in [STATUS](../STATUS.md). A stable version label alone is not publication approval.
+The release passed actual Windows/Linux fresh installation and upgrade from the
+original published `1.0.0`, including protected private-state/backup/access checks,
+interrupted-upgrade recovery, explicit restoration and uninstall. Independent
+security/interface reviews, native source/artifact secret/configuration scans and
+all five exact-revision pre/post-merge jobs passed. Host registration was checked
+as metadata discovery only. See [STATUS](../STATUS.md) for attribution and limits.
 
-## Published 1.0.0 identity
+## Published 1.1.0 identity
+
+- [Release and downloads](https://github.com/pooyahayati/Cybersecurity-Skills/releases/tag/v1.1.0), published 2026-11-11.
+- Tag `v1.1.0`; frozen source `03db99364cab9c845a8a9aa01fc5f04469f0845a`.
+- Asset `cybersecurity-skills-1.1.0.zip`; SHA-256
+  `e8c1b70a2b5688968073e7e98a9b2b6c92cf3f5b7fef31c1990f65c12b4d68c5`.
+- Anonymous public ZIP and checksum downloads match the approved files
+  byte-for-byte. Tag target, API asset digests, manifest and all 121 payload files
+  agree. Official current-head resolution selects `v1.1.0`.
+- The original `1.0.0` release remains unchanged. Later main-branch documentation
+  does not replace either published archive.
+
+## Historical published 1.0.0 identity
 
 - [Release and downloads](https://github.com/pooyahayati/Cybersecurity-Skills/releases/tag/v1.0.0), published 2026-11-10.
 - Tag `v1.0.0`; frozen source `4e5c838c8c854bba1b5243e850a3db18dde9faff`.
@@ -172,20 +188,20 @@ pull request is not that release decision and never an application-security pass
 
 ## Stable-release checklist
 
-This checklist records the acceptance gates for a bounded first stable release.
-Published `1.0.0` observations are in [STATUS.md](../STATUS.md); each final delivery
+This checklist records acceptance gates for bounded stable releases.
+Published `1.0.0` and `1.1.0` observations are in [STATUS.md](../STATUS.md); each final delivery
 must retain its actual asset and check identities. The checklist does not authorize
 publication or expand operational support.
 
 | Gate | Existing evidence | Acceptance for the selected delivery |
 |---|---|---|
-| SR1: Required failures and CI | PR13 completed the deadline correction after PR11's contention fix; the released source passed all five pre-merge and five post-merge jobs | Preserve original failures and exact attribution; every subsequent delivered revision must satisfy its relevant checks and exact-revision hosted workflow |
-| SR2: Release scope and novice behavior | New blinded baseline/prepared-version observations each met 12/12 frozen static criteria; a separate critical observation met 3/3 | Preserve original oracles, outputs, exact package attribution and usability review; re-evaluate changed instructions when relevant; parity does not establish improvement or universal accuracy |
-| SR3: Exact stable-labelled asset | Both canonical fields declare `1.0.0`; exact-source archive/inspection and version-channel handling are implemented | Build from the exact selected commit, inspect the complete archive, bind digest/source and verify reproducibility and affected version/package checks |
-| SR4: Installed lifecycle and host | Actual reviewed candidate-to-stable lifecycle passed on Windows/Linux, including authenticated state, access and recovery; hosted installed workflows remain separate | Bind the selected asset to installation, upgrade, protected-state preservation, restoration/uninstall and supported-host registration; retain unaffected evidence only when bytes/context justify it |
+| SR1: Required failures and CI | PR17 released source passed all five pre-merge and post-merge jobs: 293 tests per matrix and seven installed Linux suites; earlier fixes and failures remain historical | Preserve original failures and exact attribution; every subsequent delivered revision must satisfy its relevant checks and exact-revision hosted workflow |
+| SR2: Release scope and novice behavior | Historical `1.0.0` blinded observations met 12/12 static and 3/3 critical criteria; the later Cloudflare comparison separately covered four static requests, as attributed in STATUS | Preserve original oracles, outputs, exact package attribution and usability review; re-evaluate changed instructions when relevant; parity does not establish improvement or universal accuracy |
+| SR3: Exact stable-labelled asset | Both canonical fields declare `1.1.0`; exact-source archive/inspection and version-channel handling are implemented | Build from the exact selected commit, inspect the complete archive, bind digest/source and verify reproducibility and affected version/package checks |
+| SR4: Installed lifecycle and host | Actual published `1.0.0` to final `1.1.0` lifecycle passed on Windows/Linux, including authenticated state, access, backup, recovery and restoration; hosted installed workflows remain separate | Bind the selected asset to installation, upgrade, protected-state preservation, restoration/uninstall and supported-host registration; retain unaffected evidence only when bytes/context justify it |
 | SR5: Current prerequisites and security | Official identities were refreshed for selected external tools; no upstream code/binary/ruleset is newly vendored | Resolve current selected tools/rules/data at preparation, review actual changes/licenses and scan final source and extracted stable bytes; no stale fallback or unexplained finding |
-| SR6: Independent final acceptance | Independent behavioral grading and lifecycle review retain original observations and the corrected refusal-test gap | Bind final acceptance to the exact release tree, artifact, current evidence and limitations; helper, agent, host and scan evidence remain distinct |
-| SR7: Publication and public verification | Stable `v1.0.0` is public; anonymous ZIP/checksum downloads, full manifest and API/tag identities match the approved artifact | Repeat explicit authority and exact public-download verification for future releases; never replace a published asset silently; global installation remains separate |
+| SR6: Independent final acceptance | Two independent final `1.1.0` asset reviews accepted; historical behavioral grading, original findings and evidence-collection correction remain retained | Bind final acceptance to the exact release tree, artifact, current evidence and limitations; helper, agent, host and scan evidence remain distinct |
+| SR7: Publication and public verification | Stable `v1.1.0` is public; anonymous ZIP/checksum downloads, all 121 payloads and API/tag identities match; `v1.0.0` remains unchanged | Repeat explicit authority and exact public-download verification for future releases; never replace a published asset silently; global installation remains separate |
 
 The gates require adequate relevant evidence, not a compulsory full rerun of every
 unchanged historic experiment. A new version label is not new behavioral evidence.
