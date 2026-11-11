@@ -12,6 +12,21 @@ import stat
 from datetime import datetime, timezone
 
 
+if os.name == "nt":
+    import ctypes as _ctypes
+    from ctypes import wintypes as _wintypes
+
+    # CPython retains pointer types for Structure classes. Define this immutable
+    # layout once, rather than retaining another type for every captured file.
+    # File handles, path identity, metadata and content are still read each time.
+    class _WindowsFileInfo(_ctypes.Structure):
+        _fields_ = [("attributes", _wintypes.DWORD), ("created", _wintypes.FILETIME),
+                    ("accessed", _wintypes.FILETIME), ("written", _wintypes.FILETIME),
+                    ("volume", _wintypes.DWORD), ("size_high", _wintypes.DWORD),
+                    ("size_low", _wintypes.DWORD), ("links", _wintypes.DWORD),
+                    ("index_high", _wintypes.DWORD), ("index_low", _wintypes.DWORD)]
+
+
 class Blocked(ValueError):
     """A safe, non-sensitive explanation for a fail-closed decision."""
 
@@ -171,13 +186,7 @@ def _windows_read(root, relative, limit, hash_only=False):
     kernel.CloseHandle.argtypes = [w.HANDLE]
     kernel.GetFinalPathNameByHandleW.argtypes = [w.HANDLE, w.LPWSTR, w.DWORD, w.DWORD]
 
-    class Info(c.Structure):
-        _fields_ = [("attributes", w.DWORD), ("created", w.FILETIME),
-                    ("accessed", w.FILETIME), ("written", w.FILETIME),
-                    ("volume", w.DWORD), ("size_high", w.DWORD), ("size_low", w.DWORD),
-                    ("links", w.DWORD), ("index_high", w.DWORD), ("index_low", w.DWORD)]
-
-    kernel.GetFileInformationByHandle.argtypes = [w.HANDLE, c.POINTER(Info)]
+    kernel.GetFileInformationByHandle.argtypes = [w.HANDLE, c.POINTER(_WindowsFileInfo)]
 
     def open_handle(path, directory):
         handle = kernel.CreateFileW(str(path), 0x80000000, 1, None, 3,
@@ -199,14 +208,14 @@ def _windows_read(root, relative, limit, hash_only=False):
         if root_actual.startswith("\\\\?\\unc\\"):
             displayed = "\\\\" + displayed
         require(displayed == str(root).rstrip("\\").casefold(), "opened input root changed identity")
-        root_info = Info()
+        root_info = _WindowsFileInfo()
         require(kernel.GetFileInformationByHandle(root_handle, c.byref(root_info))
                 and root_info.attributes & 0x10 and not root_info.attributes & 0x400,
                 "input root is a reparse point or not a directory")
         file_handle = open_handle(root / relative, False)
         expected = root_actual + "\\" + relative.replace("/", "\\").casefold()
         require(final_path(file_handle) == expected, "opened input escapes its exact allowed path")
-        info = Info()
+        info = _WindowsFileInfo()
         require(kernel.GetFileInformationByHandle(file_handle, c.byref(info))
                 and not info.attributes & (0x400 | 0x10) and info.links == 1,
                 "input must be a regular file without reparse points or hard links")

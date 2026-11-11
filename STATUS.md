@@ -46,6 +46,23 @@ to Windows checkout line endings; exact Git-object comparison and explicit text
 equivalence passed. None of these failures was converted into a pass by weakening
 execution, authority or source-identity controls.
 
+Two initial full Windows/Python 3.11 validation attempts stopped at the same
+three-second identity-request bound in an existing release-comparison test.
+A separate [focused hosted diagnosis](https://github.com/pooyahayati/Cybersecurity-Skills/actions/runs/42996586628)
+passed six original tests but exposed ctypes pointer-cache growth from 3 to
+28,747 entries, then 57,473 after six instrumented tests. This independently
+establishes resource accumulation; a focused pass does not establish the cause
+of the earlier full-suite deadline failures.
+
+The fix reuses only the immutable Windows structure layout, retaining per-read
+file opening, path/handle/metadata checks, current bytes and all original process
+deadlines. A real-file regression rewrites 128 values and checks 256 fresh byte
+and hash captures, pointer-cache bounds and file deletion afterward. On Windows
+Python 3.12, it rejected the old code's growth from 21 to 277 entries and passed
+with the fix. Ordered-suite timing diagnostics and final uninstrumented delivery
+checks are retained separately in the [integration review](https://github.com/pooyahayati/Cybersecurity-Skills/pull/16);
+diagnostic results never replace required pre-merge or post-merge checks.
+
 ## Current stage
 
 Stable version [1.0.0](https://github.com/pooyahayati/Cybersecurity-Skills/releases/tag/v1.0.0)

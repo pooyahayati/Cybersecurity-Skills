@@ -242,6 +242,32 @@ class ControlTests(unittest.TestCase):
 
 
 class ParsingTests(unittest.TestCase):
+    def test_repeated_capture_keeps_fresh_bytes_and_bounded_pointer_metadata(self):
+        import ctypes
+        import hashlib
+
+        with tempfile.TemporaryDirectory(prefix="cyber-repeated-capture-") as directory:
+            root = Path(directory).resolve()
+            sample = root / "sample"
+            sample.write_bytes(b"warm-up")
+            self.assertEqual(read_file(root, "sample"), b"warm-up")
+            pointer_cache = getattr(ctypes, "_pointer_type_cache", None)
+            before = len(pointer_cache) if pointer_cache is not None else None
+            for index in range(128):
+                content = ("fresh capture " + str(index)).encode("ascii")
+                # Every rewrite must succeed: captures cannot retain restrictive
+                # file handles or reuse bytes from a preceding observation.
+                sample.write_bytes(content)
+                self.assertEqual(read_file(root, "sample"), content)
+                self.assertEqual(read_file(root, "sample", hash_only=True),
+                                 hashlib.sha256(content).hexdigest())
+            if os.name == "nt" and pointer_cache is not None:
+                self.assertLessEqual(len(pointer_cache), before,
+                                     "file captures retained new ctypes pointer types")
+            sample.unlink()
+            with self.assertRaises(FileNotFoundError):
+                read_file(root, "sample")
+
     def test_file_size_ceiling_and_empty_file_capture(self):
         with tempfile.TemporaryDirectory(prefix="cyber-file-bound-") as directory:
             root = Path(directory).resolve()

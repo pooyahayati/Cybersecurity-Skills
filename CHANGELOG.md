@@ -2,6 +2,10 @@
 
 ## Unreleased maintenance
 
+- Reuse the immutable Windows file-information structure so repeated captures
+  do not retain a new ctypes pointer type for every file. Files, handles, path
+  identity, content and authority are still checked afresh; process deadlines
+  are unchanged. Add a repeated-capture regression with changing real bytes.
 - Add an optional Cloudflare source-guidance adapter, current official acquisition
   recipe, conditional instructions and private case/domain/run-bound packets.
   Native traces retain upstream/resource/review provenance and remain attributed
