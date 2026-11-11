@@ -16,6 +16,7 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / 'tests'), str(ROOT / 'scripts')]
+SUITE = unittest.defaultTestLoader.discover(str(ROOT / 'tests'))
 import test_m4_delivery as target
 import m4_support
 import security_runtime.process as process_module
@@ -135,44 +136,39 @@ def server(self, *args, **kwargs):
     self.http.RequestHandlerClass.do_GET = get
     self.http.RequestHandlerClass.do_HEAD = get
 
-class DiagnosticResult(unittest.TextTestResult):
-    def startTest(self, test):
-        TEST[0] = test.id()
-        return super().startTest(test)
-    def stopTest(self, test):
-        try: return super().stopTest(test)
-        finally: TEST[0] = None
-
 def counters():
     return {'ctypes_pointer_cache': len(getattr(ctypes, '_pointer_type_cache', {})), 'gc_count': list(gc.get_count()), 'gc_stats': gc.get_stats()}
 
 def gc_observer(phase, info):
     event(CURRENT[0], 'gc_' + phase, generation=info.get('generation'), collected=info.get('collected'), uncollectable=info.get('uncollectable'))
 
-def run_phase(name, instrumented):
-    before = len(ALL_ROWS)
-    counters_before = counters()
-    started = time.monotonic()
-    log = io.StringIO()
-    with contextlib.ExitStack() as stack:
-        if instrumented:
+class DiagnosticResult(unittest.TextTestResult):
+    def startTest(self, test):
+        TEST[0] = test.id()
+        self.diagnostic_start = time.monotonic()
+        self.diagnostic_counters = counters()
+        self.diagnostic_stack = contextlib.ExitStack()
+        if test.id().startswith('test_m4_delivery.DeliveryTests.'):
             gc.callbacks.append(gc_observer)
-            stack.callback(gc.callbacks.remove, gc_observer)
+            self.diagnostic_stack.callback(gc.callbacks.remove, gc_observer)
             for owner, attribute, replacement in [(m4_support.RuntimeWorld, 'execute', execute), (web_module.WebController, 'guard', guard), (web_module, 'selected_tree', tree), (m4_support.Server, '__init__', server), (process_module.subprocess, 'Popen', ObservedPopen)]:
-                stack.enter_context(patch.object(owner, attribute, replacement))
-        result = unittest.TextTestRunner(stream=log, verbosity=2, resultclass=DiagnosticResult).run(unittest.defaultTestLoader.loadTestsFromTestCase(target.DeliveryTests))
-    restored = m4_support.RuntimeWorld.execute is original_execute and web_module.WebController.guard is original_guard and web_module.selected_tree is original_tree and m4_support.Server.__init__ is original_server and subprocess.Popen is original_popen
-    phase = {'name': name, 'instrumented': instrumented, 'tests': result.testsRun, 'success': result.wasSuccessful(), 'errors': len(result.errors), 'failures': len(result.failures), 'seconds': time.monotonic()-started, 'wrappers_restored': restored, 'routes': ALL_ROWS[before:], 'counters_before': counters_before, 'counters_after': counters()}
-    REPORT['phases'].append(phase)
-    print(log.getvalue(), flush=True)
-    print('DIAGNOSTIC_PHASE ' + json.dumps({k:v for k,v in phase.items() if k != 'routes'}), flush=True)
-    return result.wasSuccessful() and restored
+                self.diagnostic_stack.enter_context(patch.object(owner, attribute, replacement))
+        return super().startTest(test)
+    def stopTest(self, test):
+        try:
+            self.diagnostic_stack.close()
+            REPORT['ordered_tests'].append({'test': test.id(), 'seconds': time.monotonic()-self.diagnostic_start, 'counters_before': self.diagnostic_counters, 'counters_after': counters()})
+            return super().stopTest(test)
+        finally: TEST[0] = None
 
-plain = measured = False
+REPORT['ordered_tests'] = []
+REPORT['diagnostic_scope'] = 'Original discovery order and full suite; wrappers active only during DeliveryTests; no preceding warm-up phase or altered deadlines.'
+started = time.monotonic()
 try:
-    plain = run_phase('original_delivery_tests', False)
-    measured = run_phase('observed_delivery_tests', True)
+    result = unittest.TextTestRunner(stream=sys.stdout, verbosity=2, resultclass=DiagnosticResult).run(SUITE)
+    REPORT['result'] = {'tests': result.testsRun, 'success': result.wasSuccessful(), 'errors': len(result.errors), 'failures': len(result.failures), 'seconds': time.monotonic()-started}
 finally:
-    REPORT['partial_route_observations'] = ALL_ROWS if len(REPORT['phases']) < 2 else []
+    REPORT['route_observations'] = ALL_ROWS
+    REPORT['wrappers_restored'] = m4_support.RuntimeWorld.execute is original_execute and web_module.WebController.guard is original_guard and web_module.selected_tree is original_tree and m4_support.Server.__init__ is original_server and subprocess.Popen is original_popen and gc_observer not in gc.callbacks
     print('DIAGNOSTIC_REPORT ' + json.dumps(REPORT, sort_keys=True), flush=True)
-raise SystemExit(0 if plain and measured else 1)
+raise SystemExit(0 if result.wasSuccessful() and REPORT['wrappers_restored'] else 1)
